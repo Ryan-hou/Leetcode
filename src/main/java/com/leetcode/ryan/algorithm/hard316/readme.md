@@ -3,6 +3,7 @@
 >You must make sure your result is the smallest in lexicographical order among all possible results.
 
 Example:
+
 Given "bcabc"
 Return "abc"
 
