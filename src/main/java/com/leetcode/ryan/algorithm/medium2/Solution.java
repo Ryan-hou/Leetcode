@@ -45,6 +45,7 @@ public class Solution {
         ListNode l11 = new ListNode(4);
         ListNode l111 = new ListNode(3);
         l1.next = l11; l11.next = l111;
+
         ListNode l2 = new ListNode(5);
         ListNode l22 = new ListNode(6);
         ListNode l222 = new ListNode(4);
