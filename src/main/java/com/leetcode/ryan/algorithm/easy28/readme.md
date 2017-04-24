@@ -1,4 +1,4 @@
-###28. Implement strStr()
+### 28. Implement strStr()
 >Implement strStr().
 
 >Returns the index of the first occurrence of needle in haystack, 
