@@ -7,3 +7,5 @@ Design a stack that supports push, pop, top, and retrieving the minimum element 
 * top() -- Get the top element.
 * getMin() -- Retrieve the minimum element in the stack.
 
+![](example.png)
+
