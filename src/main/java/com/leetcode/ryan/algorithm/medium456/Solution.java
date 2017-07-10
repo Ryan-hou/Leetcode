@@ -47,7 +47,7 @@ public class Solution {
                    last.max = i;
                    while (!result.isEmpty() && i >= result.peek().max) result.pop();
                    // At this time, n < stack.peek().max (if stack not empty)
-                   if (!result.isEmpty() && i > result.pop().min) return true;
+                   if (!result.isEmpty() && i > result.peek().min) return true;
                    result.push(last);
                }
            }
@@ -56,8 +56,9 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-        int[] nums = {3, 1, 4, 2};
+        //int[] nums = {3, 1, 4, 2};
         //int[] nums = {1, 2, 3, 4};
+        int[] nums = {3,5,4};
         boolean pattern = find132Pattern(nums);
         logger.info("Is 132 pattern ? {}", pattern);
     }
