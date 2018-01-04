@@ -8,7 +8,7 @@ import java.util.Deque;
 import java.util.List;
 
 /**
- * @author yanlin.hou@ucarinc.com
+ * @author ryan.houyl@gmail.com
  * @description:
  * @className: Solution
  * @date July 20,2017

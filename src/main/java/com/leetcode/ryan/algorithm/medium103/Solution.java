@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Queue;
 
 /**
- * @author yanlin.hou@ucarinc.com
+ * @author ryan.houyl@gmail.com
  * @description:
  * @className: Solution
  * @date July 18,2017

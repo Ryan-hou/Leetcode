@@ -3,7 +3,7 @@ package com.leetcode.ryan.algorithm.hard84;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author yanlin.hou@ucarinc.com
+ * @author ryan.houyl@gmail.com
  * @description:
  * @className: Solution
  * @date July 22,2017
