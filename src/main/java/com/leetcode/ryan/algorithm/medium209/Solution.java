@@ -148,11 +148,7 @@ public class Solution {
             }
         }
 
-        if (res == nums.length + 1) {
-            return 0;
-        } else {
-            return res;
-        }
+        return  res == nums.length + 1 ? 0 : res;
     }
 
 
