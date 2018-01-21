@@ -34,8 +34,7 @@ public class Solution {
 
     /**
      * 法二:
-     * 由题目可知,只有一种结果,那么数组的值是不重复的,可以排序后,
-     * 定义首尾指针移动来求得结果
+     * 由题目可知,只有一种结果,可以排序后,定义首尾指针移动来求得结果
      */
     public static int[] twoSumTwo(int[] nums, int target) {
         Map<Integer, Integer> indexsMap = new HashMap<>();
@@ -67,10 +66,32 @@ public class Solution {
         return new int[0];
     }
 
+    /**
+     * 使用map作为查找表，因为数组元素可能存在重复，所以不能一次性把数组元素存入map(会存在覆盖)
+     * 一边遍历一遍查找，比第一种方法更加直观
+     * @param nums
+     * @param target
+     * @return
+     */
+    public static int[] twoSumThree(int[] nums, int target) {
+        Map<Integer, Integer> findMap = new HashMap<>(nums.length * 2);
+        for (int i = 0; i < nums.length; i++) {
+
+            int complement = target - nums[i];
+            if (findMap.get(complement) != null) {
+                int[] res = {i, findMap.get(complement)};
+                return res;
+            }
+
+            findMap.put(nums[i], i);
+        }
+        throw new IllegalArgumentException("The input has no solution.");
+    }
+
 
     public static void main(String[] args) {
         int[] nums = {1,4,2,7,6};
         int target = 9;
-        System.out.println(Arrays.toString(twoSumTwo(nums, target)));
+        System.out.println(Arrays.toString(twoSumThree(nums, target)));
     }
 }
