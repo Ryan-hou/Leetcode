@@ -20,6 +20,17 @@ public class Solution {
      * 使用查找表：把其中一组数据放到查找表，遍历剩下的三组数据，时间复杂度为 O(n^3),最多需要进行 500^3次运算，计算机比较吃力
      * 改变查找表需要查找的内容：（灵活的选择键值）把其中两组数据的和作为查找表，遍历剩下的两组数据，时间复杂度为O(n^2)
      */
+
+
+    /**
+     * 时间复杂度 O(n^2)
+     * 空间复杂度 O(n^2)
+     * @param A
+     * @param B
+     * @param C
+     * @param D
+     * @return
+     */
     public static int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
         if (A.length == 0) return 0;
 
@@ -48,10 +59,10 @@ public class Solution {
 
     public static void main(String[] args) {
         /**
-         * A = [ 1, 2]
-         * B = [-2,-1]
+         * A = [1, 2]
+         * B = [-2, -1]
          * C = [-1, 2]
-         * D = [ 0, 2]
+         * D = [0, 2]
          */
         int[] A = {1, 2}, B = {-2, -1}, C = {-1, 2}, D = {0, 2};
         log.info("count = {}", fourSumCount(A, B, C, D));
