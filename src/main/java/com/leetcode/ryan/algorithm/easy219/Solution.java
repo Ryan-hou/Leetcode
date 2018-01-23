@@ -22,6 +22,8 @@ public class Solution {
     /**
      * 思路二：滑动窗口+查找表
      * 构造长度为k+1的滑动窗口，每次在移动窗口时，比较下一个要遍历的元素是否在滑动窗口所构成的查找表中
+     * 时间复杂度：O(n)
+     * 空间复杂度：O(k)
      */
     public static boolean containsNearbyDuplicate(int[] nums, int k) {
 
