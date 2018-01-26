@@ -1,5 +1,7 @@
 package com.leetcode.ryan.algorithm.easy206;
 
+import com.leetcode.ryan.personal.component.ListNode;
+import com.leetcode.ryan.personal.util.LinkedListUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -10,17 +12,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class Solution {
-
-    // Definition for singly-linked list
-    private static class ListNode {
-        int val;
-        ListNode next;
-
-        public ListNode(int val) {
-            this.val = val;
-        }
-    }
-
 
     /**
      * Reverse recursively
@@ -94,25 +85,12 @@ public class Solution {
     public static void main(String[] args) {
 
         // 100 >> 1 >> 2 >> 3 >> null
-        ListNode head = new ListNode(100);
-        ListNode one = new ListNode(1);
-        ListNode two = new ListNode(2);
-        ListNode three = new ListNode(3);
-        head.next = one;
-        one.next = two;
-        two.next = three;
-        three.next = null;
-
+        int[] nodes = {100, 1, 2, 3};
+        ListNode head = LinkedListUtil.createLinkedList(nodes, nodes.length);
+        LinkedListUtil.printLinkedList(head);
 
         head = reverseListWithCreate(head);
-
-        while (head != null) {
-            System.out.print(head.val + " >> ");
-            head = head.next;
-            if (head == null) {
-                System.out.print("null");
-            }
-        }
+        LinkedListUtil.printLinkedList(head);
     }
 
 }

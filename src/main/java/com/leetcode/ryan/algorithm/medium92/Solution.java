@@ -1,5 +1,8 @@
 package com.leetcode.ryan.algorithm.medium92;
 
+import com.leetcode.ryan.personal.component.ListNode;
+import com.leetcode.ryan.personal.util.LinkedListUtil;
+
 /**
  * @author ryan.houyl@gmail.com
  * @description:
@@ -8,20 +11,13 @@ package com.leetcode.ryan.algorithm.medium92;
  */
 public class Solution {
 
-    // Definition for singly-linked list
-    private static class ListNode {
-        int val;
-        ListNode next;
-
-        public ListNode(int val) {
-            this.val = val;
-        }
-    }
-
 
     /**
      * 操作链表一定要注意断链顺序，不要丢失要查找的节点
      * 在断开一个链节点时，思考下断开该节点后丢失的信息保存了吗？？？
+     *
+     * 时间复杂度：O(n)
+     * 空间复杂度：O(1)
      * @param head
      * @param m
      * @param n
@@ -53,29 +49,15 @@ public class Solution {
 
     public static void main(String[] args) {
 
-        // 1->2->3->4->5->NULL,
-        ListNode head = new ListNode(1);
-        ListNode one = new ListNode(2);
-        ListNode two = new ListNode(3);
-        ListNode three = new ListNode(4);
-        ListNode four = new ListNode(5);
-        head.next = one;
-        one.next = two;
-        two.next = three;
-        three.next = four;
-        four.next = null;
 
+        // 1->2->3->4->5->NULL
+        int[] nodes = {1, 2, 3, 4, 5};
+        ListNode head = LinkedListUtil.createLinkedList(nodes, nodes.length);
+        LinkedListUtil.printLinkedList(head);
 
         // 1->4->3->2->5->NULL
         head = reverseBetween(head, 2, 4);
-
-        while (head != null) {
-            System.out.print(head.val + " >> ");
-            head = head.next;
-            if (head == null) {
-                System.out.print("null");
-            }
-        }
+        LinkedListUtil.printLinkedList(head);
     }
 
 }
