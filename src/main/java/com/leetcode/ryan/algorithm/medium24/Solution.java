@@ -1,5 +1,8 @@
 package com.leetcode.ryan.algorithm.medium24;
 
+import com.leetcode.ryan.personal.component.ListNode;
+import com.leetcode.ryan.personal.util.LinkedListUtil;
+
 /**
  * @author Ryan-hou
  * @description:
@@ -8,12 +11,6 @@ package com.leetcode.ryan.algorithm.medium24;
  */
 public class Solution {
 
-
-    public static class ListNode {
-        int val;
-        ListNode next;
-        ListNode(int x) { val = x; }
-    }
 
     /**
      * 法一:
@@ -29,21 +26,51 @@ public class Solution {
         return n;
     }
 
-    public static void main(String[] args) {
-        ListNode root = new ListNode(1);
-        ListNode nodeOne = new ListNode(2);
-        ListNode nodeTwo = new ListNode(3);
-        ListNode nodeThree = new ListNode(4);
-        root.next = nodeOne;
-        nodeOne.next = nodeTwo;
-        nodeTwo.next = nodeThree;
+    /**
+     * 法二：
+     * 使用迭代：定义四个指针节点：
+     * node1: 当前要交换位置的第一个节点
+     * node2: 当前要交换位置的第二个节点
+     * pre : 要交换位置的第一个节点的前一个节点
+     * next : 要交换位置的第二个节点的下一个节点
+     * 然后把pre设置为node1节点（交换完 node1,node2后的靠后的一个节点）
+     *
+     * 时间复杂度：O(n)
+     * 空间复杂度：O(1)
+     * 分析清楚每一个指针的含义，在断链操作时记得保存相关的信息(或者注意断链的操作顺序)
+     * （每一个变量的含义都要清晰明确）
+     * @param head
+     * @return
+     */
+    public static ListNode swapPairsWithIter(ListNode head) {
 
-        ListNode result = swapPairs(root);
-        System.out.print("Swap Pairs Results: ");
-        do {
-            System.out.print(result.val);
-            result = result.next;
-        } while (result != null);
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
+
+        while (pre.next != null && pre.next.next != null) {
+            ListNode node1 = pre.next;
+            ListNode node2 = node1.next;
+            ListNode next = node2.next;
+
+            node2.next = node1;
+            node1.next = next;
+            pre.next = node2;
+
+            pre = node1;
+        }
+        return dummy.next;
+    }
+
+    public static void main(String[] args) {
+
+        int[] nodes = {1, 2, 3, 4, 5};
+        ListNode head = LinkedListUtil.createLinkedList(nodes, nodes.length);
+        LinkedListUtil.printLinkedList(head);
+
+        System.out.println("Swap Pairs Results: ");
+        head = swapPairsWithIter(head);
+        LinkedListUtil.printLinkedList(head);
     }
 
 }
