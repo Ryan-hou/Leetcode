@@ -1,5 +1,7 @@
 package com.leetcode.ryan.algorithm.medium.medium144;
 
+import com.leetcode.ryan.personal.component.Command;
+import com.leetcode.ryan.personal.component.TreeNode;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayDeque;
@@ -15,16 +17,6 @@ import java.util.List;
  */
 @Slf4j
 public class Solution {
-
-    private static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        public TreeNode(int val) {
-            this.val = val;
-        }
-    }
 
     /**
      * Recursive solution
@@ -66,6 +58,42 @@ public class Solution {
         return result;
     }
 
+    /**
+     * 模拟系统栈来把递归算法转为迭代
+     * @param root
+     * @return
+     */
+    public static List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+
+        Deque<Command> stack = new ArrayDeque<>();
+        stack.push(new Command(Command.CommandStrEnum.GO.getName(), root));
+        while (!stack.isEmpty()) {
+
+            Command command = stack.pop();
+            if (Command.CommandStrEnum.PRINT.getName().equals(command.s)) {
+                res.add(command.treeNode.val);
+            } else {
+                assert (Command.CommandStrEnum.GO.getName().equals(command.s));
+
+                // 入栈顺序与操作顺序为逆序，这样在出栈时即为正确顺序
+                // 先序遍历为：根－左－右，入栈即为右－左－根 即可
+                if (command.treeNode.right != null) {
+                    stack.push(new Command(Command.CommandStrEnum.GO.getName(), command.treeNode.right));
+                }
+                if (command.treeNode.left != null) {
+                    stack.push(new Command(Command.CommandStrEnum.GO.getName(), command.treeNode.left));
+                }
+                stack.push(new Command(Command.CommandStrEnum.PRINT.getName(), command.treeNode));
+            }
+
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(3);
         TreeNode left1 = new TreeNode(4);
@@ -76,7 +104,8 @@ public class Solution {
         left1.right = left12;
         root.right = right1;
         right1.left = rigth12;
-        List<Integer> integers = preorderTraversalTwo(root);
+
+        List<Integer> integers = preorderTraversal(root);
         log.info("result = {}", integers);
     }
 }
