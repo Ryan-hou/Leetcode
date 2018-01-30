@@ -1,41 +1,49 @@
 package com.leetcode.ryan.algorithm.easy.easy226;
 
+import com.leetcode.ryan.personal.component.TreeNode;
+import com.leetcode.ryan.personal.util.TreeUtil;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+
 /**
  * @author Ryan-hou
  * @description:
  * @className: Solution
  * @date February 24,2017
  */
+@Slf4j
 public class Solution {
 
-    // Definition for a binary tree node.
-    private class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode(int x) {
-            val = x;
-        }
-
-    }
 
     /**
      * 思路:
-     * 比较简单,实际上是二叉树的后续遍历
+     * 使用递归的方式，递归函数的语义为：反转以root为根节点的二叉树
      * @param root
      * @return
      */
-    public TreeNode invertTree(TreeNode root) {
+    public static TreeNode invertTree(TreeNode root) {
+
+        // 递归出口
+        if (root == null) return null;
+
+        invertTree(root.left);
+        invertTree(root.right);
+
         TreeNode temp;
-        if (root != null) {
-            invertTree(root.left);
-            invertTree(root.right);
-            temp = root.right;
-            root.right = root.left;
-            root.left = temp;
-        }
+        temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+
         return root;
+    }
+
+    public static void main(String[] args) {
+        int[] nodes = {4, 2, 7, 1, 3, 6, 9};
+        TreeNode root = TreeUtil.createTreeFromArray(nodes, 0);
+        root = invertTree(root);
+        List<Integer> result = TreeUtil.levelOrderTree(root);
+        log.info("result = {}", result);
     }
 
 }

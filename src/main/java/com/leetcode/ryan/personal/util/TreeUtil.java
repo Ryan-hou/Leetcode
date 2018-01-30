@@ -2,6 +2,11 @@ package com.leetcode.ryan.personal.util;
 
 import com.leetcode.ryan.personal.component.TreeNode;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
+
 /**
  * @author ryan.houyl@gmail.com
  * @description:
@@ -40,6 +45,35 @@ public class TreeUtil {
         }
 
         return root;
+    }
+
+    /**
+     * 层序遍历二叉树
+     * @param root
+     * @return
+     */
+    public static List<Integer> levelOrderTree(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+
+        List<Integer> res = new ArrayList<>();
+
+        Deque<TreeNode> q = new ArrayDeque<>();
+        q.add(root);
+        while (!q.isEmpty()) {
+            TreeNode node = q.poll();
+            res.add(node.val);
+
+            if (node.left != null) {
+                q.add(node.left);
+            }
+            if (node.right != null) {
+                q.add(node.right);
+            }
+        }
+
+        return res;
     }
 
 }
