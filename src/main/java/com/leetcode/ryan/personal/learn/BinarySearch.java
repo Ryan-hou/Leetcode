@@ -50,6 +50,7 @@ public class BinarySearch {
      * 如：f(n)=f(n-1)+f(n-1) 时间复杂度为递归数的节点数O(2^n) （指数级别，一般
      * 需要通过剪枝来优化到多项式级别）
      *
+     * 更复杂的递归时间复杂度，参见主定理
      * @param arr
      * @param l
      * @param r
