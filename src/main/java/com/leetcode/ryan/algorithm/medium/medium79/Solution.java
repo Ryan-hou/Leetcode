@@ -23,7 +23,7 @@ public class Solution {
     private static int m,n; // 二维数组的行与列
 
     // 二维数组表示的坐标轴，行维度表示x轴，列维度表示y轴
-    // d为在坐标轴中向上，右，下，左四个方向移动的坐标表示
+    // d为在坐标轴中向上，右，下，左四个方向顺时针移动的坐标表示
     private static final int[][] d = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
 
     private static boolean[][] visited;
