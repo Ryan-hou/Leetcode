@@ -1,6 +1,6 @@
 package com.leetcode.ryan.personal.learn;
 
-import com.leetcode.ryan.personal.util.MyUtil;
+import com.leetcode.ryan.personal.util.ArrayUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -75,7 +75,7 @@ public class BinarySearch {
 
     public static void main(String[] args) {
         int n = 1000000;
-        int[] data = MyUtil.generateOrderedArray(n);
+        int[] data = ArrayUtil.generateOrderedArray(n);
 
         long timeMillis = System.currentTimeMillis();
         for (int i = 0; i < n; i++) {

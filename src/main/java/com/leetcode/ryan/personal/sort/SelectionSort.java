@@ -1,5 +1,6 @@
 package com.leetcode.ryan.personal.sort;
 
+import com.leetcode.ryan.personal.util.ArrayUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
@@ -25,24 +26,34 @@ public class SelectionSort {
 
         int size = arr.length;
         for (int i  = 0; i < size; i++) {
+            // 寻找[i,size)区间的最小值
             int minIndex = i;
             for (int j = i + 1; j < size; j++) {
                 if (arr[j] < arr[minIndex]) {
                     minIndex = j;
                 }
             }
-            // 交换 a[i] 与 a[minIndex] 元素
-            int temp = arr[i];
-            arr[i] = arr[minIndex];
-            arr[minIndex] = temp;
 
+            swap(arr, i, minIndex);
         }
 
     }
 
+    /**
+     * Swaps x[a] with x[b].
+     */
+    private static void swap(int[] x, int a, int b) {
+        int t = x[a];
+        x[a] = x[b];
+        x[b] = t;
+    }
+
     public static void main(String[] args) {
-        int[] arr = {1, 5, 3, 4, 8, 7};
+        int n = 10000;
+        int[] arr = ArrayUtil.generateRandomArray(n, 0, n);
         selectSort(arr);
-        log.info("Sorted array = {}", Arrays.toString(arr));
+        assert ArrayUtil.isSorted(arr, n);
+
+        ArrayUtil.printArray(arr, n);
     }
 }
