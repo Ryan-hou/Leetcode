@@ -1,5 +1,6 @@
 package com.leetcode.ryan.personal.util;
 
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -34,12 +35,21 @@ public class ArrayUtil {
         return arr;
     }
 
-    public static void printArray(int[] arr, int n) {
+    public static int[] generateNearlyOrderedArray(int n, int swapTimes) {
+        int[] array = generateOrderedArray(n);
+//        Random random = new Random();
+//
+//        for (int i = 0; i < swapTimes; i++) {
+//            int posx = Math.abs(random.nextInt()) % n;
+//            int posy = Math.abs(random.nextInt()) % n;
+//            swap(array, posx, posy);
+//        }
+        return array;
+    }
+
+    public static void printArray(int[] arr) {
         long curTime = System.currentTimeMillis();
-        for (int i = 0; i < n; i++) {
-            System.out.print(arr[i] + "  ");
-        }
-        System.out.println();
+        System.out.println(Arrays.toString(arr));
         System.out.println("Consume " + (System.currentTimeMillis() - curTime) + " ms.");
     }
 
@@ -50,6 +60,15 @@ public class ArrayUtil {
             }
         }
         return true;
+    }
+
+    /**
+     * Swaps x[a] with x[b].
+     */
+    public static void swap(int[] x, int a, int b) {
+        int t = x[a];
+        x[a] = x[b];
+        x[b] = t;
     }
 
 }

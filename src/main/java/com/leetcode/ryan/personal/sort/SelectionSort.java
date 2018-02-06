@@ -34,18 +34,9 @@ public class SelectionSort {
                 }
             }
 
-            swap(arr, i, minIndex);
+            ArrayUtil.swap(arr, i, minIndex);
         }
 
-    }
-
-    /**
-     * Swaps x[a] with x[b].
-     */
-    private static void swap(int[] x, int a, int b) {
-        int t = x[a];
-        x[a] = x[b];
-        x[b] = t;
     }
 
     public static void main(String[] args) {
@@ -54,6 +45,6 @@ public class SelectionSort {
         selectSort(arr);
         assert ArrayUtil.isSorted(arr, n);
 
-        ArrayUtil.printArray(arr, n);
+        ArrayUtil.printArray(arr);
     }
 }
