@@ -44,7 +44,5 @@ public class SelectionSort {
         int[] arr = ArrayUtil.generateRandomArray(n, 0, n);
         selectSort(arr);
         assert ArrayUtil.isSorted(arr, n);
-
-        ArrayUtil.printArray(arr);
     }
 }

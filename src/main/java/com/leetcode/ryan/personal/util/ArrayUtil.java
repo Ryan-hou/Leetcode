@@ -26,6 +26,8 @@ public class ArrayUtil {
     // 生成有n个元素的随机数组，每个元素的随机范围为[rangeL, rangeR]
     public static int[] generateRandomArray(int n, int rangeL, int rangeR) {
         assert rangeL <= rangeR;
+        assert rangeL >= 0 && rangeR >= 0;
+
         int[] arr = new int[n];
         Random random = new Random();
 
@@ -37,20 +39,14 @@ public class ArrayUtil {
 
     public static int[] generateNearlyOrderedArray(int n, int swapTimes) {
         int[] array = generateOrderedArray(n);
-//        Random random = new Random();
-//
-//        for (int i = 0; i < swapTimes; i++) {
-//            int posx = Math.abs(random.nextInt()) % n;
-//            int posy = Math.abs(random.nextInt()) % n;
-//            swap(array, posx, posy);
-//        }
-        return array;
-    }
+        Random random = new Random();
 
-    public static void printArray(int[] arr) {
-        long curTime = System.currentTimeMillis();
-        System.out.println(Arrays.toString(arr));
-        System.out.println("Consume " + (System.currentTimeMillis() - curTime) + " ms.");
+        for (int i = 0; i < swapTimes; i++) {
+            int posx = Math.abs(random.nextInt()) % n;
+            int posy = Math.abs(random.nextInt()) % n;
+            swap(array, posx, posy);
+        }
+        return array;
     }
 
     public static boolean isSorted(int[] arr, int n) {

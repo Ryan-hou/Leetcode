@@ -41,7 +41,5 @@ public class InsertSort {
         int[] arr = ArrayUtil.generateNearlyOrderedArray(n, 10);
         insertSort(arr, n);
         ArrayUtil.isSorted(arr, n);
-
-        ArrayUtil.printArray(arr);
     }
 }
