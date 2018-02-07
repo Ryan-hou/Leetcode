@@ -9,10 +9,11 @@ package com.leetcode.ryan.personal.sort;
 public class MergeSort implements Sort {
 
     public void mergeSort(int[] arr, int n) {
-        mergeSortInternal(arr, 0, n - 1);
+//        mergeSortInternal(arr, 0, n - 1);
+        mergeSortBU(arr, n);
     }
 
-    // 递归使用归并排序，对 arr[l...r] 的范围进行排序
+    // 递归：自顶向下 使用归并排序，对 arr[l...r] 的范围进行排序
     private void mergeSortInternal(int[] arr, int l, int r) {
 //        if (l >= r) {
 //            return;
@@ -30,6 +31,17 @@ public class MergeSort implements Sort {
         // 优化一：避免不必要的merge操作
         if (arr[mid] > arr[mid + 1]) {
             merge(arr, l, mid, r);
+        }
+    }
+
+    // 使用迭代，自底向上实现归并算法
+    private void mergeSortBU(int[] arr, int n) {
+
+        for (int sz = 1; sz <= n; sz += sz) {
+            for (int i = 0; i + sz < n; i += sz + sz) {
+                // 对 arr[i...i+sz-1] 和 arr[i+sz...i+2*sz-1]进行归并
+                merge(arr, i, i + sz -1, Math.min(i + sz + sz -1, n - 1));
+            }
         }
     }
 
