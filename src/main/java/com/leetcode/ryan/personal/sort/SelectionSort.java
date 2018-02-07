@@ -13,7 +13,7 @@ import java.util.Objects;
  * @date January 31,2018
  */
 @Slf4j
-public class SelectionSort {
+public class SelectionSort implements Sort {
 
     /**
      * 选择排序思路：
@@ -21,7 +21,7 @@ public class SelectionSort {
      * 时间复杂度 O(n^2)
      * @param arr
      */
-    public static void selectSort(int[] arr) {
+    public void selectSort(int[] arr) {
         Objects.requireNonNull(arr);
 
         int size = arr.length;
@@ -39,10 +39,8 @@ public class SelectionSort {
 
     }
 
-    public static void main(String[] args) {
-        int n = 10000;
-        int[] arr = ArrayUtil.generateRandomArray(n, 0, n);
-        selectSort(arr);
-        assert ArrayUtil.isSorted(arr, n);
+    @Override
+    public void sort(int[] nums, int n) {
+        selectSort(nums);
     }
 }

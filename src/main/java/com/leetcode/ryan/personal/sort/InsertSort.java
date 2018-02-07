@@ -1,14 +1,12 @@
 package com.leetcode.ryan.personal.sort;
 
-import com.leetcode.ryan.personal.util.ArrayUtil;
-
 /**
  * @author ryan.houyl@gmail.com
  * @description:
  * @className: InsertSort
  * @date February 06,2018
  */
-public class InsertSort {
+public class InsertSort implements Sort {
 
     /**
      * 时间复杂度：O(n^2)
@@ -17,7 +15,7 @@ public class InsertSort {
      * @param arr
      * @param n
      */
-    public static void insertSort(int[] arr, int n) {
+    public void insertSort(int[] arr, int n) {
 
         for (int i = 1; i < n; i++) {
 
@@ -36,10 +34,22 @@ public class InsertSort {
         }
     }
 
-    public static void main(String[] args) {
-        int n = 10000;
-        int[] arr = ArrayUtil.generateNearlyOrderedArray(n, 10);
-        insertSort(arr, n);
-        ArrayUtil.isSorted(arr, n);
+    // 对arr[l...r]范围的数组进行插入排序
+    public static void insertSort(int[] arr, int l, int r) {
+
+        for (int i = l + 1; i <= r; i++) {
+
+            int e = arr[i];
+            int j = i;
+            for (; j > l && arr[j - 1] > e; j--) {
+                arr[j] = arr[j - 1];
+            }
+            arr[j] = e;
+        }
+    }
+
+    @Override
+    public void sort(int[] nums, int n) {
+        insertSort(nums, n);
     }
 }

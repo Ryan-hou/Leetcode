@@ -3,7 +3,6 @@ package com.leetcode.ryan.personal.sort;
 import com.leetcode.ryan.personal.util.ArrayUtil;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -13,9 +12,9 @@ import java.util.Objects;
  * @date February 07,2018
  */
 @Slf4j
-public class BubbleSort {
+public class BubbleSort implements Sort {
 
-    public static void bubbleSort(int[] nums) {
+    public void bubbleSort(int[] nums) {
         Objects.requireNonNull(nums);
 
         for (int i = nums.length - 1; i > 0; i--) {
@@ -28,7 +27,7 @@ public class BubbleSort {
         }
     }
 
-    public static void bubbleSortOptimize(int[] nums) {
+    public void bubbleSortOptimize(int[] nums) {
         int n = nums.length;
         boolean swapped;
 
@@ -44,15 +43,8 @@ public class BubbleSort {
         } while (swapped);
     }
 
-    public static void main(String[] args) {
-
-        int n = 1000000;
-        int[] array = ArrayUtil.generateOrderedArray(n);
-        long startTime = System.currentTimeMillis();
-        bubbleSortOptimize(array);
-        long endTime = System.currentTimeMillis();
-        assert ArrayUtil.isSorted(array, n);
-        System.out.println(Arrays.toString(array));
-        System.out.println("Bubble sort consume " + (endTime - startTime) + " ms");
+    @Override
+    public void sort(int[] nums, int n) {
+        bubbleSortOptimize(nums);
     }
 }

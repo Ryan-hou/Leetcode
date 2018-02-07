@@ -37,6 +37,10 @@ public class ArrayUtil {
         return arr;
     }
 
+    public static int[] copyArray(int[] arr) {
+        return Arrays.copyOf(arr, arr.length);
+    }
+
     public static int[] generateNearlyOrderedArray(int n, int swapTimes) {
         int[] array = generateOrderedArray(n);
         Random random = new Random();
