@@ -10,6 +10,12 @@ import java.util.Random;
  * @className: QuickSort
  * @date February 07,2018
  */
+
+/**
+ * 同归并排序都使用了分治算法：
+ *
+ *
+ */
 public class QuickSort implements Sort {
 
     private static Random random = new Random();
