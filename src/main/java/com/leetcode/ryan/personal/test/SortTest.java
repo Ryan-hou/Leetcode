@@ -1,5 +1,6 @@
 package com.leetcode.ryan.personal.test;
 
+import com.leetcode.ryan.personal.sort.HeapSort;
 import com.leetcode.ryan.personal.sort.MergeSort;
 import com.leetcode.ryan.personal.sort.QuickSort;
 import com.leetcode.ryan.personal.sort.Sort;
@@ -20,7 +21,8 @@ public class SortTest {
 
         int[] copyArray = ArrayUtil.copyArray(arr);
         testSort("Merge sort:", arr, n, new MergeSort());
-        testSort("Quick sort:", copyArray, n, new QuickSort());
+        //testSort("Quick sort:", copyArray, n, new QuickSort());
+        testSort("Heap sort:", copyArray, n, new HeapSort());
         //testSort("Selection sort:", arr, n, new SelectionSort());
         //testSort("Insert sort:", copyArray, n, new InsertSort());
     }
