@@ -26,6 +26,11 @@ public class IndexMaxHeap {
     private int[] data;
     // 根据索引堆数据构建的真正的堆
     private int[] indexes;
+    // 反向查找表
+    // reverse[i]表示索引i在indexes(堆)中的位置
+    // indexes[i] = j, reverse[j] = i;
+    // indexes[reverse[i]] = i, reverse[indexes[i]] = i
+    private int[] reverse;
 
     // 索引堆存储的数据量
     private int count;
@@ -36,6 +41,11 @@ public class IndexMaxHeap {
 
         data = new int[capacity + 1];
         indexes = new int[capacity + 1];
+        reverse = new int[capacity + 1];
+        for (int i = 0; i <= capacity; i++) {
+            reverse[i] = 0;
+        }
+
         count = 0;
         this.capacity = capacity;
     }
@@ -47,7 +57,9 @@ public class IndexMaxHeap {
         assert (i + 1 >= 1 && i + 1 <= capacity);
 
         data[++i] = item;
-        indexes[++count] = i;
+        indexes[count + 1] = i;
+        reverse[i] = count + 1;
+        count++;
 
         shiftUp(count);
     }
@@ -55,6 +67,8 @@ public class IndexMaxHeap {
     private void shiftUp(int k) {
         while (k > 1 && data[indexes[k / 2]] < data[indexes[k]]) {
             ArrayUtil.swap(indexes, k / 2, k);
+            reverse[indexes[k/2]] = k/2;
+            reverse[indexes[k]] = k;
             k /= 2;
         }
     }
@@ -64,6 +78,8 @@ public class IndexMaxHeap {
 
         int ret = data[indexes[1]];
         ArrayUtil.swap(indexes, 1, count);
+        reverse[indexes[count]] = 0;
+        reverse[indexes[1]] = 1;
         count--;
         shiftDown(1);
         return ret;
@@ -82,24 +98,37 @@ public class IndexMaxHeap {
             }
 
             ArrayUtil.swap(indexes, k, j);
+            reverse[indexes[k]] = k;
+            reverse[indexes[j]] = j;
             k = j;
         }
     }
 
     public void change(int i, int newItem) {
+        assert contain(i);
+
         i += 1;
         data[i] = newItem;
 
         // 找到indexes[j]=i,j表示data[i]在堆中的位置
         // 之后shiftUp(j),再shiftDown(j)
         // 时间复杂度为 O(nlogn)，后续会通过反向查找表优化为 O(logn)
-        for (int j = 1; j <= count; j++) {
-            if (indexes[j] == i) {
-                shiftUp(j);
-                shiftDown(j);
-                return;
-            }
-        }
+//        for (int j = 1; j <= count; j++) {
+//            if (indexes[j] == i) {
+//                shiftUp(j);
+//                shiftDown(j);
+//                return;
+//            }
+//        }
+
+        int j = reverse[i];
+        shiftUp(j);
+        shiftDown(j);
+    }
+
+    private boolean contain(int i) {
+        assert i + 1 >= 1&& i + 1 <= capacity;
+        return reverse[i + 1] != 0;
     }
 
 
@@ -122,6 +151,7 @@ public class IndexMaxHeap {
     }
 
     public int getItem(int i) {
+        assert contain(i);
         return data[i + 1];
     }
 
