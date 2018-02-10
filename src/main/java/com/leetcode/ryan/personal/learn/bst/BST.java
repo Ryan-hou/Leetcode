@@ -1,8 +1,11 @@
 package com.leetcode.ryan.personal.learn.bst;
 
 import java.io.File;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author ryan.houyl@gmail.com
@@ -99,6 +102,81 @@ public class BST<K, V> {
         return node;
     }
 
+    // 前序遍历
+    public void preOrder() {
+        preOrder(root);
+    }
+
+    // 中序遍历(BST中序遍历即为由小到大的排序顺序)
+    public void inOrder() {
+        inOrder(root);
+    }
+
+    // 后序遍历(可用于把BST的每个节点置为空)
+    public void postOrder() {
+        postOrder(root);
+    }
+
+    public void destory(Node root) {
+        if (root == null) {
+            return;
+        }
+
+        destory(root.left);
+        destory(root.right);
+        root = null;
+        count--;
+    }
+
+    // 层序遍历
+    public void levelOrder() {
+        Deque<Node> q = new ArrayDeque<>();
+        q.add(root);
+        while (!q.isEmpty()) {
+            Node node = q.poll();
+            System.out.print(node.key + "  ");
+            if (node.left != null) {
+                q.add(node.left);
+            }
+            if (node.right != null) {
+                q.add(node.right);
+            }
+        }
+    }
+
+    // 对以node为根的二叉树进行前序遍历
+    private void preOrder(Node node) {
+        if (node == null) {
+            return;
+        }
+
+        System.out.print(node.key + "  ");
+        preOrder(node.left);
+        preOrder(node.right);
+    }
+
+    // 对以node为根的二叉树进行中序遍历
+    private void inOrder(Node node) {
+        if (node == null) {
+            return;
+        }
+
+        inOrder(node.left);
+        System.out.print(node.key + "  ");
+        inOrder(node.right);
+    }
+
+    // 对以node为根的二叉树进行后序遍历
+    private void postOrder(Node node) {
+        if (node == null) {
+            return;
+        }
+
+        postOrder(node.left);
+        postOrder(node.right);
+        System.out.print(node.key + "  ");
+    }
+
 
     private static class Node<K, V> {
         K key;
@@ -113,6 +191,28 @@ public class BST<K, V> {
     }
 
     public static void main(String[] args) {
+        testTraversal();
+    }
+
+
+    private static void testTraversal() {
+
+        BST<Integer, Integer> bst = new BST<>();
+        Random r = new Random();
+        int n = 5;
+        for (int i = 0; i < n; i++) {
+            int key = Math.abs(r.nextInt()) % 100;
+            int value = key;
+            bst.insert(key, value);
+        }
+
+        bst.inOrder();
+        System.out.println();
+        bst.levelOrder();
+    }
+
+
+    private static void testBST() {
         String fileName = "test" + File.separator + "bible.txt";
         List<String> words = new ArrayList<>(500000);
 
