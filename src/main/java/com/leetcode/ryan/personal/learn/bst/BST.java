@@ -117,6 +117,138 @@ public class BST<K, V> {
         postOrder(root);
     }
 
+    // 寻找最大值
+    public K maximum() {
+        assert count != 0;
+        Node<K, V> maxNode = maximum(root);
+        return maxNode.key;
+    }
+
+    // 寻找最小值
+    public K minimum() {
+        assert count != 0;
+        Node<K, V> minNode = minimum(root);
+        return minNode.key;
+    }
+
+    // 从BST中删除最小值所在的节点
+    public void removeMin() {
+        if (root != null) {
+            root = removeMin(root);
+        }
+    }
+
+    // 从BST中删除最大值所在的节点
+    public void removeMax() {
+        if (root != null) {
+            root = removeMax(root);
+        }
+    }
+
+    // 从二叉树中删除键值为key的节点
+    public void remove(K key) {
+        root = remove(root, key);
+    }
+
+    // 删除掉以node为根的BST中键值为key的节点
+    // 返回删除节点后新的BST的根
+    Node remove(Node<K, V> node, K key) {
+
+        if (node == null) {
+            return null;
+        }
+
+        if (((Comparable<K>) key).compareTo(node.key) < 0) {
+            // key < node.key
+            node.left = remove(node.left, key);
+            return node;
+        } else if (((Comparable<K>) key).compareTo(node.key) > 0) {
+            // key > node.key
+            node.right = remove(node.right, key);
+            return node;
+        } else {
+            // key == node.key
+
+            if (node.left == null) {
+                Node rightNode = node.right;
+                node = null;
+                count--;
+                return rightNode;
+            }
+            if (node.right == null) {
+                Node leftNode = node.left;
+                node = null;
+                count--;
+                return leftNode;
+            }
+
+            // node.left != null && node.right != null
+            /**
+             * Hubbard Deletion：
+             * 删除左右都有孩子的节点d：
+             * 找到 s=min(d.right),s是d的后继（即根据BST的性质，找到d的右子树的最小值的节点）
+             * 或者 p=max(d.left), p是d前驱
+             */
+            Node successor = new Node(minimum(node.right));
+            count++;
+
+            successor.right = removeMin(node.right);
+            successor.left = node.left;
+            node = null;
+            count--;
+
+            return successor;
+        }
+
+
+    }
+
+    // 删除以node为根的BST中的最小节点
+    // 返回删除节点后新的BST的根
+    private Node removeMin(Node node) {
+
+        if (node.left == null) {
+            Node rightNode = node.right;
+            node = null;
+            count--;
+            return rightNode;
+        }
+
+        node.left = removeMin(node.left);
+        return node;
+    }
+
+    // 删除以node为根的BST中的最大节点
+    // 返回删除节点后新的BST的根
+    private Node removeMax(Node node) {
+
+        if (node.right == null) {
+            Node leftNode = node.left;
+            node =  null;
+            count--;
+            return leftNode;
+        }
+
+        node.right = removeMax(node.right);
+        return node;
+    }
+
+    // 在以node为根的二叉搜索树中，返回最大键值的节点
+    private Node maximum(Node node) {
+        if (node.right == null) {
+            return node;
+        }
+        return maximum(node.right);
+    }
+
+    // 在以node为根的二叉搜索树中，返回最小键值的节点
+    private Node minimum(Node node) {
+        if (node.left == null) {
+            return node;
+        }
+        return minimum(node.left);
+    }
+
     public void destory(Node root) {
         if (root == null) {
             return;
@@ -188,14 +320,25 @@ public class BST<K, V> {
             this.key = key;
             this.value = value;
         }
+
+        public Node(Node<K, V> node) {
+            this.key = node.key;
+            this.value = node.value;
+            this.left = node.left;
+            this.right = node.right;
+        }
     }
+
+
+    // -------------------------- test code -----------------------------
 
     public static void main(String[] args) {
-        testTraversal();
+        //BST<Integer, Integer> bst = testTraversal();
+        //testMinAndMax(bst);
+        testRemoveKey();
     }
 
-
-    private static void testTraversal() {
+    private static BST<Integer, Integer> testTraversal() {
 
         BST<Integer, Integer> bst = new BST<>();
         Random r = new Random();
@@ -209,6 +352,32 @@ public class BST<K, V> {
         bst.inOrder();
         System.out.println();
         bst.levelOrder();
+        return bst;
+    }
+
+    private static void testRemoveKey() {
+        BST<Integer, Integer> bst = new BST<>();
+        for (int i = 0; i < 10; i++) {
+            bst.insert(i, i);
+        }
+        bst.inOrder();
+        System.out.println();
+        bst.remove(5);
+        bst.inOrder();
+        System.out.println();
+        bst.remove(9);
+        bst.inOrder();
+    }
+
+    private static void testMinAndMax(BST<Integer, Integer> bst) {
+        Node minimum = bst.minimum(bst.root);
+        System.out.println();
+        System.out.println("Min node = " + minimum.key);
+        Node maximum = bst.maximum(bst.root);
+        System.out.println("Max node = " + maximum.key);
+        bst.removeMin();
+        minimum = bst.minimum(bst.root);
+        System.out.println("New Min node = " + minimum.key);
     }
 
 
