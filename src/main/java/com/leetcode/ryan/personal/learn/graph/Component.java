@@ -9,7 +9,12 @@ import java.util.Iterator;
  * @date February 12,2018
  */
 
-// 使用图的DFS获取图的联通分量个数
+/**
+ * 图的dfs复杂度：
+ * 稀疏图(邻接表)：O(V+E)
+ * 稠密图(邻接矩阵)：O(V^2)
+ */
+// 使用图的DFS获取图的联通分量个数(还可以使用DFS判断有向图是否存在环)
 public class Component {
 
     private Graph graph;

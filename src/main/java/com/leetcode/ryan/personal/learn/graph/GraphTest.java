@@ -32,7 +32,21 @@ public class GraphTest {
 //        printEdge4Vertex(N, g2);
 
         //testReadGraph();
-        testDFS();
+        //testDFS();
+        testPath();
+    }
+
+    private static void testPath() {
+        // testG2.txt
+        String fileName2 = "test" + File.separator + "testG2.txt";
+        Graph g = new SparseGraph(7, false);
+        ReadGraph.read(fileName2, g);
+        g.show();
+        System.out.println();
+
+        Path dfs = new Path(0, g);
+        System.out.print("DFS: ");
+        dfs.showPath(6);
     }
 
     private static void testDFS() {
