@@ -17,17 +17,17 @@ public class Solution {
     /**
      * 思路:
      * When u iterate through the preorder traversal string, for each char:
-     * case 1: u see a number c, means u begin to expand a new tree rooted with c,
+     * case 1: u see a number c, means u begin to expand a new genetree rooted with c,
      *  u push it to stack
      * case 2.1: u see a #, while top of stack is a number, u know this # is a left null child, put it
      *  there as a mark for next coming node k to know it is being the right child.
      * case 2.2: u see a #, while top of stack is #, u know u meet this # as right null child, u now
-     *  cancel the sub tree(rooted as t, for example) with these two-# children. But wait, after the
+     *  cancel the sub genetree(rooted as t, for example) with these two-# children. But wait, after the
      *  cancellation, u continue to check top of stack is whether # or a number:
      *  --- if a number, say u, you know u just cancelled a node t which is left child of u. You need to
      *  leave a # mark to the top of stack. So that next node know it is a right child.
-     *  --- if a #, you know u just cancelled a tree whose root,t, is the right child of u. So you continue to
-     *  cancel sub tree of u, and the process goes on and on.
+     *  --- if a #, you know u just cancelled a genetree whose root,t, is the right child of u. So you continue to
+     *  cancel sub genetree of u, and the process goes on and on.
      * @param preorder
      * @return
      */
@@ -51,8 +51,8 @@ public class Solution {
 
     /**
      * 思路:
-     * If we treat null's as leaves, then the binary tree will always be full. A full
-     * binary tree has a good property that # of leaves = # of nonleaves + 1.
+     * If we treat null's as leaves, then the binary genetree will always be full. A full
+     * binary genetree has a good property that # of leaves = # of nonleaves + 1.
      * Since we are given a pre_order serialization, we just need to find the shortest prefix of
      * the serialization sequence satisfying the property above. If such prefix does not exist, then
      * the serialization is definitely invalid; otherwise, the serialization is valid if and only if

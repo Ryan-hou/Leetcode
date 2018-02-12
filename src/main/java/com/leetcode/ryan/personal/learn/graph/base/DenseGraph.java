@@ -1,4 +1,4 @@
-package com.leetcode.ryan.personal.learn.graph;
+package com.leetcode.ryan.personal.learn.graph.base;
 
 import java.util.Iterator;
 

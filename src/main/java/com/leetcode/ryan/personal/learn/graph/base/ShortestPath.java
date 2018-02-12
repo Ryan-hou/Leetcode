@@ -1,4 +1,4 @@
-package com.leetcode.ryan.personal.learn.graph;
+package com.leetcode.ryan.personal.learn.graph.base;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -9,42 +9,60 @@ import java.util.List;
 /**
  * @author ryan.houyl@gmail.com
  * @description:
- * @className: Path
+ * @className: ShortestPath
  * @date February 12,2018
  */
-public class Path {
+
+/**
+ * BFS遍历图时间复杂度：
+ * 稀疏图(邻接表)：O(V+E)
+ * 稠密图（邻接矩阵）：O(V^2)
+ */
+// 使用BFS求最短路径
+public class ShortestPath {
 
     private Graph graph;
-    private int s; // source,出发点
-    boolean[] visited;
-    int[] from;
+    private int source;
+    private boolean[] visited;
+    private int[] from;
+    private int[] ord;
 
-    public Path(int s, Graph graph) {
+    public ShortestPath(int s, Graph graph) {
         assert s >= 0 && s < graph.V();
 
         visited = new boolean[graph.V()];
         from = new int[graph.V()];
+        ord = new int[graph.V()];
         for (int i = 0; i < graph.V(); i++) {
             from[i] = -1;
+            ord[i] = -1;
         }
-        this.s = s;
+        this.source = s;
         this.graph = graph;
 
-        // 寻路算法（不一定是最短路径）
-        dfs(s);
-    }
-
-    private void dfs(int v) {
-        visited[v] = true;
-
-        Iterator<Integer> it = graph.iterator(v);
-        while (it.hasNext()) {
-            int i = it.next();
-            if (!visited[i]) {
-                from[i] = v;
-                dfs(i);
+        Deque<Integer> q = new ArrayDeque<>();
+        // 无权图最短路径求法
+        q.add(s);
+        visited[s] = true;
+        ord[s] = 0;
+        while (!q.isEmpty()) {
+            int v = q.poll();
+            Iterator<Integer> it = graph.iterator(v);
+            while (it.hasNext()) {
+                int i = it.next();
+                if (!visited[i]) {
+                    q.add(i);
+                    visited[i] = true;
+                    from[i] = v;
+                    ord[i] = ord[v] + 1;
+                }
             }
         }
+    }
+
+    public int length(int w) {
+        assert w >= 0 && w < graph.V();
+        return ord[w];
     }
 
     public boolean hasPath(int w) {
@@ -53,6 +71,8 @@ public class Path {
     }
 
     public void path(int w, List<Integer> list) {
+        assert w >= 0 && w < graph.V();
+
         Deque<Integer> s = new ArrayDeque<>();
         int p = w;
         while (p != -1) {
@@ -67,6 +87,8 @@ public class Path {
     }
 
     public void showPath(int w) {
+        assert w >= 0 && w < graph.V();
+
         List<Integer> path = new ArrayList<>();
         path(w, path);
         for (int i = 0; i < path.size(); i++) {
@@ -78,4 +100,5 @@ public class Path {
             }
         }
     }
+
 }

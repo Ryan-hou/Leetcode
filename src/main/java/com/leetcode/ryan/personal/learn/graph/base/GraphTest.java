@@ -1,4 +1,4 @@
-package com.leetcode.ryan.personal.learn.graph;
+package com.leetcode.ryan.personal.learn.graph.base;
 
 import java.io.File;
 import java.util.Iterator;
@@ -47,6 +47,10 @@ public class GraphTest {
         Path dfs = new Path(0, g);
         System.out.print("DFS: ");
         dfs.showPath(6);
+
+        ShortestPath bfs = new ShortestPath(0, g);
+        System.out.print("BFS: ");
+        bfs.showPath(6);
     }
 
     private static void testDFS() {

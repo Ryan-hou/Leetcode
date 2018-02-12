@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 public class Solution {
 
-    // Definition for a binary tree node
+    // Definition for a binary genetree node
     private static class TreeNode {
         int val;
         TreeNode left;

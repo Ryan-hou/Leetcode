@@ -11,7 +11,7 @@ import java.util.Deque;
  */
 public class Solution {
 
-    // Definition for binary tree
+    // Definition for binary genetree
     private static class TreeNode {
 
         int val;

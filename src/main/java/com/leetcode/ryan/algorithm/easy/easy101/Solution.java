@@ -79,6 +79,6 @@ public class Solution {
         oneLeft.left = twoLeft;
         oneRight.right = twoRight;
 
-        System.out.println("The tree is symmetric? " + isSymmetricThree(root));
+        System.out.println("The genetree is symmetric? " + isSymmetricThree(root));
     }
 }
