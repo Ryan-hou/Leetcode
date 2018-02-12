@@ -31,7 +31,26 @@ public class GraphTest {
 //        // O(V^2)
 //        printEdge4Vertex(N, g2);
 
-        testReadGraph();
+        //testReadGraph();
+        testDFS();
+    }
+
+    private static void testDFS() {
+        // TestG1.txt
+        String fileName1 = "test" + File.separator + "testG1.txt";
+        Graph g1 = new SparseGraph(13, false);
+        ReadGraph.read(fileName1, g1);
+        Component component1 = new Component(g1);
+        System.out.println("TestG1.txt, Component Count: " + component1.count());
+
+        System.out.println();
+
+        // TestG2.txt
+        String fileName2 = "test" + File.separator + "testG2.txt";
+        Graph g2 = new DenseGraph(7, false);
+        ReadGraph.read(fileName2, g2);
+        Component component2 = new Component(g2);
+        System.out.println("TestG2.txt, Component Count: " + component2.count());
     }
 
     private static void testReadGraph() {
