@@ -1,5 +1,6 @@
 package com.leetcode.ryan.personal.learn.graph;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -13,22 +14,37 @@ public class GraphTest {
 
 
     public static void main(String[] args) {
-        int N = 20;
-        int M = 100;
+//        int N = 20;
+//        int M = 100;
+//
+//        // Sparse Graph
+//        Graph g1 = new SparseGraph(N, false);
+//        initGraph(g1, M, N);
+//        // O(E)
+//        printEdge4Vertex(N, g1);
+//
+//        System.out.println();
+//
+//        // Dense Graph
+//        Graph g2 = new DenseGraph(N, false);
+//        initGraph(g2, M, N);
+//        // O(V^2)
+//        printEdge4Vertex(N, g2);
 
-        // Sparse Graph
-        Graph g1 = new SparseGraph(N, false);
-        initGraph(g1, M, N);
-        // O(E)
-        printEdge4Vertex(N, g1);
+        testReadGraph();
+    }
+
+    private static void testReadGraph() {
+        String fileName = "test" + File.separator + "testG1.txt";
+        Graph g1 = new SparseGraph(13, false);
+        ReadGraph.read(fileName, g1);
+        g1.show();
 
         System.out.println();
 
-        // Dense Graph
-        Graph g2 = new DenseGraph(N, false);
-        initGraph(g2, M, N);
-        // O(V^2)
-        printEdge4Vertex(N, g2);
+        Graph g2 = new DenseGraph(13, false);
+        ReadGraph.read(fileName, g2);
+        g2.show();
     }
 
     private static void initGraph(Graph g, int M, int N) {

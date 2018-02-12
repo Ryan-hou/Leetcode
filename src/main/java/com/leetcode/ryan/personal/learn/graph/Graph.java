@@ -15,4 +15,9 @@ public interface Graph {
 
     // 获取每个顶点对应的邻边迭代器
     Iterator<Integer> iterator(int v);
+
+    void show();
+
+    int V();
+
 }

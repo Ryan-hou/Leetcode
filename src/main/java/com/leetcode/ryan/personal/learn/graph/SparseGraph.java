@@ -30,6 +30,7 @@ public class SparseGraph implements Graph {
         }
     }
 
+    @Override
     public int V() { return v; }
     public int E() { return e; }
 
@@ -61,10 +62,20 @@ public class SparseGraph implements Graph {
     }
 
     @Override
+    public void show() {
+        for (int i = 0; i < v; i++) {
+            System.out.print("Vertex " + i + ":" + "\t");
+            for (int j = 0; j < g.get(i).size(); j++) {
+                System.out.print(g.get(i).get(j) + "\t");
+            }
+            System.out.println();
+        }
+    }
+
+    @Override
     public Iterator<Integer> iterator(int v) {
         return new AdjIterator(v, this);
     }
-
 
     // 邻边迭代器
     private class AdjIterator implements Iterator<Integer> {

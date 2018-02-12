@@ -28,6 +28,7 @@ public class DenseGraph implements Graph {
         }
     }
 
+    @Override
     public int V() { return v; }
     public int E() { return e; }
 
@@ -51,6 +52,16 @@ public class DenseGraph implements Graph {
         assert v >= 0 && v < this.v;
         assert w >= 0 && w < this.v;
         return g[v][w];
+    }
+
+    @Override
+    public void show() {
+        for (int i = 0; i < v; i++) {
+            for (int j = 0; j < v; j++) {
+                System.out.print((g[i][j] == true ? 1 : 0) + "\t");
+            }
+            System.out.println();
+        }
     }
 
     @Override
