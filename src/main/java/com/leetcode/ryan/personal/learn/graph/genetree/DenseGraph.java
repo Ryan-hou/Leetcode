@@ -28,6 +28,7 @@ public class DenseGraph<E extends Comparable<E>> implements Graph<E> {
 
     @Override
     public int V() { return v; }
+    @Override
     public int E() { return e; }
 
     @Override

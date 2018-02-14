@@ -1,6 +1,7 @@
 package com.leetcode.ryan.personal.learn.graph.genetree;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * @author ryan.houyl@gmail.com
@@ -10,8 +11,14 @@ import java.io.File;
  */
 public class GraphTest {
 
-
     public static void main(String[] args) {
+        //testInitWGraph();
+        testLazyPrim();
+        System.out.println();
+        testPrim();
+    }
+
+    private static void testInitWGraph() {
         String filename = "test" + File.separator + "testG1W.txt";
         int V = 8;
 
@@ -26,5 +33,37 @@ public class GraphTest {
         Graph<Double> g2 = new SparseGraph<>(V, false);
         ReadGraph.read(filename, g2);
         g2.show();
+    }
+
+    private static void testLazyPrim() {
+        String filename = "test" + File.separator + "testG1W.txt";
+        int V = 8;
+
+        Graph<Double> g = new SparseGraph<>(V, false);
+        ReadGraph.read(filename, g);
+        System.out.println("Test Lazy Prim MST:");
+        LazyPrimMST<Double> lazyPrimMST = new LazyPrimMST<>(g);
+        List<Edge<Double>> mst = lazyPrimMST.mstEdges();
+
+        for (int i = 0; i < mst.size(); i++) {
+            System.out.println(mst.get(i));
+        }
+        System.out.println("The MST weight is: " + lazyPrimMST.result());
+    }
+
+    private static void testPrim() {
+        String filename = "test" + File.separator + "testG1W.txt";
+        int V = 8;
+
+        Graph<Double> g = new SparseGraph<>(V, false);
+        ReadGraph.read(filename, g);
+        System.out.println("Test Prim MST:");
+        PrimMST<Double> primMST = new PrimMST<>(g);
+        List<Edge<Double>> mst = primMST.mstEdges();
+
+        for (int i = 0; i < mst.size(); i++) {
+            System.out.println(mst.get(i));
+        }
+        System.out.println("The MST weight is: " + primMST.result());
     }
 }

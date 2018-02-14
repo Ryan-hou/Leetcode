@@ -43,6 +43,7 @@ class Edge<E extends Comparable<E>> implements Comparable<Edge> {
         return a + "-" + b + ": " + weight;
     }
 
+    // 用于构造最小堆
     @Override
     public int compareTo(Edge o) {
         return this.weight.compareTo((E) o.weight);

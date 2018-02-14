@@ -19,4 +19,6 @@ public interface Graph<E extends Comparable<E>> {
     void show();
 
     int V();
+
+    int E();
 }

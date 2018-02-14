@@ -103,6 +103,7 @@ public class SparseGraph<E extends Comparable<E>> implements Graph<E> {
         return v;
     }
 
+    @Override
     public int E() {
         return e;
     }
