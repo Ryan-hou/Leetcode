@@ -10,6 +10,8 @@ import java.util.List;
  * @className: PrimMST
  * @date February 13,2018
  */
+
+// 时间复杂度：O(ElogV)
 public class PrimMST<E extends Comparable<E>> {
 
     private Graph graph;

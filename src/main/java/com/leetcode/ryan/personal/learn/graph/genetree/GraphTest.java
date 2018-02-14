@@ -13,9 +13,11 @@ public class GraphTest {
 
     public static void main(String[] args) {
         //testInitWGraph();
-        testLazyPrim();
-        System.out.println();
+        //testLazyPrim();
+        //System.out.println();
         testPrim();
+        System.out.println();
+        testKruskal();
     }
 
     private static void testInitWGraph() {
@@ -65,5 +67,21 @@ public class GraphTest {
             System.out.println(mst.get(i));
         }
         System.out.println("The MST weight is: " + primMST.result());
+    }
+
+    private static void testKruskal() {
+        String filename = "test" + File.separator + "testG1W.txt";
+        int V = 8;
+
+        Graph<Double> g = new SparseGraph<>(V, false);
+        ReadGraph.read(filename, g);
+        System.out.println("Test Kruskal MST:");
+        KruskalMST<Double> kruskalMST = new KruskalMST<>(g);
+        List<Edge<Double>> mst = kruskalMST.mstEdges();
+
+        for (int i = 0; i < mst.size(); i++) {
+            System.out.println(mst.get(i));
+        }
+        System.out.println("The MST weight is: " + kruskalMST.result());
     }
 }
