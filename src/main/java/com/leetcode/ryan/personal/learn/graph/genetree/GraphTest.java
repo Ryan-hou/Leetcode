@@ -1,5 +1,7 @@
 package com.leetcode.ryan.personal.learn.graph.genetree;
 
+import com.leetcode.ryan.personal.learn.graph.path.Dijkstra;
+
 import java.io.File;
 import java.util.List;
 
@@ -15,9 +17,10 @@ public class GraphTest {
         //testInitWGraph();
         //testLazyPrim();
         //System.out.println();
-        testPrim();
-        System.out.println();
-        testKruskal();
+        //testPrim();
+        //System.out.println();
+        //testKruskal();
+        testDijkstra();
     }
 
     private static void testInitWGraph() {
@@ -83,5 +86,20 @@ public class GraphTest {
             System.out.println(mst.get(i));
         }
         System.out.println("The MST weight is: " + kruskalMST.result());
+    }
+
+    private static void testDijkstra() {
+        String filename = "test" + File.separator + "testDij.txt";
+        int V = 5;
+
+        Graph<Integer> g = new SparseGraph<>(V, true);
+        ReadGraph.read(filename, g);
+        System.out.println("Test Dijkstra: ");
+        Dijkstra<Integer> dij = new Dijkstra<>(0, g);
+        for (int i = 1; i < V; i++) {
+            System.out.println("Shortest Path to " + i + ": " + dij.shortestPathTo(i));
+            dij.showPath(i);
+            System.out.println("----------------");
+        }
     }
 }

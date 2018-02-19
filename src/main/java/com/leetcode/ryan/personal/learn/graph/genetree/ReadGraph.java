@@ -40,7 +40,8 @@ public class ReadGraph {
                 line = bis.readLine();
                 int a = Integer.parseInt(line.split(" ")[0]);
                 int b = Integer.parseInt(line.split(" ")[1]);
-                double c = Double.parseDouble(line.split(" ")[2]);
+                //double c = Double.parseDouble(line.split(" ")[2]);
+                int c = Integer.parseInt(line.split(" ")[2]);
                 assert (a >= 0 && a < V);
                 assert (b >= 0 && b < V);
                 graph.addEdge(a, b, c);

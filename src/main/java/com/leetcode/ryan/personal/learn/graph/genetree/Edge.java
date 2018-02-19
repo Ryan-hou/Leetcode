@@ -6,7 +6,7 @@ package com.leetcode.ryan.personal.learn.graph.genetree;
  * @className: Edge
  * @date February 13,2018
  */
-class Edge<E extends Comparable<E>> implements Comparable<Edge> {
+public class Edge<E extends Comparable<E>> implements Comparable<Edge> {
 
     private int a;
     private int b;

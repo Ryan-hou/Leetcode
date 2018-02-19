@@ -1,12 +1,12 @@
-package com.leetcode.ryan.personal.learn.graph.genetree;
+package com.leetcode.ryan.personal.learn.heap;
 
 /**
  * @author ryan.houyl@gmail.com
  * @description:
- * @className: MinIndexHeap
+ * @className: IndexMinHeap
  * @date February 13,2018
  */
-public class MinIndexHeap<E extends Comparable<E>> {
+public class IndexMinHeap<E extends Comparable<E>> {
 
     private int[] indexes;
     private int[] reverse;
@@ -15,7 +15,7 @@ public class MinIndexHeap<E extends Comparable<E>> {
     private int count;
     private int capacity;
 
-    public MinIndexHeap(int capacity) {
+    public IndexMinHeap(int capacity) {
         data = new Object[capacity + 1];
         indexes = new int[capacity + 1];
         reverse = new int[capacity + 1];

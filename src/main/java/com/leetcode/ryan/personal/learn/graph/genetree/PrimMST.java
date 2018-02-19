@@ -1,5 +1,7 @@
 package com.leetcode.ryan.personal.learn.graph.genetree;
 
+import com.leetcode.ryan.personal.learn.heap.IndexMinHeap;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,7 +20,7 @@ public class PrimMST<E extends Comparable<E>> {
     private List<Edge<E>> mst;
 
     private boolean[] marked;
-    private MinIndexHeap<E> ipq;
+    private IndexMinHeap<E> ipq;
     Edge[] edgeTo;
     private E mstWeight;
 
@@ -30,7 +32,7 @@ public class PrimMST<E extends Comparable<E>> {
         marked = new boolean[graph.V()];
         edgeTo = new Edge[graph.V()];
         mst = new ArrayList<>();
-        ipq = new MinIndexHeap<>(graph.V());
+        ipq = new IndexMinHeap<>(graph.V());
         mst.clear();
 
         visit(0);
