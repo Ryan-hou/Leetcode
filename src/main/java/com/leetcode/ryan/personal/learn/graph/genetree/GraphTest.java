@@ -1,5 +1,6 @@
 package com.leetcode.ryan.personal.learn.graph.genetree;
 
+import com.leetcode.ryan.personal.learn.graph.path.BellmanFord;
 import com.leetcode.ryan.personal.learn.graph.path.Dijkstra;
 
 import java.io.File;
@@ -20,7 +21,8 @@ public class GraphTest {
         //testPrim();
         //System.out.println();
         //testKruskal();
-        testDijkstra();
+        //testDijkstra();
+        testBellmanFord();
     }
 
     private static void testInitWGraph() {
@@ -100,6 +102,26 @@ public class GraphTest {
             System.out.println("Shortest Path to " + i + ": " + dij.shortestPathTo(i));
             dij.showPath(i);
             System.out.println("----------------");
+        }
+    }
+
+    public static void testBellmanFord() {
+        String filename = "test" + File.separator + "testBellman.txt";
+        int V = 5;
+
+        Graph<Integer> g = new SparseGraph<>(V, true);
+        ReadGraph.read(filename, g);
+
+        System.out.println("Test Bellman-Ford:");
+        BellmanFord<Integer> bellmanFord = new BellmanFord<>(0, g);
+        if (bellmanFord.hasNegativeCycle()) {
+            System.out.println("The graph contains negative cycle!");
+        } else {
+            for (int i = 1; i < V; i++) {
+                System.out.println("Shortest Path to " + i + ": " + bellmanFord.shortestPathTo(i));
+                bellmanFord.showPath(i);
+                System.out.println("----------------");
+            }
         }
     }
 }
