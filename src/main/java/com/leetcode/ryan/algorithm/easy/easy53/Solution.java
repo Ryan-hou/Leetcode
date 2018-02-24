@@ -38,9 +38,22 @@ public class Solution {
         return maxSoFar;
     }
 
+    // 根据上面思路，优化代码，使执行更快
+    public static int maxSubArray2(int[] nums) {
+        assert nums != null;
+
+        int maxEndHere = 0, maxSoFar = Integer.MIN_VALUE;
+        for (int i = 0; i < nums.length; i++) {
+            maxEndHere += nums[i];
+            if (maxEndHere > maxSoFar) maxSoFar = maxEndHere;
+            if (maxEndHere < 0) maxEndHere = 0;
+        }
+        return maxSoFar;
+    }
+
     public static void main(String[] args) {
 
         int[] nums = {-2,1,-3,4,-1,2,1,-5,4};
-        log.info("Max subArray = {}", maxSubArray(nums));
+        log.info("Max subArray = {}", maxSubArray2(nums));
     }
 }
