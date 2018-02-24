@@ -21,7 +21,7 @@ public class Solution {
         char[] chars = des.toCharArray();
         int tail = chars.length - 1;
         int length = 0;
-        // 数组下标不变量：index>=0 && index < length
+        // 数组下标不变量：index >= 0 && index < length
         while (tail >= 0 && chars[tail] != ' ') {
             tail--;
             length++;
