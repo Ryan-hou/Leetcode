@@ -45,11 +45,13 @@ public class Solution {
         if (sum == 0) {
             return true;
         }
+        // 背包装不下了或者物品没有了
         if (sum < 0 || index < 0) {
             return false;
         }
 
         if (memo[index][sum] != -1) {
+            // memo[index][sum]值为1表示可以填充
             return memo[index][sum] == 1;
         }
 
@@ -59,9 +61,11 @@ public class Solution {
         return memo[index][sum] == 1;
     }
 
-    // 使用动态规划－－采用递推，自底向上的解决问题
+    // 使用动态规划－－采用递推（从小问题到大问题进行递推），自底向上的解决问题
     // 时间复杂度 O(n*C): C为背包容量，即 sum/2;n为物品个数，即nums的个数
     // 空间复杂度：使用一维数组，O(C)
+
+    // 思路：F(n,C)表示考虑将n个物品填满容量为C的背包，状态转移方程为: F(i,c) = F(i-1,c) || F(i-1,c-w(i))
     public static boolean canPartitionUseDp(int[] nums) {
         int sum = 0;
         for (int i = 0; i < nums.length; i++) {
@@ -74,9 +78,11 @@ public class Solution {
 
         int n = nums.length;
         int C = sum / 2;
+        // memo[i] 表示数组是否可以填充容量为i的背包
         boolean[] memo = new boolean[C + 1];
 
         for (int i = 0; i <= C; i++) {
+            // 只考虑第一个物品看能否把容量为i的背包填满
             memo[i] = (nums[0] == i);
         }
 
