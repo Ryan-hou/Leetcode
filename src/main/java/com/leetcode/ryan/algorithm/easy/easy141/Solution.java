@@ -16,7 +16,7 @@ public class Solution {
     // 使用快慢指针
     public static boolean hasCycle(ListNode head) {
 
-        if (head == null) {
+        if (head == null || head.next == null) {
             return false;
         }
 
