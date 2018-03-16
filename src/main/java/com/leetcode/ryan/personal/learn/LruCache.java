@@ -171,7 +171,7 @@ public class LruCache<K, V> {
         return builder.toString();
     }
 
-    // -------- LinkedHashMap最为LRU缓存使用 ---------
+    // -------- LinkedHashMap作为LRU缓存使用 ---------
     public static <K, V> Map<K, V> lruCache(final int maxSize) {
         return new LinkedHashMap<K, V>( (int) Math.ceil(maxSize / 0.75f) + 1, 0.75f, true) {
           @Override

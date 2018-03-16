@@ -17,7 +17,7 @@ import java.util.Arrays;
  * problem by breaking it down into a collection of simpler subproblems, solving each
  * of those subproblems just once, and storing their solutions - ideally, using a
  * memory-based data structure.
- * 将原问题拆解成若干子问题，同时保存自问题的答案，使得每个子问题只求解一次，最终获得愿问题的答案
+ * 将原问题拆解成若干子问题，同时保存子问题的答案，使得每个子问题只求解一次，最终获得原问题的答案
  *
  * 递归问题 －－－ 重叠子问题(最优子结构) －－ 1）记忆化搜索(自顶向下的解决问题) OR 2）动态规划（自底向上的解决问题）
  * 通常情况下，自顶向下的思考问题容易些，我们一般可以先自顶向下的思考问题的解，然后再转为自底向上的动态规划
