@@ -60,6 +60,7 @@ public class SimpleAlgoTest {
 
     public static double pow(double x, int n) {
 
+        // n = Integer.MIN_VALUE 会导致 overflow
         int num = Math.abs(n);
         double val = powUseRecur(x, num);
 
@@ -85,7 +86,7 @@ public class SimpleAlgoTest {
             return 1;
         }
 
-        double t = pow(x, n / 2);
+        double t = powUseRecur(x, n / 2);
         if (n % 2 == 1) {
             return x * t * t;
         } else {
@@ -101,7 +102,7 @@ public class SimpleAlgoTest {
 //        int num = -7891;
 //        log.info("{} intToString = {}", num, intToString(num));
 
-        int x = 2, n = -2;
+        int x = 2, n = -3;
         log.info("{}^{} = {}", x, n, pow(x, n));
     }
 }
