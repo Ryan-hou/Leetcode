@@ -37,7 +37,9 @@ public class Solution {
         int[] nodes = {1, 2, 3, 4};
 
         ListNode head = LinkedListUtil.createLinkedList(nodes, nodes.length);
+        LinkedListUtil.printLinkedList(head);
 
+        // 尾节点指向头节点，构成环
         ListNode tail = head;
         while (tail.next != null) {
             tail = tail.next;

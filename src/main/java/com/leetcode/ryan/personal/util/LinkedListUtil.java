@@ -18,6 +18,7 @@ public class LinkedListUtil {
             return null;
         }
 
+        // 尾插法建立单链表
         ListNode head = new ListNode(nodes[0]);
 
         ListNode curNode = head;
