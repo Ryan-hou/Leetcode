@@ -15,19 +15,22 @@ public class BitBasicOper {
         System.out.println("2 的补码： " + Integer.toBinaryString(a));
         System.out.println("－2 的补码： " + Integer.toBinaryString(b));
 
-        // 左移：符号位不变，末尾补0
+        // 左移（左移一位相当于乘以2，可能会出现溢出）：左边最高位丢弃，末尾补0
         // 4
         System.out.println("2左移1位，值为： " + (a << 1) + ",补码为: " + Integer.toBinaryString(a << 1));
         // -4
         System.out.println("-2左移1位，值为： " + (b << 1) + ",补码为: " + Integer.toBinaryString(b << 1));
 
-        // 逻辑右移（无符号右移）：不考虑符号位，高位补0
+        // >>>: unsigned right shift
+        // always fills 0 irrespective of the sign of the number.
         // 1
         System.out.println("2逻辑右移1位，值为： " + (a >>> 1) + ", 补码为： " + Integer.toBinaryString(a >>> 1));
         // 2^31 - 1
         System.out.println("-2逻辑右移1位，值为： " + (b >>> 1) + ", 补码为： " + Integer.toBinaryString(b >>> 1));
 
-        // 算术🈶️右移：考虑符号位
+        // >>: signed shift right
+        // uses the sign bit (left most bit) to fill the trailing positions after shift.
+        // If the number is negative, then 1 is used as a filler and if the number is positive, then 0 is used as a filler.
         // 1
         System.out.println("2算术右移1位，值为： " + (a >> 1) + "， 补码为：" + Integer.toBinaryString(a >> 1));
         // -1
@@ -51,7 +54,44 @@ public class BitBasicOper {
         System.out.println("a ^ b: " + (a ^ b));
     }
 
+    // 2的幂用2进制表示，只有一位为1，其余位为0
+    public static boolean isPowerOfTwo(int val) {
+
+        return val < 1 ? false : (val & (val - 1)) == 0;
+        // 在netty中使用了下面方式判断，需要注意在netty中val保证了大于0：
+        // DefaultEventExecutorChooserFactory.newChooser
+        // return (val & -val) == val;
+    }
+
+    // n是2的幂
+    public static int modByBitOper(int val, int n) {
+        // val % n
+        return val & (n - 1);
+        // 在 hashMap 和 netty 等中都有使用：
+        // first = tab[(n - 1) & hash]
+        // return executors[idx.getAndIncrement() & executors.length - 1];
+    }
+
+    public static boolean isOddNum(int n) {
+        return (n & 1) == 1;
+    }
+
+    // 不用临时变量交换两个数
+    // 异或操作性质: a ^ a = 0, a ^ 0 = a
+    // a ^ b ^ a = b
+    public void swapWithNoTemp(int[] pair) {
+        assert pair != null && pair.length == 2;
+
+        pair[0] = pair[0] ^ pair[1];
+        pair[1] = pair[0] ^ pair[1]; // pair[1] = pair[0] ^ pair[1] ^ pair[1] = pair[0]
+        pair[0] = pair[1] ^ pair[0]; // pair[0] = pair[0] ^ pair[0] ^ pair[1] = pair[1]
+    }
+
     public static void main(String[] args) {
-        bitwiseOper();
+//        bitwiseOper();
+//        bitShiftOper();
+
+//        int a = Integer.MAX_VALUE;
+//        System.out.println(a + 1); // 下溢
     }
 }
