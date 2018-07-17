@@ -87,6 +87,13 @@ public class BitBasicOper {
         pair[0] = pair[1] ^ pair[0]; // pair[0] = pair[0] ^ pair[0] ^ pair[1] = pair[1]
     }
 
+    // 判断一个数是否小于2的整数次幂
+    // netty: PoolArena isTiny()
+    // normCapacity < 512
+    public static boolean isTiny(int normCapacity) {
+        return (normCapacity & 0xFFFFFE00) == 0;
+    }
+
     public static void main(String[] args) {
 //        bitwiseOper();
 //        bitShiftOper();
