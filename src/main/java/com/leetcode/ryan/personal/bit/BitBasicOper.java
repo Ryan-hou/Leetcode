@@ -99,6 +99,6 @@ public class BitBasicOper {
 //        bitShiftOper();
 
 //        int a = Integer.MAX_VALUE;
-//        System.out.println(a + 1); // 下溢
+//        System.out.println(a + 1); // 下溢：-2147483648
     }
 }
