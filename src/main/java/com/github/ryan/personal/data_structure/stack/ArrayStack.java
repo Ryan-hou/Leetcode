@@ -7,6 +7,7 @@ import com.github.ryan.personal.data_structure.array.Array;
  * @description
  * @className ArrayStack
  * 数组下标最大值的位置代表栈顶
+ * push/pop/peek 时间复杂度O(1)（均摊复杂度）
  *
  * @date August 07,2018
  */
@@ -55,7 +56,7 @@ public class ArrayStack<E> implements Stack<E> {
     public String toString() {
         StringBuilder res = new StringBuilder();
         res.append("Stack: ");
-        res.append("[");
+        res.append('[');
         for (int i = 0; i < array.size(); i++) {
             res.append(array.get(i));
             if (i != array.size() - 1) {
