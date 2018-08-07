@@ -26,6 +26,10 @@ public class Array<E> {
         return size;
     }
 
+    public int capacity() {
+        return data.length;
+    }
+
     public boolean isEmpty() {
         return size == 0;
     }
@@ -76,6 +80,14 @@ public class Array<E> {
     public E get(int index) {
         rangeCheck(index);
         return data[index];
+    }
+
+    public E getFirst() {
+        return get(0);
+    }
+
+    public E getLast() {
+        return get(size);
     }
 
     /**
