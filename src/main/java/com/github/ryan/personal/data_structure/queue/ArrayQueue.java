@@ -8,7 +8,7 @@ import com.github.ryan.personal.data_structure.array.Array;
  * @className ArrayQueue
  * 动态数组的起始下标作为队首，末尾下标作为队尾
  * offer/peek 时间复杂度O(1)
- * poll 时间复杂度O(n),需要改进
+ * poll 时间复杂度O(n),需要改进（使用循环数组，以支持在队列的两端都可以增／删数据）
  *
  * @date August 07,2018
  */

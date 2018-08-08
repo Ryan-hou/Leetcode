@@ -48,5 +48,10 @@ public class Test {
         double loopQueueTime = testQueue(loopQueue, opCount);
         System.out.printf("LoopQueue, time: %s s%n", loopQueueTime);
         // LoopQueue, time: 0.024493552 s
+
+        Queue<Integer> linkedListQueue = new LinkedListQueue<>();
+        double linkedListQueueTime = testQueue(linkedListQueue, opCount);
+        System.out.printf("LinkedListQueue, time: %s s%n", linkedListQueueTime);
+        // LinkedListQueue, time: 0.017018274 s
     }
 }
