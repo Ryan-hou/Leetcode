@@ -4,7 +4,7 @@ package com.github.ryan.personal.data_structure.linkedlist;
  * @author ryan.houyl@gmail.com
  * @description
  * @className LinkedList
- * 记录了头指针的位置，因此对于头部的操作都是O(1)的
+ * 记录了头指针的位置，因此对于头部的操作都是O(1)的 -- 用来实现栈，头部作为栈顶
  *
  * @date August 08,2018
  */
@@ -98,7 +98,7 @@ public class LinkedList<E> {
     }
 
     public E getLast() {
-        return get(size);
+        return get(size - 1);
     }
 
     // 修改链表第index(0-based)位置的元素e，非链表常规操作
@@ -123,6 +123,33 @@ public class LinkedList<E> {
             cur = cur.next;
         }
         return false;
+    }
+
+    // 从链表删除index(0-based)位置的元素,返回删除的元素
+    public E remove(int index) {
+        if (index < 0 || index >= size) {
+            throw new IllegalArgumentException("Remove failed. Illegal index.");
+        }
+        Node<E> prev = dummyHead;
+        for (int i = 0; i < index; i++) {
+            prev = prev.next;
+        }
+
+        Node<E> retNode = prev.next;
+        prev.next = retNode.next;
+        retNode.next = null;
+        size--;
+
+        return retNode.e;
+    }
+
+    public E removeFirst() {
+        return remove(0);
+    }
+
+    public E removeLast() {
+        // size-1 不是size
+        return remove(size - 1);
     }
 
     @Override
@@ -174,6 +201,15 @@ public class LinkedList<E> {
         }
 
         linkedList.add(2, 666);
+        System.out.println(linkedList);
+
+        linkedList.remove(2);
+        System.out.println(linkedList);
+
+        linkedList.removeFirst();
+        System.out.println(linkedList);
+
+        linkedList.removeLast();
         System.out.println(linkedList);
     }
 }
