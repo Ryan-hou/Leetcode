@@ -46,7 +46,8 @@ public class LoopQueue<E> implements Queue<E> {
 
     @Override
     public int size() {
-        return tail >= front ? tail - front : data.length - (front - tail);
+        return tail >= front ?
+                tail - front : data.length - (front - tail);
     }
 
     public int capacity() {
@@ -58,6 +59,7 @@ public class LoopQueue<E> implements Queue<E> {
         return front == tail;
     }
 
+    // 均摊时间复杂度: O(1)
     @Override
     public void offer(E e) {
         if ((tail + 1) % data.length == front) {
