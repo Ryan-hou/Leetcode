@@ -68,7 +68,7 @@ public class BitBasicOper {
         // val % n
         return val & (n - 1);
         // 在 hashMap 和 netty 等中都有使用：
-        // first = tab[(n - 1) & hash]
+        // first = tab[(n - 1) & hashtable]
         // return executors[idx.getAndIncrement() & executors.length - 1];
     }
 
