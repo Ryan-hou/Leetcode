@@ -53,6 +53,36 @@ public class HashTable<K, V> {
         return (key.hashCode() & 0x7fffffff) % M;
     }
 
+    /**
+     *  HashMap的实现中使用长度为2的整数次幂的数组长度。这样做的好处是：计算一个元素的位置更快速，使用位运算就可以了。
+     *  相比取模，尤其是对素数取模的运算，要快很多。但是缺点是：容易哈希冲突。
+     *  为了解决这个问题，HashMap在哈希函数上做文章。HashMap不是直接使用用户传来的数据的hashCode值直接 % length，
+     *  而是对用户传来的数据的hashCode再进行一次哈希运算，以求得到的哈希值分布尽量平均。
+     *  为此，HashMap中有一个hash(key)的方法。可以仔细阅读一下其中的注释，描述了这个设计：
+     */
+    /**
+     * Computes key.hashCode() and spreads (XORs) higher bits of hash to lower.
+     * Because the table uses power-of-two masking, sets of hashes that vary
+     * only in bits above the current mask will always collide.
+     * (Among known examples are sets of Float keys holding consecutive
+     * whole numbers in small table.)
+     * So we apply a transform that spreads the impact of higher bits
+     * downward. There is a tradeoff between speed, utility, and quality
+     * of bit-spreading. Because many common sets of hashes are
+     * already reasonably distributed (So don't benefit from spreading),
+     * and because we use trees to handle large sets of collisions in bins,
+     * we just XOR some shifted bits in the cheapest possible way to reduce
+     * systematic lossage, as well as to incorporate impact of highest bits
+     * that would otherwise never be used in index calculations because of
+     * table bounds.
+     */
+    // jdk8:HashMap
+    static final int hash1(Object key) {
+        int h;
+        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+    }
+
+
     public int size() {
         return size;
     }
