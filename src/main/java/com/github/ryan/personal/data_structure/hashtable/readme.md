@@ -31,3 +31,10 @@ for i in [0,length): h = 31 * h + val[i];
 * 一致性：如果 a==b(a.equals(b)), hash(a)==hash(b)
 * 高效性：计算高效简便(哈希表的设计就是为了实现高效存取，通过底层数组空间换时间，如果哈希计算太耗时就得不偿失了)
 * 均匀性:哈希值分布均匀(避免哈希冲突)
+
+解决hash冲突：
+* 链地址法(separate chaining)
+发生冲突的键构成查找表--链表或者平衡树(Red-black tree)，比如HashMap
+* 开放地址法--linear-probe
+比如ThreadLocal
+
