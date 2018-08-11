@@ -10,6 +10,10 @@ import java.util.TreeMap;
  * @className HashTable
  * @date August 10,2018
  */
+
+// 小bug：在HashTable<K, V>中我们对K不要求可比性，但是底层使用了TreeMap<K,V>，K需要满足Comparable
+// 在jdk8 HashMap<K,V>中,K不要求可比性，因为底层最初使用链表，链表过长时才会转为红黑树，所以这里有一个
+// 前提，只有K为Comparable类型时，才能转为红黑树，否则将继续保持链表结构
 public class HashTable<K, V> {
 
     // 底层数组，数组元素为TreeMap(红黑树)，使用TreeMap作为查找表同时处理冲突
@@ -19,14 +23,20 @@ public class HashTable<K, V> {
     private TreeMap<K, V>[] hashtable;
 
     private int M;
+    private int capacityIndex = 0;
+    // 数组容量素数表
+    private final int[] capacity = {53, 97, 193, 389, 769, 1543, 3079, 6151, 12289, 24593,
+            49157, 98317, 196613, 393241, 786433, 1572869, 3145739, 6291469,
+            12582917, 25165843, 50331653, 100663319, 201326611, 402653189,
+            805306457, 1610612741};
     private int size;
 
     private static final int UPPER_TOL = 10; // N/M
     private static final int LOWER_TOL = 2;
     private static final int INITAIL_CAPACITY = 7;
 
-    public HashTable(int M) {
-        this.M = M;
+    public HashTable() {
+        this.M = capacity[capacityIndex];
         size = 0;
         hashtable = new TreeMap[M];
         // 初始化每一个数组元素，即TreeMap类型的查找表
@@ -35,9 +45,9 @@ public class HashTable<K, V> {
         }
     }
 
-    public HashTable() {
-        this(INITAIL_CAPACITY);
-    }
+//    public HashTable() {
+//        this(INITAIL_CAPACITY);
+//    }
 
     private int hash(K key) {
         return (key.hashCode() & 0x7fffffff) % M;
@@ -55,8 +65,13 @@ public class HashTable<K, V> {
             map.put(key, value);
             size++;
 
-            if (size >= M * UPPER_TOL) {
-                resize(2*M);
+//            if (size >= M * UPPER_TOL) {
+//                // newCap = oldCap << 1（HashMap扩容）
+//                resize(2*M);
+//            }
+            if (size >= M * UPPER_TOL && capacityIndex + 1 < capacity.length) {
+                capacityIndex++;
+                resize(capacity[capacityIndex]);
             }
         }
     }
@@ -77,8 +92,12 @@ public class HashTable<K, V> {
             ret = map.remove(key);
             size--;
 
-            if (size < M * LOWER_TOL && M / 2 >= INITAIL_CAPACITY) {
-                resize(M / 2);
+//            if (size < M * LOWER_TOL && M / 2 >= INITAIL_CAPACITY) {
+//                resize(M / 2);
+//            }
+            if (size < M * LOWER_TOL && capacityIndex - 1 >= 0) {
+                capacityIndex--;
+                resize(capacity[capacityIndex]);
             }
         }
         return ret;

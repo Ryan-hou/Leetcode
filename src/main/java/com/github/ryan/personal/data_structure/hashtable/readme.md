@@ -33,8 +33,10 @@ for i in [0,length): h = 31 * h + val[i];
 * 均匀性:哈希值分布均匀(避免哈希冲突)
 
 解决hash冲突：
-* 链地址法(separate chaining)
+* 链地址法(separate chaining)：封闭地址，排他性
 发生冲突的键构成查找表--链表或者平衡树(Red-black tree)，比如HashMap
-* 开放地址法--linear-probe
+* 开放地址法--可以使用（linear-probe，平方探测法，二次哈希法等来计算步长）
 比如ThreadLocal
+
+* 均摊时间复杂度O(1)，哈希表相比平衡树牺牲了顺序性
 
