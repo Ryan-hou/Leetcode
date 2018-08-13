@@ -9,6 +9,8 @@ import java.util.List;
  * @author ryan.houyl@gmail.com
  * @description
  * @className BSTSet
+ * 增／删／查：时间复杂度 平均O(logn)(BST为满二叉树时操作性能最好), 最差O(n)(bst退化为链表)
+ *
  * @date August 13,2018
  */
 public class BSTSet<E extends Comparable<E>> implements Set<E> {
