@@ -9,6 +9,8 @@ import java.util.NoSuchElementException;
  * @description
  * @className LinkedListMap
  * @date August 13,2018
+ *
+ * 增／删／改／查：时间复杂度O(n)
  */
 public class LinkedListMap<K, V> implements Map<K, V> {
 
@@ -22,6 +24,7 @@ public class LinkedListMap<K, V> implements Map<K, V> {
 
 
     @Override
+    // 保存k－v键值对，key已经存在的话，更新对应的value值
     public void put(K key, V value) {
         Node<K, V> node = getNode(key);
         if (node == null) {
