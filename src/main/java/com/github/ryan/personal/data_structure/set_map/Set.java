@@ -1,4 +1,4 @@
-package com.github.ryan.personal.data_structure.map2set;
+package com.github.ryan.personal.data_structure.set_map;
 
 /**
  * @author ryan.houyl@gmail.com

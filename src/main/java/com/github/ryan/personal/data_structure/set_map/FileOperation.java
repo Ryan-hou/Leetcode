@@ -1,4 +1,4 @@
-package com.github.ryan.personal.data_structure.map2set;
+package com.github.ryan.personal.data_structure.set_map;
 
 import java.io.BufferedInputStream;
 import java.io.File;
