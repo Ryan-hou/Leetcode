@@ -97,12 +97,12 @@ public class BST<E extends Comparable<E>> {
         if (node == null)
             return false;
 
-        if (e.compareTo(node.e) == 0) {
+        if (node.e.compareTo(e) == 0) {
             return true;
-        } else if (e.compareTo(node.e) < 0) {
+        } else if (node.e.compareTo(e) > 0) {
             return contains(node.left, e);
         } else {
-            // e.compareTo(node.e) > 0
+            // node.e.compareTo(e) < 0
             return contains(node.right, e);
         }
     }
