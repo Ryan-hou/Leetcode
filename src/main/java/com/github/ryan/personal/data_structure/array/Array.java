@@ -9,7 +9,7 @@ package com.github.ryan.personal.data_structure.array;
 public class Array<E> {
 
     private E[] data;
-    private int size;
+    private int size; // 当前存储的元素个数，区分capacity
 
     private static final int DEFAULT_CAPACITY = 10;
 
@@ -20,6 +20,14 @@ public class Array<E> {
 
     public Array() {
         this(DEFAULT_CAPACITY);
+    }
+
+    public Array(E[] arr) {
+        data = (E[]) new Object[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            data[i] = arr[i];
+        }
+        size = arr.length;
     }
 
     public int size() {
@@ -189,6 +197,16 @@ public class Array<E> {
 
     private String outOfBoundsMsg(int index) {
         return String.format("Index: %d, Size: %d", index, size);
+    }
+
+    public void swap(int i, int j) {
+        if (i < 0 || i >= size || j < 0 || j >= size) {
+            throw new IllegalArgumentException("Index is illegal");
+        }
+
+        E t = data[i];
+        data[i] = data[j];
+        data[j] = t;
     }
 
     @Override

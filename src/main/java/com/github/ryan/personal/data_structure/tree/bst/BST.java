@@ -1,4 +1,4 @@
-package com.github.ryan.personal.data_structure.tree;
+package com.github.ryan.personal.data_structure.tree.bst;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

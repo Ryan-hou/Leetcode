@@ -1,6 +1,6 @@
 package com.github.ryan.personal.data_structure.set_map;
 
-import com.github.ryan.personal.data_structure.tree.BST;
+import com.github.ryan.personal.data_structure.tree.bst.BST;
 
 import java.util.ArrayList;
 import java.util.List;
