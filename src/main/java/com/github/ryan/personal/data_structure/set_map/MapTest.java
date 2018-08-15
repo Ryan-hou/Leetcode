@@ -51,5 +51,10 @@ public class MapTest {
         double time2 = testMap(linkedListMap, filename);
         System.out.println("Linked List Map: " + time2 + " s");
 
+        System.out.println();
+
+        Map<String, Integer> avlMap = new AVLMap<>();
+        double time3 = testMap(avlMap, filename);
+        System.out.println("AVLMap: " + time3 + " s");
     }
 }
