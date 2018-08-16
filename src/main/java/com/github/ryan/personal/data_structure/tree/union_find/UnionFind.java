@@ -1,4 +1,4 @@
-package com.github.ryan.personal.algorithm.learn.unionfind;
+package com.github.ryan.personal.data_structure.tree.union_find;
 
 /**
  * @author ryan.houyl@gmail.com

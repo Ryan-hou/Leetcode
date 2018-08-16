@@ -1,4 +1,4 @@
-package com.github.ryan.personal.algorithm.learn.unionfind;
+package com.github.ryan.personal.data_structure.tree.union_find;
 
 /**
  * @author ryan.houyl@gmail.com
@@ -8,9 +8,11 @@ package com.github.ryan.personal.algorithm.learn.unionfind;
  */
 
 // Path compression: Quick Union + rank + path compression
+// 时间复杂度 O(h),严格证明 O(log*n),近乎是O(1)级别，比O(logn)快
 public class UnionFind5 implements UnionFind {
 
     private int[] parent;
+    // 这里的rank并不是树的深度，而是一种作为参考使用的优先级
     private int[] rank;
     private int count;
 

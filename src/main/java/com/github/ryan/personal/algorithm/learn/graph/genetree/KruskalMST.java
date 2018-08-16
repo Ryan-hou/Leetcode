@@ -1,6 +1,6 @@
 package com.github.ryan.personal.algorithm.learn.graph.genetree;
 
-import com.github.ryan.personal.algorithm.learn.unionfind.UnionFind5;
+import com.github.ryan.personal.data_structure.tree.union_find.UnionFind5;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -1,32 +1,32 @@
-package com.github.ryan.personal.algorithm.learn.unionfind;
+package com.github.ryan.personal.data_structure.tree.union_find;
 
 /**
  * @author ryan.houyl@gmail.com
  * @description:
- * @className: UnionFind2
+ * @className: UnionFind3
  * @date February 11,2018
  */
 
-// Quick Union: 通过数组构建树形结构
-
-public class UnionFind2 implements UnionFind {
+// Optimize by size: quick union + sz
+public class UnionFind3 implements UnionFind {
 
     private int[] parent;
+    private int[] sz; // sz表示以i为根的集合中元素的个数
     private int count;
 
-    public UnionFind2(int count) {
+    public UnionFind3(int count) {
         parent = new int[count];
+        sz = new int[count];
         this.count = count;
         for (int i = 0; i < count; i++) {
-            // 初始状态下，都为根节点，父节点为自身
             parent[i] = i;
+            sz[i] = 1;
         }
     }
 
     @Override
     public int find(int p) {
-        assert p >= 0 && p < count;
-
+        assert (p >= 0 && p < count);
         while (p != parent[p]) {
             p = parent[p];
         }
@@ -47,9 +47,12 @@ public class UnionFind2 implements UnionFind {
             return;
         }
 
-        // 把任意一个根节点指向另外一个根节点，可能导致树高过高，后面的优化
-        // 均是基于控制树高
-        parent[pRoot] = qRoot;
+        if (sz[pRoot] < sz[qRoot]) {
+            parent[pRoot] = qRoot;
+            sz[qRoot] += sz[pRoot];
+        } else {
+            parent[qRoot] = pRoot;
+            sz[pRoot] += sz[qRoot];
+        }
     }
-
 }
