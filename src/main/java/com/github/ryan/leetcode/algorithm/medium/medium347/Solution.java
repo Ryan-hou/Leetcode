@@ -5,9 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.TreeMap;
 
 /**
  * @author ryan.houyl@gmail.com
@@ -17,7 +20,6 @@ import java.util.PriorityQueue;
  */
 @Slf4j
 public class Solution {
-
 
     private static class Pair implements Comparable<Pair> {
 
@@ -35,22 +37,25 @@ public class Solution {
         }
     }
 
-
     // 统计每个元素出现的频率：key(元素)-value(频率)
     private static Map<Integer, Integer> getFreqMap(int[] nums) {
         Map<Integer, Integer> freqMap = Maps.newHashMapWithExpectedSize(nums.length);
-        for (int i = 0; i < nums.length; i++) {
-            if (freqMap.get(nums[i]) == null) {
-                freqMap.put(nums[i], 1);
-            } else {
-                freqMap.put(nums[i], freqMap.get(nums[i]) + 1);
-            }
+//        for (int i = 0; i < nums.length; i++) {
+//            if (freqMap.get(nums[i]) == null) {
+//                freqMap.put(nums[i], 1);
+//            } else {
+//                freqMap.put(nums[i], freqMap.get(nums[i]) + 1);
+//            }
+//        }
+        for (int n : nums) {
+            freqMap.put(n, freqMap.getOrDefault(n, 0) + 1);
         }
         return freqMap;
     }
 
 
     /**
+     * 法一：
      * 时间复杂度：O(nlogk)
      * Using priority queue to maintain top k elements
      * @param nums
@@ -59,14 +64,16 @@ public class Solution {
      */
     public static List<Integer> topKFrequent(int[] nums, int k) {
 
-        assert k > 0;
-        Map<Integer, Integer> freqMap = getFreqMap(nums);
-        assert k <= freqMap.size();
+        // k的合法性题目已经规定
 
-        List<Integer> res = new ArrayList<>();
-        // 扫描freq，维护当前出现频率最高的k个元素
+        // O(n)
+        Map<Integer, Integer> freqMap = getFreqMap(nums);
+        List<Integer> res = new ArrayList<>(k);
+
+        // 扫描freqMap，维护当前出现频率最高的k个元素
         // 在优先队列中，按照频率排序
-        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        // nlog(k)
+        Queue<Pair> pq = new PriorityQueue<>();
         for (Map.Entry<Integer, Integer> entry : freqMap.entrySet()) {
             if (pq.size() == k) {
                 if (entry.getValue() > pq.peek().freq) {
@@ -78,14 +85,15 @@ public class Solution {
             }
         }
 
+        // klogk
         for (int i = 0; i < k; i++) {
             res.add(pq.poll().num);
         }
-
         return res;
     }
 
     /**
+     * 法二：
      * 时间复杂度: O(nlogn)
      * Using sort algorithm
      * @param nums
@@ -93,9 +101,8 @@ public class Solution {
      * @return
      */
     public static List<Integer> topKFrequentUseSort(int[] nums, int k) {
-        assert k > 0;
+
         Map<Integer, Integer> freqMap = getFreqMap(nums);
-        assert k <= freqMap.size();
 
         List<Integer> res = new ArrayList<>();
         List<Map.Entry<Integer, Integer>> sortedRes = new ArrayList<>(freqMap.entrySet());
@@ -105,6 +112,7 @@ public class Solution {
 //                return -(o1.getValue() - o2.getValue());
 //            }
 //        });
+        // nlogn
         Collections.sort(sortedRes, ((o1, o2) -> -(o1.getValue() - o2.getValue())));
 
         for (int i = 0; i < k; i++) {
@@ -113,13 +121,66 @@ public class Solution {
         return res;
     }
 
+    // 法三：
+    // 使用数组下标作为数字频率，数组元素为所有该频率的数字
+    // 空间换时间，O(n)
+    public static List<Integer> topKFrequentUseArray(int[] nums, int k) {
+
+        Map<Integer, Integer> freqMap = getFreqMap(nums);
+
+        List<Integer>[] bucket = new List[nums.length + 1];
+        // O(n)
+        for (int num : freqMap.keySet()) {
+            int freq = freqMap.get(num);
+            if (bucket[freq] == null) {
+                bucket[freq] = new ArrayList<>();
+            }
+            bucket[freq].add(num);
+        }
+
+        List<Integer> res = new ArrayList<>();
+        for (int i = bucket.length - 1; i > 0 && k > 0; i--) {
+            if (bucket[i] != null) {
+                List<Integer> sameFreqList = bucket[i];
+                res.addAll(sameFreqList);
+                k -= sameFreqList.size();
+            }
+        }
+        return res;
+    }
+
+    // 法四：
+    // 使用基于红黑树的有序Map：TreeMap
+    // Use TreeMap. Use frequency as the key, so we can get all frequencies in order
+    public static List<Integer> topKFrequentUseTreeMap(int[] nums, int k) {
+        Map<Integer, Integer> freqMap = getFreqMap(nums);
+
+        TreeMap<Integer, List<Integer>> treeMap = new TreeMap<>();
+        for (int num : freqMap.keySet()) {
+            int freq = freqMap.get(num);
+            if (!treeMap.containsKey(freq)) {
+                treeMap.put(freq, new LinkedList<>());
+            }
+            treeMap.get(freq).add(num);
+        }
+
+        List<Integer> res = new ArrayList<>();
+        while (res.size() < k) {
+            Map.Entry<Integer, List<Integer>> entry = treeMap.pollLastEntry();
+            res.addAll(entry.getValue());
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
-//        int[] nums = {1,1,1,1,1,2,2,2,2,3,3,3,4,4,4,4};
-//        int k = 3;
-        int[] nums = {3, 0, 1, 0};
-        int k = 1;
+        int[] nums = {1,1,1,1,1,2,2,2,2,3,3,3,4,4,4,4};
+        int k = 3;
+//        int[] nums = {3, 0, 1, 0};
+//        int k = 1;
 
         log.info("result = {}", topKFrequent(nums, k));
+        log.info("result = {}", topKFrequentUseArray(nums, k));
+        log.info("result = {}", topKFrequentUseTreeMap(nums, k));
     }
 
 }
