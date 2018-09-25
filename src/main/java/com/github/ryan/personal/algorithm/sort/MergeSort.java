@@ -1,28 +1,33 @@
 package com.github.ryan.personal.algorithm.sort;
 
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.Arrays;
+
 /**
  * @author ryan.houyl@gmail.com
  * @description:
  * @className: MergeSort
  * @date February 07,2018
  */
+@Slf4j
 public class MergeSort implements Sort {
 
     public void mergeSort(int[] arr, int n) {
-//        mergeSortInternal(arr, 0, n - 1);
-        mergeSortBU(arr, n);
+        mergeSortInternal(arr, 0, n - 1);
+        //mergeSortBU(arr, n);
     }
 
     // 递归：自顶向下 使用归并排序，对 arr[l...r] 的范围进行排序
     private void mergeSortInternal(int[] arr, int l, int r) {
-//        if (l >= r) {
-//            return;
-//        }
-        // 优化二：当数据规模比较小时，数据比较趋于有序，使用插入排序来优化速度
-        if (r - l <= 15) {
-            InsertSort.insertSort(arr, l, r);
+        if (l >= r) {
             return;
         }
+        // 优化二：当数据规模比较小时，数据比较趋于有序，使用插入排序来优化速度
+//        if (r - l <= 15) {
+//            InsertSort.insertSort(arr, l, r);
+//            return;
+//        }
 
         int mid = l + (r - l) / 2;
         mergeSortInternal(arr, l, mid);
@@ -59,6 +64,7 @@ public class MergeSort implements Sort {
                 j++;
             } else if (j > r) {
                 arr[k] = aux[i - l];
+                i++;
             } else if (aux[i - l] < aux[j - l]) {
                 arr[k] = aux[i - l];
                 i++;
@@ -72,5 +78,12 @@ public class MergeSort implements Sort {
     @Override
     public void sort(int[] nums, int n) {
         mergeSort(nums, n);
+    }
+
+    public static void main(String[] args) {
+        MergeSort mergeSort = new MergeSort();
+        int[] nums = {1, 6, 7, 8, 2, 3, 4, 5};
+        mergeSort.sort(nums, nums.length);
+        log.info("Sorted array = {}", Arrays.toString(nums));
     }
 }
