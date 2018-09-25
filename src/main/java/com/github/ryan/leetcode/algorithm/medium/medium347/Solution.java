@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Random;
 import java.util.TreeMap;
 
 /**
@@ -172,6 +173,76 @@ public class Solution {
         return res;
     }
 
+    // 法五：
+    // 使用快排partition思路，先找到满足条件的第k个元素的下标，然后从该下标到最后一个元素即为问题的解
+    // 时间复杂度O(n)
+    public static List<Integer> topKFrequentUsePartition(int[] nums, int k) {
+        Map<Integer, Integer> freqMap = getFreqMap(nums);
+        Pair[] pairs = convertMap2Array(freqMap);
+
+        int index = quickSelect(pairs, 0, pairs.length - 1, k);
+
+        List<Integer> res = new ArrayList<>(k);
+        for (int i = index; i < pairs.length; i++) {
+            res.add(pairs[i].num);
+        }
+        return res;
+    }
+
+    // 返回pairs[l...r]中k most frequent elements的下标
+    private static int quickSelect(Pair[] pairs, int l, int r, int k) {
+        int p = partition(pairs, l, r);
+
+        if (p == pairs.length - k) {
+            return p;
+        }
+
+        if (p > pairs.length - k) {
+            return quickSelect(pairs, l, p - 1, k);
+        } else {
+            return quickSelect(pairs, p + 1, r, k);
+        }
+
+    }
+
+    // 对 pairs[l...r]进行partition操作
+    // 返回p，使 pairs[l...p-1].freq < pairs[p].freq, pairs[p + 1, r].freq >= pairs[p].freq
+    private static int partition(Pair[] pairs, int l, int r) {
+        // 随机化pivot
+        Random random = new Random();
+        int pivot = Math.abs(random.nextInt() % (r - l + 1)) + l;
+        swap(pairs, l, pivot);
+
+        Pair pair = pairs[l];
+
+        // pairs[l+1...j].freq < pair.freq, pairs[j+1...i).freq >= pair.freq
+        int j = l;
+        for (int i = l + 1; i <= r; i++) {
+            if (pairs[i].freq < pair.freq) {
+                swap(pairs, i, j + 1);
+                j++;
+            }
+        }
+        swap(pairs, l, j);
+        return j;
+    }
+
+    private static Pair[] convertMap2Array(Map<Integer, Integer> freqMap) {
+        Pair[] pairs = new Pair[freqMap.size()];
+        int i = 0;
+        for (Map.Entry<Integer, Integer> entry : freqMap.entrySet()) {
+            Pair pair = new Pair(entry.getValue(), entry.getKey());
+            pairs[i++] = pair;
+        }
+        return pairs;
+    }
+
+    private static <T> void swap(T[] arr, int i, int j) {
+        T temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
     public static void main(String[] args) {
         int[] nums = {1,1,1,1,1,2,2,2,2,3,3,3,4,4,4,4};
         int k = 3;
@@ -181,6 +252,7 @@ public class Solution {
         log.info("result = {}", topKFrequent(nums, k));
         log.info("result = {}", topKFrequentUseArray(nums, k));
         log.info("result = {}", topKFrequentUseTreeMap(nums, k));
+        log.info("result = {}", topKFrequentUsePartition(nums, k));
     }
 
 }

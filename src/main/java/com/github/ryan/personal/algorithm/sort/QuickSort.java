@@ -20,8 +20,8 @@ import java.util.Random;
  * 快排分时，需要选择随机的pivot，然后通过一次partition操作，把pivot放到最终应该放的位置，
  * 然后对pivot两侧递归的进行处理，治时比较简单，每次操作后都有一个元素全局有序
  *
- * 归并排序的思想可以用来求解逆序对（逆序对可以衡量一组数据的有序程度）
- * 快速排序可以用来通过O(n)的时间复杂度获取第n大的数
+ * 归并排序的思想可以用来求解逆序对（逆序对可以衡量一组数据的有序程度）:hard493
+ * 快速排序可以用来通过O(n)的时间复杂度获取第n大的数：medium215，medium347
  */
 public class QuickSort implements Sort {
 
