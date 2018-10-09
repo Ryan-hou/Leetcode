@@ -73,5 +73,20 @@ public class TreeCategory {
                 && isSymmetrical(t1.right, t2.left);
     }
 
+    /**
+     * 输入一棵二叉树，判断该二叉树是否是平衡二叉树
+     */
+    public boolean isBalanced(TreeNode root) {
+        if (root == null) return true;
+
+        // 使用递归，top-down方式，计算treeDepth的过程存在重复
+        // 可以使用 bottom-up 的思路优化：
+        // 从下往上遍历，如果子树是平衡二叉树，则返回子树的高度；
+        // 如果发现子树不是平衡二叉树，则直接停止遍历，这样至多只对每个结点访问一次
+        return Math.abs(treeDepth(root.left) - treeDepth(root.right)) <= 1
+                && isBalanced(root.left)
+                && isBalanced(root.right);
+    }
+
 
 }
