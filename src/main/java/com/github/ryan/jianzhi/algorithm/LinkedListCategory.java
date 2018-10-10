@@ -73,4 +73,36 @@ public class LinkedListCategory {
         }
         return second;
     }
+
+    // 输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。
+    public ListNode Merge(ListNode list1,ListNode list2) {
+
+        ListNode dummy = new ListNode(-1);
+        ListNode cur = dummy;
+        ListNode p = list1, q = list2;
+        while (p != null && q != null) {
+            if (p.val < q.val) {
+                cur.next = p;
+                cur = p;
+                p = p.next;
+            } else {
+                cur.next = q;
+                cur = q;
+                q = q.next;
+            }
+        }
+
+        while (p != null) {
+            cur.next = p;
+            cur = p;
+            p = p.next;
+        }
+        while (q != null) {
+            cur.next = q;
+            cur = q;
+            q = q.next;
+        }
+
+        return dummy.next;
+    }
 }
