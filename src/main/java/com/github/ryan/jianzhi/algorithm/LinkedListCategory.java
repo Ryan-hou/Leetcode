@@ -51,4 +51,26 @@ public class LinkedListCategory {
         }
         return dummy.next;
     }
+
+    // 输入一个链表，输出该链表中倒数第k个结点
+    public ListNode FindKthToTail(ListNode head,int k) {
+        // 注意k的合法性
+        if (k <= 0) return null;
+
+        // 倒数第k个节点即正数第length-k+1个节点
+        // 定义两个指针，第一个指针先走k-1步，然后第二个指针开始与第一个指针一起走
+        // 当第一个指针走到最后，第二个指针所在位置即为所求(length-k+1)
+        ListNode first = head, second = head;
+        for (int i = 1; i < k; i++) {
+            if (first == null) return null;
+            first = first.next;
+        }
+        if (first == null) return null;
+
+        while (first.next != null) {
+            first = first.next;
+            second = second.next;
+        }
+        return second;
+    }
 }
