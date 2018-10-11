@@ -1,5 +1,10 @@
 package com.github.ryan.jianzhi.algorithm;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author ryan.houyl@gmail.com
  * @description
@@ -105,4 +110,113 @@ public class LinkedListCategory {
 
         return dummy.next;
     }
+
+    // 输入两个链表，找出它们的第一个公共结点
+    // 可以借助各种数据结构
+
+    // 法一：暴力解法，遍历第一个链表的每个节点，然后在第二个链表中查找是否存在相同的节点
+    // 时间复杂度 O(mn),m,n为两个链表的长度，空间复杂度O(1)
+
+    // 法二：找出2个链表的长度，然后让长的先走两个链表的长度差，然后再一起走（因为2个链表用公共的尾部）
+    // 时间复杂度：O(max(m,n)), 空间复杂度O(1)
+    public ListNode FindFirstCommonNode2(ListNode pHead1, ListNode pHead2) {
+
+        int plen = listLength(pHead1);
+        int qlen = listLength(pHead2);
+
+        ListNode p = pHead1, q = pHead2;
+        if (plen < qlen) {
+            int gap = qlen - plen;
+            while (gap-- > 0) {
+                q = q.next;
+            }
+        } else if (qlen < plen) {
+            int gap = plen - qlen;
+            while (gap-- > 0) {
+                p = p.next;
+            }
+        } // else 不做处理
+
+        if (p == null || q == null) return null; // corner case
+        while (p != q) {
+            p = p.next;
+            q = q.next;
+        }
+        return p;
+
+    }
+
+    // 法三：利用栈
+    // 两条相交的链表呈Y型。可以从两条链表尾部同时出发，最后一个相同的结点就是链表的第一个相同的结点
+    // 时间复杂度有O(max(m,n)), 空间复杂度为O(m + n)
+    public ListNode FindFirstCommonNode3(ListNode pHead1, ListNode pHead2) {
+
+        Deque<ListNode> pStack = new ArrayDeque<>();
+        while (pHead1 != null) {
+            pStack.push(pHead1);
+            pHead1 = pHead1.next;
+        }
+        Deque<ListNode> qStack = new ArrayDeque<>();
+        while (pHead2 != null) {
+            qStack.push(pHead2);
+            pHead2 = pHead2.next;
+        }
+
+        ListNode pre = null; // 第一个不重合的节点的前一个节点，即第一个公共节点
+        while (!pStack.isEmpty() && !qStack.isEmpty()) {
+            if (pStack.peek() == qStack.peek()) {
+                pre = pStack.pop();
+                qStack.pop();
+            } else {
+                return pre;
+            }
+        }
+        return pre;
+    }
+
+    // 法四：利用哈希表(使用查找表优化暴力解法)
+    // 可以采用hash的思想将其中一个转存为哈希表结构，这样建哈希表时间O(m)，
+    // 而遍历链表时间O(n)，而遍历时查找哈希表的时间为O(1)，因此复杂度降为O(max(m,n))
+    public ListNode FindFirstCommonNode4(ListNode pHead1, ListNode pHead2) {
+
+        Set<ListNode> pSet  = new HashSet<>();
+        while (pHead1 != null) {
+            pSet.add(pHead1);
+            pHead1 = pHead1.next;
+        }
+
+        while (pHead2 != null) {
+            if (pSet.contains(pHead2)) {
+                return pHead2;
+            }
+            pHead2 = pHead2.next;
+        }
+
+        return null;
+    }
+
+    // 法五：在法二的基础上改进，比较trick
+    // 不需要记录链表长度，通过交换链表头指针把长度的影响消除
+    public ListNode FindFirstCommonNode5(ListNode pHead1, ListNode pHead2) {
+        ListNode p = pHead1, q = pHead2;
+        while (p != q) {
+            p = (p == null ? pHead2 : p.next);
+            q = (q == null ? pHead1 : q.next);
+        }
+        return p;
+    }
+
+    private int listLength(ListNode node) {
+        if (node == null) return 0;
+
+        int length = 0;
+        while (node.next != null) {
+            length++;
+            node = node.next;
+        }
+        return length;
+    }
+
+
+
 }
