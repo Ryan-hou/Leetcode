@@ -1,6 +1,7 @@
 package com.github.ryan.jianzhi.algorithm;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.Set;
@@ -217,6 +218,36 @@ public class LinkedListCategory {
         return length;
     }
 
+    /**
+     * 输入一个链表，按链表值从尾到头的顺序返回一个ArrayList
+     */
+    // 法一：使用栈
+    public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+        Deque<Integer> stack = new ArrayDeque<>();
+        ListNode cur = listNode;
+        while (cur != null) {
+            stack.push(cur.val);
+            cur = cur.next;
+        }
+
+        ArrayList<Integer> res = new ArrayList<>(stack.size());
+        while (!stack.isEmpty()) {
+            res.add(stack.pop());
+        }
+        return res;
+    }
+
+    // 法二：反转单链表，然后遍历
+    // 法三：直接遍历链表，然后reverse结果
+
+    // 法四：使用递归
+    ArrayList<Integer> res = new ArrayList<>();
+    public ArrayList<Integer> printListFromTailToHead4(ListNode listNode) {
+        if (listNode == null) return res;
+        printListFromTailToHead(listNode.next);
+        res.add(listNode.val);
+        return res;
+    }
 
 
 }
