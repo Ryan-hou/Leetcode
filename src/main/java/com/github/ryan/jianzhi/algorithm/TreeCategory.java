@@ -1,5 +1,8 @@
 package com.github.ryan.jianzhi.algorithm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author ryan.houyl@gmail.com
  * @description
@@ -86,6 +89,38 @@ public class TreeCategory {
         return Math.abs(treeDepth(root.left) - treeDepth(root.right)) <= 1
                 && isBalanced(root.left)
                 && isBalanced(root.right);
+    }
+
+    /**
+     * 给定一棵二叉搜索树，请找出其中的第k小的结点。例如， （
+     * 5，3，7，2，4，6，8）中，按结点数值大小顺序第三小结点的值为4
+     */
+    // BST中序遍历为有序的
+    public TreeNode KthNode(TreeNode pRoot, int k) {
+        List<TreeNode> res = new ArrayList<>();
+        inOrder(pRoot, res);
+        if (k == 0 || res.size() < k) return null;
+
+        return res.get(k - 1);
+    }
+
+    private void inOrder(TreeNode root, List<TreeNode> res) {
+        if (root == null) return;
+        inOrder(root.left, res);
+        res.add(root);
+        inOrder(root.right, res);
+    }
+
+    private int index = 0;
+    public TreeNode KthNode2(TreeNode pRoot, int k) {
+        if (pRoot != null) {
+            TreeNode lnode = KthNode2(pRoot.left, k);
+            if (lnode != null) return lnode;
+            if (++index == k) return pRoot;
+            TreeNode rnode = KthNode2(pRoot.right, k);
+            if (rnode != null) return rnode;
+        }
+        return null;
     }
 
 
