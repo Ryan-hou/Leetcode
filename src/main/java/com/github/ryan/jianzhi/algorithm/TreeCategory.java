@@ -123,5 +123,35 @@ public class TreeCategory {
         return null;
     }
 
+    /**
+     * 输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。
+     * 如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。
+     */
+    public boolean VerifySquenceOfBST(int [] sequence) {
+        if (sequence == null) return true;
+        if (sequence.length == 0) return false; // 在本题测试用例下为一个corner case
+
+        return verifySequenceOfBST(sequence, 0, sequence.length - 1);
+    }
+
+    // 递归函数语义：返回数组sequence[s...e]是否是某BST的后续遍历结果
+    // 后续遍历 左-右-根，BST 左 < 根 < 右
+    private boolean verifySequenceOfBST(int[] sequence, int s, int e) {
+        if (s >= e) return true;
+
+        // s < e
+        int root = sequence[e];
+        int pivot = s; // sequence[pivot]为右子树的第一个节点
+        while (pivot < e && sequence[pivot] < root) {
+            pivot++;
+        }
+        for (int i = pivot; i < e; i++) {
+            if (sequence[i] < root) return false;
+        }
+
+        return verifySequenceOfBST(sequence, s, pivot - 1)
+                && verifySequenceOfBST(sequence, pivot, e - 1);
+    }
+
 
 }

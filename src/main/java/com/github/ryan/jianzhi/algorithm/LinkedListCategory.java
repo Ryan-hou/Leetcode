@@ -240,7 +240,7 @@ public class LinkedListCategory {
     // 法二：反转单链表，然后遍历
     // 法三：直接遍历链表，然后reverse结果
 
-    // 法四：使用递归
+    // 法四：使用递归(和树一样，链表也是递归的结构)
     ArrayList<Integer> res = new ArrayList<>();
     public ArrayList<Integer> printListFromTailToHead4(ListNode listNode) {
         if (listNode == null) return res;
