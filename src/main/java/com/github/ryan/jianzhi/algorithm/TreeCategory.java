@@ -1,6 +1,8 @@
 package com.github.ryan.jianzhi.algorithm;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 /**
@@ -153,5 +155,61 @@ public class TreeCategory {
                 && verifySequenceOfBST(sequence, pivot, e - 1);
     }
 
+    /**
+     *
+     * 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。
+     * 要求不能创建任何新的结点，只能调整树中结点指针的指向。
+     */
+    // 法一：使用递归
+    // 中序遍历：左-根-右
+    // 语义：返回已root为根的BST构成的有序双链表的头结点
+    private TreeNode leftLast = null; // 左子树构成的双链表的最后一个节点
+    public TreeNode Convert(TreeNode root) {
+        if (root == null) return null;
+
+        TreeNode leftRoot = Convert(root.left);
+        if (leftRoot != null) {
+            leftLast.right = root;
+            root.left = leftLast;
+        } else {
+            leftRoot = root;
+        }
+        leftLast = root;
+
+        TreeNode rightRoot = Convert(root.right);
+        if (rightRoot != null) {
+            root.right = rightRoot;
+            rightRoot.left = root;
+        }
+        return leftRoot;
+    }
+
+    // 使用迭代--中序遍历
+    public TreeNode Convert2(TreeNode p) {
+
+        Deque<TreeNode> s = new ArrayDeque<>();
+        TreeNode root = p;
+        TreeNode ret = null;
+        TreeNode prev = null; // 中序遍历访问到的节点的前一个节点
+        while (root != null || !s.isEmpty()) {
+            if (root != null) {
+                // left放在栈顶
+                s.push(root);
+                root = root.left;
+            } else {
+                TreeNode node = s.pop();
+                if (prev == null) {
+                    ret = node;
+                    prev = node;
+                } else {
+                    prev.right = node;
+                    node.left = prev;
+                    prev = node;
+                }
+                root = node.right;
+            }
+        }
+        return ret;
+    }
 
 }
