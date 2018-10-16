@@ -1,5 +1,8 @@
 package com.github.ryan.jianzhi.algorithm;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author ryan.houyl@gmail.com
  * @description
@@ -73,5 +76,46 @@ public class LinerListCategory {
                 i++;
             }
         }
+    }
+
+    /**
+     * 在一个字符串(0<=字符串长度<=10000，全部由字母组成)中找到第一个只出现一次的字符,并返回它的位置,
+     * 如果没有则返回 -1（需要区分大小写）.
+     * 使用HashMap，时间复杂度O(n)
+     */
+    public int FirstNotRepeatingChar(String str) {
+        if (str == null) return -1;
+        char[] strArray = str.toCharArray();
+        Map<Character, Integer> freq = new HashMap<>();
+        for (char c : strArray) {
+            freq.put(c, freq.getOrDefault(c, 0) + 1);
+        }
+
+        for (int i = 0; i < strArray.length; i++) {
+            if (freq.get(strArray[i]) == 1) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    // 使用数组代替HashMap作为查询集
+    public int FirstNotRepeatingChar2(String str) {
+        if (str == null) return -1;
+
+        char[] strArray = str.toCharArray();
+        // 数组下标为'x'-'A',值为频率，数组作为查询集
+        int[] freq = new int['z' - 'A' + 1];
+        for (char c : strArray) {
+            freq[c - 'A']++;
+        }
+
+        for (int i = 0; i < strArray.length; i++) {
+            if (freq[strArray[i] - 'A'] == 1) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
