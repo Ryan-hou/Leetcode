@@ -212,4 +212,30 @@ public class TreeCategory {
         return ret;
     }
 
+    /**
+     * 输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。
+     * 假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
+     * 例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，
+     * 则重建二叉树并返回。
+     */
+    public TreeNode reConstructBinaryTree(int [] pre,int [] in) {
+        return reConstructBinaryTree(0, pre.length - 1, pre, 0, in.length - 1, in);
+    }
+
+    // 返回spre为根，in[sin...ein]构成的二叉树
+    private TreeNode reConstructBinaryTree(int spre, int epre, int[] pre, int sin, int ein, int[] in) {
+        if (spre > epre || sin > ein) return null;
+
+        TreeNode root = new TreeNode(pre[spre]);
+        for (int i = sin; i <= ein; i++) {
+            // i为中序序列中spre(即根)的位置
+            if (pre[spre] == in[i]) {
+                root.left = reConstructBinaryTree(spre + 1, spre + i - sin, pre, sin, i - 1, in);
+                root.right = reConstructBinaryTree(spre + i - sin + 1, epre, pre, i + 1, ein, in);
+                break;
+            }
+        }
+        return root;
+    }
+
 }
