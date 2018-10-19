@@ -1,4 +1,4 @@
-package com.github.ryan.personal.data_structure.queue;
+package com.github.ryan.personal.data_structure.queue.blocking_queue;
 
 /**
  * @author ryan.houyl@gmail.com

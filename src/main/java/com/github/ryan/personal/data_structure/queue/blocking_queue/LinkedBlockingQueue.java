@@ -1,4 +1,6 @@
-package com.github.ryan.personal.data_structure.queue;
+package com.github.ryan.personal.data_structure.queue.blocking_queue;
+
+import com.github.ryan.personal.data_structure.queue.blocking_queue.BlockingQueue;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
