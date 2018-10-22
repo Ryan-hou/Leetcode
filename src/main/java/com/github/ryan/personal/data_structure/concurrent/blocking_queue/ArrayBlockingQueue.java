@@ -1,4 +1,4 @@
-package com.github.ryan.personal.data_structure.queue.blocking_queue;
+package com.github.ryan.personal.data_structure.concurrent.blocking_queue;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
