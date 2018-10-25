@@ -29,7 +29,8 @@ public class MergeSort implements Sort {
 //            return;
 //        }
 
-        int mid = l + (r - l) / 2;
+        // int mid = l + (r - l) / 2;
+        int mid = l + (r - l) >> 1;
         mergeSortInternal(arr, l, mid);
         mergeSortInternal(arr, mid + 1, r);
 
