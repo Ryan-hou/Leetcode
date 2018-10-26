@@ -36,16 +36,16 @@ public class TreeCategory {
      * 操作给定的二叉树，将其变换为源二叉树的镜像。
      * 输入描述:
      * 二叉树的镜像定义：源二叉树
-     *    8
-     *   /  \
-     *  6   10
-     *  / \  / \
+     * 8
+     * /  \
+     * 6   10
+     * / \  / \
      * 5 7 9 11
      * 镜像二叉树
-     *    8
-     *   /  \
-     *  10  6
-     *  / \  / \
+     * 8
+     * /  \
+     * 10  6
+     * / \  / \
      * 11 97  5
      */
     public void mirror(TreeNode root) {
@@ -64,7 +64,7 @@ public class TreeCategory {
      * 注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。
      */
     public boolean isSymmetrical(TreeNode pRoot) {
-        if (pRoot == null)  return true;
+        if (pRoot == null) return true;
         return isSymmetrical(pRoot.left, pRoot.right);
     }
 
@@ -114,6 +114,7 @@ public class TreeCategory {
     }
 
     private int index = 0;
+
     public TreeNode KthNode2(TreeNode pRoot, int k) {
         if (pRoot != null) {
             TreeNode lnode = KthNode2(pRoot.left, k);
@@ -129,7 +130,7 @@ public class TreeCategory {
      * 输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。
      * 如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。
      */
-    public boolean VerifySquenceOfBST(int [] sequence) {
+    public boolean VerifySquenceOfBST(int[] sequence) {
         if (sequence == null) return true;
         if (sequence.length == 0) return false; // 在本题测试用例下为一个corner case
 
@@ -156,7 +157,6 @@ public class TreeCategory {
     }
 
     /**
-     *
      * 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。
      * 要求不能创建任何新的结点，只能调整树中结点指针的指向。
      */
@@ -164,6 +164,7 @@ public class TreeCategory {
     // 中序遍历：左-根-右
     // 语义：返回已root为根的BST构成的有序双链表的头结点
     private TreeNode leftLast = null; // 左子树构成的双链表的最后一个节点
+
     public TreeNode Convert(TreeNode root) {
         if (root == null) return null;
 
@@ -218,7 +219,7 @@ public class TreeCategory {
      * 例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，
      * 则重建二叉树并返回。
      */
-    public TreeNode reConstructBinaryTree(int [] pre,int [] in) {
+    public TreeNode reConstructBinaryTree(int[] pre, int[] in) {
         return reConstructBinaryTree(0, pre.length - 1, pre, 0, in.length - 1, in);
     }
 
@@ -236,6 +237,90 @@ public class TreeCategory {
             }
         }
         return root;
+    }
+
+    /**
+     * 请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，
+     * 第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。
+     */
+    // 法一：层序遍历的基础上增加层数的判断
+    public ArrayList<ArrayList<Integer>> Print(TreeNode pRoot) {
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        if (pRoot == null) return res;
+
+        Deque<Pair> q = new ArrayDeque<>();
+        q.add(Pair.make(pRoot, 0));
+        while (!q.isEmpty()) {
+            Pair pair = q.poll();
+            TreeNode cur = pair.node;
+            int level = pair.level;
+
+            if (res.size() <= level) {
+                ArrayList<Integer> list = new ArrayList<>();
+                list.add(cur.val);
+                res.add(level, list);
+            } else {
+                if (level % 2 == 0) {
+                    res.get(level).add(cur.val);
+                } else {
+                    res.get(level).add(0, cur.val);
+                }
+            }
+
+            if (cur.left != null) {
+                q.add(Pair.make(cur.left, level + 1));
+            }
+            if (cur.right != null) {
+                q.add(Pair.make(cur.right, level + 1));
+            }
+        }
+        return res;
+    }
+
+    // 法二：使用递归，省去构建Pair的代码，第几层可以通过递归函数的参数来维护
+    public ArrayList<ArrayList<Integer> > Print2(TreeNode pRoot) {
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        travel(pRoot, res, 0);
+        return res;
+    }
+
+    // 递归语义：遍历以root为根，第level层的二叉树，结果保存到res
+    private void travel(TreeNode root, ArrayList<ArrayList<Integer>> res, int level) {
+        if (root == null) return;
+
+        if (res.size() <= level) {
+            ArrayList<Integer> list = new ArrayList<>();
+            list.add(root.val);
+            res.add(list);
+        } else {
+            if ((level & 1) == 0) {
+                // 偶数层
+                res.get(level).add(root.val);
+            } else {
+                res.get(level).add(0, root.val);
+            }
+        }
+
+        if (root.left != null) {
+            travel(root.left, res, level + 1);
+        }
+        if (root.right != null) {
+            travel(root.right, res, level + 1);
+        }
+    }
+
+    private static class Pair {
+        TreeNode node;
+        int level;
+
+        Pair(TreeNode node, int level) {
+            this.node = node;
+            this.level = level;
+        }
+
+        static Pair make(TreeNode node, int level) {
+            return new Pair(node, level);
+        }
     }
 
 }
