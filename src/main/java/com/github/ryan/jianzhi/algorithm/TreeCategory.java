@@ -301,12 +301,51 @@ public class TreeCategory {
             }
         }
 
-        if (root.left != null) {
-            travel(root.left, res, level + 1);
+        travel(root.left, res, level + 1);
+        travel(root.right, res, level + 1);
+    }
+
+    // 使用双端队列：怎么使用？何时操作队尾，何时操作队首需要想清楚
+    public ArrayList<ArrayList<Integer>> Print3(TreeNode pRoot) {
+        ArrayList<ArrayList<Integer>> res  = new ArrayList<>();
+        if (pRoot == null) return res;
+
+        Deque<TreeNode> dq = new ArrayDeque<>(); // 双端队列
+        dq.add(pRoot);
+        int level = 0;
+        int numOfChild = 1;
+        while (!dq.isEmpty()) {
+            ArrayList<Integer> list = new ArrayList<>();
+            // 处理一层
+            for (int i = 0; i < numOfChild; i++) {
+                if ((level & 1) == 0) {
+                    // 偶数层：队首入队，队尾出队，先左子树后右子树
+                    TreeNode cur = dq.pollLast();
+                    list.add(cur.val);
+                    if (cur.left != null) {
+                        dq.addFirst(cur.left);
+                    }
+                    if (cur.right != null) {
+                        dq.addFirst(cur.right);
+                    }
+                } else {
+                    // 奇数层：队首出队，队尾入队，先右子树后左子树
+                    TreeNode cur = dq.pollFirst();
+                    list.add(cur.val);
+                    if (cur.right != null) {
+                        dq.addLast(cur.right);
+                    }
+                    if (cur.left != null) {
+                        dq.addLast(cur.left);
+                    }
+                }
+            }
+
+            res.add(list);
+            level++;
+            numOfChild = dq.size();
         }
-        if (root.right != null) {
-            travel(root.right, res, level + 1);
-        }
+        return res;
     }
 
     private static class Pair {
