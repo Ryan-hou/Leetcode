@@ -1,6 +1,8 @@
 package com.github.ryan.personal.data_structure.concurrent;
 
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.locks.LockSupport;
 
 /**
  * A cancellable asynchronous computation.
@@ -68,6 +70,21 @@ public class FutureTask<V> implements RunnableFuture<V> {
     }
 
     /**
+     * Returns result or throw exception for completed task.
+     *
+     * @param s completed state value
+     */
+    private V report(int s) throws ExecutionException {
+        Object x = outcome;
+        if (s == NORMAL)
+            return (V) x;
+        if (s >= CANCELLED) {
+            throw new CancellationException();
+        }
+        throw new ExecutionException((Throwable) x);
+    }
+
+    /**
      * Created a FutureTask that will, upon running, execute the
      * given Callable.
      *
@@ -101,11 +118,164 @@ public class FutureTask<V> implements RunnableFuture<V> {
 
     @Override
     public void run() {
+        if (state != NEW ||
+                !UNSAFE.compareAndSwapObject(this, runnerOffset, null, Thread.currentThread())) {
+            return;
+        }
+        // CAS 保证只有一个线程可以执行下面代码逻辑
 
+        try {
+            Callable<V> c = callable;
+            if (c != null && state == NEW) {
+                V result;
+                boolean ran;
+                try {
+                    result = callable.call();
+                    ran = true;
+                } catch (Throwable ex) {
+                    result = null;
+                    ran = false;
+                    setException(ex);
+                }
+                if (ran) {
+                    set(result);
+                }
+            }
+        } finally {
+            // runner must be non-null until state is settled to
+            // prevent concurrent calls to run()
+            runner = null;
+            // ...
+        }
+    }
+
+    /**
+     * Sets the result of this future to the given value unless
+     * this future has already been set or has been cancelled.
+     *
+     * This method is invoked internally by the run method
+     * upon successful completion of the computation.
+     * @param v the value
+     */
+    protected void set(V v) {
+        if (UNSAFE.compareAndSwapInt(this, stateOffset, NEW, COMPLETING)) {
+            outcome = v;
+            UNSAFE.putOrderedInt(this, stateOffset, NORMAL); // final state
+            finishCompletion();
+        }
+    }
+
+    /**
+     * Causes this future to report an ExecutionException
+     * with the given throwable as its cause, unless this
+     * future has already been set or has been cancelled.
+     *
+     * This method is invoked internally by the run method
+     * upon failure of the computation.
+     *
+     * @param t the cause of failure
+     */
+    protected void setException(Throwable t) {
+        if (UNSAFE.compareAndSwapInt(this, stateOffset, NEW, COMPLETING)) {
+            outcome = t;
+            UNSAFE.putOrderedInt(this, stateOffset, EXCEPTIONAL); // final state
+            finishCompletion();
+        }
+    }
+
+    /**
+     * Removes and signals all waiting threads, invokes done(),
+     * and nulls out callable.
+     */
+    private void finishCompletion() {
+        // assert state > COMPUTING
+        for (WaitNode q; (q = waiters) != null;) {
+            if (UNSAFE.compareAndSwapObject(this, waitersOffset, q, null)) {
+                for (;;) {
+                    Thread t = q.thread;
+                    if (t != null) {
+                        q.thread = null;
+                        LockSupport.unpark(t);
+                    }
+                    WaitNode next = q.next;
+                    if (next == null) {
+                        break;
+                    }
+                    q.next = null; // unlink to help gc
+                    q = next;
+                }
+            }
+        }
+
+        callable = null; // to reduce footprint
     }
 
     @Override
     public V get() throws InterruptedException, ExecutionException {
-        return null;
+        int s = state;
+        if (s <= COMPLETING) {
+            s = awaitDone(false, 0L);
+        }
+        return report(s);
+    }
+
+    /**
+     * Awaits completion or aborts on interrupt or timeout.
+     *
+     * @param timed true if use timed waits
+     * @param nanos time to wait, if timed
+     * @return state upon completion
+     */
+    private int awaitDone(boolean timed, long nanos) throws InterruptedException {
+        final long deadline = timed ? System.nanoTime() + nanos : 0L;
+        WaitNode q = null;
+        boolean queued = false;
+        for (;;) {
+            if (Thread.interrupted()) {
+               // removeWaiter(q);
+                throw new InterruptedException();
+            }
+
+            int s = state;
+            if (s > COMPLETING) {
+                if (q != null)
+                    q.thread = null;
+                return s;
+            }
+            else if (s == COMPLETING) // cannot time out yet
+                Thread.yield();
+            else if (q == null)
+                q = new WaitNode();
+            else if (!queued)
+                queued = UNSAFE.compareAndSwapObject(this, waitersOffset,
+                       q.next = waiters, q);
+            else if (timed) {
+                nanos = deadline - System.nanoTime();
+                if (nanos <= 0) {
+                    // removeWaiter(q)
+                    return state;
+                }
+                LockSupport.parkNanos(this, nanos);
+            }
+            else
+                LockSupport.park(this);
+        }
+    }
+
+    // Unsafe mechanics
+    private static final sun.misc.Unsafe UNSAFE;
+    private static final long stateOffset;
+    private static final long runnerOffset;
+    private static final long waitersOffset;
+    static {
+        try {
+            UNSAFE = sun.misc.Unsafe.getUnsafe();
+            Class<?> k = FutureTask.class;
+            stateOffset = UNSAFE.objectFieldOffset(k.getDeclaredField("state"));
+            runnerOffset = UNSAFE.objectFieldOffset(k.getDeclaredField("runner"));
+            waitersOffset = UNSAFE.objectFieldOffset(k.getDeclaredField("waiters"));
+        } catch (Exception e) {
+            throw new Error(e);
+        }
     }
 }
