@@ -129,4 +129,41 @@ public class OtherCategory {
         }
         return negative ? res : -res;
     }
+
+    /**
+     * 请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。
+     * 例如，字符串"+100","5e2","-123","3.1416"和"-1E-16"都表示数值。
+     * 但是"12e","1a3.14","1.2.3","+-5"和"12e+4.3"都不是。
+     */
+    public boolean isNumeric(char[] str) {
+
+        // 分类讨论：小数点，E/e,+/-1 和整数
+        // 小数点只能出现一次，且不能在 E/e 之后
+        // E/e 只能出现一次，且后面一定有数字
+        // +/- 号可以出现在开头，且后面有数字；或者前面跟着E/e
+
+        if (str == null) return false;
+
+        boolean hasE = false, hasSign = false, hasPoint = false;
+        for (int i = 0; i < str.length; i++) {
+            if (str[i] == '.') {
+                if (hasPoint || hasE || (str.length - 1 == i)) return false;
+                hasPoint = true;
+            } else if (str[i] == 'E' || str[i] == 'e') {
+                if (hasE || (str.length - 1 == i)) return false;
+                hasE = true;
+            }  else if (str[i] == '+' || str[i] == '-') {
+                // 第二次出现
+                if (hasSign && str[i - 1] != 'e' && str[i - 1] != 'E') return false;
+                // 第一次出现,出现在开头
+                if (!hasSign && i == 0 && (str.length == 1)) return false;
+                // 第一次出现且出现在e/E之后
+                if (!hasSign && i > 0 && str[i - 1] != 'e' && str[i - 1] != 'E') return false;
+                hasSign = true;
+            } else if (!Character.isDigit(str[i])){
+                return false;
+            }
+        }
+        return true;
+    }
 }
