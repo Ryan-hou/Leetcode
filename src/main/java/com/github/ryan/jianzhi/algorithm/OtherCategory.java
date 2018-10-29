@@ -166,4 +166,84 @@ public class OtherCategory {
         }
         return true;
     }
+
+    /**
+     * 在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，
+     * 每一列都按照从上到下递增的顺序排序。
+     * 请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
+     */
+    // 二维数组查找，可以利用二分查找，先找到第0行中小于target的最大列或者找到了target直接返回
+    // 从第0列到上面找到的列值，每一列按行进行二分查找
+    public boolean Find(int target, int [][] array) {
+
+        if (array == null) return false;
+        int rows = array.length;
+        if (rows <= 0) return false;
+        int cols = array[0].length;
+        if (cols <= 0) return false;
+
+        // 找到第一行中是否存在target，有则返回true，否则返回小于target的最大值(mid)
+        // array[0][l...r] 中查找target
+        int l = 0, r = cols - 1;
+        int mid = 0;
+        while (l <= r) {
+            mid = l + ((r - l) >> 1);
+            if (array[0][mid] == target) {
+                return true;
+            } else if (array[0][mid] > target) {
+                r = mid - 1;
+            } else {
+                // array[0][mid] < target
+                if (mid + 1 > r || array[0][mid + 1] > target) {
+                    break;
+                } else {
+                    l = mid + 1;
+                }
+            }
+        }
+
+        if (mid == 0 && array[0][0] > target) return false;
+
+        for (int i = 0; i <= mid; i ++) {
+            // 在i列进行二分查找
+            int up = 0, down = rows - 1;
+            while (up <= down) {
+                // middle 区分 mid, up,down区分l,r
+                int middle = up + ((down - up) >> 2);
+                if (array[middle][i] == target){
+                    return true;
+                } else if (array[middle][i] > target) {
+                    down = middle - 1;
+                } else {
+                    // array[mid][i] < target
+                    up = middle + 1;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean Find2(int target, int [][] array) {
+        if (array == null) return false;
+        int rows = array.length;
+        if (rows <= 0) return false;
+        int cols = array[0].length;
+
+        // 从左下角开始，当target比左下角大时，往右走，比左下角小时，往上走
+        int i = rows - 1;
+        int j = 0;
+        // array[i][j]为左下角的值
+        while (i >= 0 && j <= cols - 1) {
+            if (array[i][j] == target) {
+                return true;
+            } else if (array[i][j] > target) {
+                i--; // 往上走，递减
+            } else {
+                // array[i][j] < target
+                j++; // 往右走，递增
+            }
+        }
+        return false;
+
+    }
 }
