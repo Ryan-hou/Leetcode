@@ -74,7 +74,8 @@ public class LinkedBlockingQueue<E> implements BlockingQueue<E> {
 
     /**
      * Current number of elements
-     **/
+     * 避免了大部分场景下需要获取两把锁
+     */
     private final AtomicInteger count = new AtomicInteger();
 
     /**

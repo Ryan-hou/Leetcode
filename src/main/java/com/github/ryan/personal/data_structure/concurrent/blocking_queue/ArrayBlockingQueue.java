@@ -135,7 +135,7 @@ public class ArrayBlockingQueue<E> implements BlockingQueue<E> {
             takeIndex = 0;
         }
         count--;
-        notFull.signal();;
+        notFull.signal();
         return x;
     }
 }
