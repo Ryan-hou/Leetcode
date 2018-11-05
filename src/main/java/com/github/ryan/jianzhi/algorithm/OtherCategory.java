@@ -3,6 +3,7 @@ package com.github.ryan.jianzhi.algorithm;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -246,4 +247,57 @@ public class OtherCategory {
         return false;
 
     }
+
+
+    /**
+     * 每年六一儿童节,牛客都会准备一些小礼物去看望孤儿院的小朋友,今年亦是如此。HF作为牛客的资深元老,
+     * 自然也准备了一些小游戏。其中,有个游戏是这样的:首先,让小朋友们围成一个大圈。
+     * 然后,他随机指定一个数m,让编号为0的小朋友开始报数。每次喊到m-1的那个小朋友要出列唱首歌,
+     * 然后可以在礼品箱中任意的挑选礼物,并且不再回到圈中,从他的下一个小朋友开始,
+     * 继续0...m-1报数....这样下去....直到剩下最后一个小朋友,可以不用表演,
+     * 并且拿到牛客名贵的“名侦探柯南”典藏版(名额有限哦!!^_^)。
+     * 请你试着想下,哪个小朋友会得到这份礼品呢？(注：小朋友的编号是从0到n-1)
+     */
+    // 法一：使用LinkedList，考虑删除节点的效率
+    // 其实这是个约瑟夫环问题，但是绝对没必要去死记硬背数学公式，直接用链表模拟游戏过程即可。
+    public int LastRemaining_Solution(int n, int m) {
+
+        List<Integer> list = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            list.add(i);
+        }
+
+        int start = 0;
+        while (list.size() > 1) {
+            int del = (start + m - 1) % list.size();
+            list.remove(del);
+            start = del;
+        }
+        return list.size() == 1 ? list.get(0) : -1;
+    }
+
+    // 约瑟夫环问题，通过数学归纳法可以推导出如下公式：
+    // n = 1 -> 0
+    // n > 1 -> f(n, m) = (f(n - 1, m) + m) % n
+    // 使用递归，自顶向下处理
+    public int LastRemaining_Solution2(int n, int m) {
+        if (n <= 0 || m < 0) return -1;
+
+        if (n == 1) return 0;
+        // f(n,m) = (f(n-1, m) + m) % n (n > 1)
+        return (LastRemaining_Solution(n - 1, m) + m) % n;
+
+    }
+
+    // 使用递推，自底向上
+    public int LastRemaining_Solution3(int n, int m) {
+        if (n <= 0 || m < 0) return -1;
+
+        int res = 0;
+        for (int i = 2; i <= n; i++) {
+            res = (res + m) % i;
+        }
+        return res;
+    }
+
 }
