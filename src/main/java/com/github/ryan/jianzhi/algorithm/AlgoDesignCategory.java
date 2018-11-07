@@ -1,6 +1,7 @@
 package com.github.ryan.jianzhi.algorithm;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.PriorityQueue;
@@ -94,5 +95,56 @@ public class AlgoDesignCategory {
                 ? (minHeap.peek() + maxHeap.peek()) / 2.0
                 : minHeap.peek().doubleValue();
     }
+
+    /**
+     * 我们可以用2*1的小矩形横着或者竖着去覆盖更大的矩形。
+     * 请问用n个2*1的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？
+     */
+    // 使用递归--自顶向下
+    private int[] memo; // 记忆化搜索
+    public int RectCover(int target) {
+        assert target >= 0;
+        memo = new int[target + 1];
+        Arrays.fill(memo, -1);
+        return RectCoverRecur(target);
+    }
+
+    private int RectCoverRecur(int target) {
+        // corner case
+        if (target <= 0) return 0;
+
+        if (target == 1) return 1;
+        if (target == 2) return 2;
+
+        // 小矩形有横着放和竖着放两种选择
+        // 竖着放，则可能的结果为 RectCover(target - 1)
+        // 横着放，则横着放的这个小矩形下面也必须有一个横着放的，可能的结果为 RectCover(target - 2)
+        if (memo[target] == -1) {
+            memo[target] = RectCoverRecur(target - 1)
+                    + RectCoverRecur(target - 2);
+        }
+
+        return memo[target];
+    }
+
+    // 使用递推--自底向上
+    public int RectCover2(int target) {
+
+        int[] memo = new int[target + 1];
+        Arrays.fill(memo, -1);
+        memo[0] = 0;
+
+        if (target >= 1) {
+            memo[1] = 1;
+        }
+        if (target >= 2) {
+            memo[2] = 2;
+        }
+        for (int i = 3; i <= target; i++) {
+            memo[i] = memo[i - 1] + memo[i - 2];
+        }
+        return memo[target];
+    }
+
 
 }

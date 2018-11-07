@@ -61,11 +61,15 @@ public class Fibonacci {
 
     // 动态规划 －－ 自底向上
     public static int fib3(int n) {
+        assert n >= 0;
+
         int[] memo = new int[n + 1];
         Arrays.fill(memo, -1);
 
         memo[0] = 0;
-        memo[1] = 1;
+        if (n >= 1) {
+            memo[1] = 1;
+        }
         for (int i = 2; i <= n ; i++) {
             memo[i] = memo[i - 1] + memo[i - 2];
         }
