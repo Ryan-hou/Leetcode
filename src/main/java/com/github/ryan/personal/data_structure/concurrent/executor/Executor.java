@@ -1,4 +1,7 @@
-package com.github.ryan.personal.data_structure.concurrent;
+package com.github.ryan.personal.data_structure.concurrent.executor;
+
+import com.github.ryan.personal.data_structure.concurrent.Runnable;
+
 
 /**
  * An object that executes submitted Runnable tasks. This
