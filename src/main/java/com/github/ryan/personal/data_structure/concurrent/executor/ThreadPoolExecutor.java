@@ -899,7 +899,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
 
     public ThreadPoolExecutor(int corePoolSize,
                               int maximumPoolSize,
-                              int keepAliveTime,
+                              long keepAliveTime,
                               TimeUnit unit,
                               BlockingQueue<Runnable> workQueue) {
         this(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,
