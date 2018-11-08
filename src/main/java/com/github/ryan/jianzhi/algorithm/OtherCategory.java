@@ -326,4 +326,61 @@ public class OtherCategory {
         return list.get(index - 1);
     }
 
+    /**
+     * 输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，
+     * 例如，如果输入如下4 X 4矩阵：
+     * 1 2 3 4
+     * 5 6 7 8
+     * 9 10 11 12
+     * 13 14 15 16
+     * 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.
+     */
+
+    // 注意数组索引定义和边界检查，
+    // core case需要考虑全面，比如只有一行或者只有一列这种情况
+    public ArrayList<Integer> printMatrix(int [][] matrix) {
+        ArrayList<Integer> res = new ArrayList<>();
+        if (matrix == null || matrix.length == 0) return res;
+        int rows = matrix.length;
+        if (matrix[0].length == 0) return res;
+        int cols = matrix[0].length;
+
+        int i = 0, j = 0; // matrix[i][j]为每一圈的起始点
+        int round = 0;
+
+        while (i + round < rows && j + round < cols) {
+            // matrix[i][j] -> matrix[i][cols-round-1]
+            // 右
+            for (int k = j; k < cols - round; k++) {
+                res.add(matrix[i][k]);
+            }
+
+            // matrix[i+1][cols-round-1] -> matrix[rows-round-1][cols-round-1]
+            // 下
+            for (int k = i + 1; k < rows-round; k++) {
+                res.add(matrix[k][cols-round-1]);
+            }
+
+            // matrix[rows-round-1][cols-round - 2] -> matrix[rows-round-1][j]
+            // 左
+            if (i != (rows - round - 1)) {
+                for (int k = cols-round-2; k >= j; k--) {
+                    res.add(matrix[rows-round-1][k]);
+                }
+            }
+
+            // matrix[rows-round-2][j] -> matrix[i+1][j]
+            // 上
+            if (j != (cols - round - 1)) {
+                for (int k = rows-round-2; k >= i + 1; k--) {
+                    res.add(matrix[k][j]);
+                }
+            }
+            i++;
+            j++;
+            round++;
+        }
+        return res;
+    }
+
 }
