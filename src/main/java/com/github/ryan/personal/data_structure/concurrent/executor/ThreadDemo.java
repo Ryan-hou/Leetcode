@@ -26,10 +26,11 @@ public class ThreadDemo {
                 // From ThreadGroup: void uncaughtException(Thread t, Throwable e) {}
                 System.out.print("Exception in thread \""
                         + t.getName() + "\" ");
-                // System.out -> stdout
-                // System.err -> stderr
-                // System.in -> stdin
-                e.printStackTrace();
+                // System.out(PrintStream -> OutputStream) -> stdout
+                // System.err(PrintStream -> OutputStream) -> stderr
+                // System.in(InputStream) -> stdin
+                // e.printStackTrace();
+                e.printStackTrace(System.out);
             });
             t1.start();
         } catch (RuntimeException e) {
