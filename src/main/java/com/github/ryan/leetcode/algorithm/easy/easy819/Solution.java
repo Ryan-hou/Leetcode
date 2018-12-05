@@ -27,8 +27,8 @@ public class Solution {
         Map<String, Integer> notbannedMap = new HashMap<>();
         String[] split = paragraph.split("[^A-Za-z]");
         for (String s : split) {
-            s = s.toLowerCase();
-            if (!s.trim().equals("") && !bannedSet.contains(s)) {
+            s = s.trim().toLowerCase();
+            if (!s.equals("") && !bannedSet.contains(s)) {
                 notbannedMap.put(s, notbannedMap.getOrDefault(s, 0) + 1);
             }
         }
