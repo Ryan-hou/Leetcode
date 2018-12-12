@@ -181,6 +181,9 @@ public class LinkedBlockingQueue<E> implements BlockingQueue<E> {
     private void enqueue(Node<E> node) {
         // assert putLock.isHeldByCurrentThread();
         // assert last.next == null;
+
+        // last.next = node;
+        // last = last.next;
         last = last.next = node;
     }
 

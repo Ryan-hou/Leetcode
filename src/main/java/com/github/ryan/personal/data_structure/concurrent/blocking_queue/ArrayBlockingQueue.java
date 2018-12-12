@@ -83,7 +83,7 @@ public class ArrayBlockingQueue<E> implements BlockingQueue<E> {
             while (count == items.length) {
                 notFull.await();
             }
-            enqueue(e);
+            enqueue(e); // contains: count++; notEmpty.signal();
         } finally {
             lock.unlock();
         }
