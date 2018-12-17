@@ -12,7 +12,9 @@ public class CLHLock {
     /**
      * 思路：
      * CLH锁是一种基于链表的可扩展、高性能、公平的自旋锁，申请线程只在本地变量上自旋，
-     * 它不断轮询前驱的状态，如果发现前驱释放了锁就结束自旋，获得锁
+     * 它不断轮询前驱的状态，如L果发现前驱释放了锁就结束自旋，获得锁
+     * 缺点：
+     * CLHLock是不停的查询前驱变量， 导致不适合在NUMA 架构下使用（在这种结构下，每个线程分布在不同的物理内存区域）
      */
 
     private static final class CLHNode {
@@ -33,6 +35,9 @@ public class CLHLock {
         CLHNode preNode = UPDATER.getAndSet(this, node);
         if (preNode != null) {
             // 前驱节点不为null表示当锁被其他线程占用，通过不断轮询判断前驱节点的锁标志位等待前驱节点释放锁
+            // decentralized, avoiding some memory contention.
+            // 申请线程只在本地变量上自旋，它不断轮询前驱的状态
+            // 对比 TicketLock: 多处理器系统上，每个进程/线程占用的处理器都在读写同一个变量serviceNum
             while (preNode.isLocked) {
             }
         }
