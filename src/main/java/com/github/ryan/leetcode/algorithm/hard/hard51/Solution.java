@@ -15,8 +15,8 @@ import java.util.List;
 @Slf4j
 public class Solution {
 
-    private static boolean[] col, dia1, dia2;
-    private static List<List<String>> res = new ArrayList<>();
+    private static boolean[] col, dia1, dia2; // 保存列及两个对角线是否已经存在皇后
+    private static List<List<String>> res = new ArrayList<>(); // 保存n皇后问题所有的解
 
     public static List<List<String>> solveNQueens(int n) {
 
@@ -39,20 +39,23 @@ public class Solution {
             return;
         }
 
+        // i为列序号
         for (int i = 0; i < n; i++) {
             // 尝试将第index行的皇后摆放在第i列
-            if (!col[i] && !dia1[index + i]
+            if (!col[i]
+                    && !dia1[index + i]
                     && !dia2[index - i + n - 1]) {
+
                 row.add(i);
                 col[i] = true;
                 dia1[index + i] = true;
                 dia2[index - i + n - 1] = true;
-
                 putQueue(n, index + 1, row);
+                // backtracking
                 col[i] = false;
                 dia1[index + i] = false;
                 dia2[index - i + n - 1] = false;
-                row.remove((Integer) i);
+                row.remove((Integer) i); // be careful! remove(int index)
             }
         }
         return;
@@ -65,7 +68,7 @@ public class Solution {
         for (int i = 0; i < n; i ++) {
             char[] c = new char[n];
             Arrays.fill(c, '.');
-            c[row.get(i).intValue()] ='Q';
+            c[row.get(i)] ='Q';
             board.add(new String(c));
         }
         return board;
