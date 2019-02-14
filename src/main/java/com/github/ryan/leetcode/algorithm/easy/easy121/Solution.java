@@ -49,7 +49,7 @@ public class Solution {
 
         int max = 0, n = prices.length;
         PriorityQueue<Integer> pq
-                = new PriorityQueue<>(prices.length, (o1, o2) -> (o2 - o1));
+                = new PriorityQueue<>(prices.length, (o1, o2) -> o2 - o1);
         pq.add(prices[n - 1]);
 
         for (int i = n - 2; i >= 0; i--) {
