@@ -18,7 +18,7 @@ public class Solution {
         reached.add(beginWord);
         Set<String> wordDict = new HashSet<>(wordList);
 
-        int distince = 1;
+        int distance = 1;
         while (!reached.contains(endWord)) {
 
             Set<String> toAdd = new HashSet<>();
@@ -38,8 +38,8 @@ public class Solution {
 
             if (toAdd.isEmpty()) { return 0; }
             reached = toAdd;
-            distince++;
+            distance++;
         }
-        return distince;
+        return distance;
     }
 }
