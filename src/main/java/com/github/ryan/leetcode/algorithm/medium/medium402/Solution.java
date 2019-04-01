@@ -30,12 +30,15 @@ public class Solution {
         int i = 0;
         Deque<Character> stack = new ArrayDeque<>();
         while (i < len) {
-            while (k > 0 &&
-                    !stack.isEmpty() && stack.peek() > num.charAt(i)) {
+            char ch = num.charAt(i);
+
+            while (k > 0
+                    && !stack.isEmpty()
+                    && stack.peek() > ch) {
                 stack.pop();
                 k--;
             }
-            stack.push(num.charAt(i));
+            stack.push(ch);
             i++;
         }
 
@@ -58,6 +61,12 @@ public class Solution {
         }
 
         return builder.toString();
+
+        /**
+         * // corner case: deal with leading zeros
+         * String res = str.toString().replaceFirst("^0*", "");
+         * return "".equals(res) ? "0" : res;
+         */
     }
 
     public static void main(String[] args) {
