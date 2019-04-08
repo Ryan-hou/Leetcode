@@ -4,7 +4,10 @@ import com.github.ryan.personal.algorithm.component.TreeNode;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
 /**
@@ -14,6 +17,14 @@ import java.util.Queue;
  * @date December 08,2018
  */
 public class Solution {
+
+    /**
+     * Because the tree topography is unknown ahead of time,
+     * it is not possible to design an algorithm that visits asymptotically fewer than nn nodes.
+     * Therefore, we should try to aim for a linear time solution.
+     * With that in mind, let's consider a few equally-efficient solutions. (BFS & DFS)
+     *
+     */
 
     // 法一：层序遍历(BFS)
     public List<Integer> rightSideView(TreeNode root) {
@@ -29,7 +40,7 @@ public class Solution {
         while (!q.isEmpty()) {
             Pair pair = q.poll();
             int level = pair.level;
-            TreeNode  node = pair.node;
+            TreeNode node = pair.node;
             if (allLevelRes.size() <= level) {
                 allLevelRes.add(new ArrayList<>());
             }
@@ -63,6 +74,33 @@ public class Solution {
         }
     }
 
+    // 法四：elegant BFS
+    public List<Integer> rightSideView4(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) return res;
+
+        Queue<TreeNode> q = new ArrayDeque<>();
+        q.offer(root);
+        while (!q.isEmpty()) {
+            int size = q.size();
+            while (size > 0) {
+                TreeNode cur = q.poll();
+                if (cur.left != null) {
+                    q.offer(cur.left);
+                }
+                if (cur.right != null) {
+                    q.offer(cur.right);
+                }
+
+                if (size == 1) {
+                    res.add(cur.val);
+                }
+                size--;
+            }
+        }
+        return res;
+    }
+
 
     // 法二：使用递归
     public List<Integer> rightSideViewUseRecur(TreeNode root) {
@@ -80,6 +118,38 @@ public class Solution {
         }
         rightView(node.right, res, level + 1);
         rightView(node.left, res, level + 1);
+    }
+
+    // 法三：DFS
+    public List<Integer> rightSideView3(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) return res;
+
+
+        // key:level -> value:right most value at key level
+        Map<Integer, Integer> viewMap = new HashMap<>();
+        Deque<Pair> stack = new ArrayDeque<>();
+        stack.push(Pair.makePair(0, root));
+        // Use DFS(root - right - left)
+        while (!stack.isEmpty()) {
+            Pair pair = stack.pop();
+            TreeNode curNode = pair.node;
+            int level = pair.level;
+            if (!viewMap.containsKey(level)) {
+                viewMap.put(level,  curNode.val);
+            }
+            if (curNode.left != null) {
+                stack.push(Pair.makePair(level + 1, curNode.left));
+            }
+            if (curNode.right != null) {
+                stack.push(Pair.makePair( level + 1, curNode.right));
+            }
+        }
+
+        for (int i = 0; i < viewMap.size(); i++) {
+            res.add(viewMap.get(i));
+        }
+        return res;
     }
 
 }
