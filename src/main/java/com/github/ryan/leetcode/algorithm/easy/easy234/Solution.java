@@ -98,6 +98,23 @@ public class Solution {
         return prev;
     }
 
+    // above reverse is better
+    // reverse list and return new head
+    // node != null
+    private ListNode reverse2(ListNode node) {
+        ListNode cur = node;
+        ListNode next = cur.next;
+        cur.next = null; // be careful of circular linked list
+        ListNode temp;
+        while (next != null) {
+            temp = next.next;
+            next.next = cur;
+            cur = next;
+            next = temp;
+        }
+        return cur;
+    }
+
     public static void main(String[] args) {
         int[] nodes = {2, 3, 4, 5, 5, 4, 3, 2};
         ListNode list = LinkedListUtil.createLinkedList(nodes, nodes.length);
