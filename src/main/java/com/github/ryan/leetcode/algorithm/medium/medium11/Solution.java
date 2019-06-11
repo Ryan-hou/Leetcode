@@ -9,7 +9,7 @@ package com.github.ryan.leetcode.algorithm.medium.medium11;
 public class Solution {
 
     // two pointers:
-    // time complexity: O(n) / space complexity: O()
+    // time complexity: O(n) / space complexity: O(1)
     public int maxArea(int[] height) {
         assert height != null && height.length > 1;
         int l = 0, r = height.length - 1;
