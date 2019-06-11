@@ -12,7 +12,7 @@ public class Solution {
         int[] res = {-1, -1};
         if (nums == null || nums.length < 1) return res;
 
-        int l = 0, r= nums.length - 1;
+        int l = 0, r = nums.length - 1;
         while (l <= r) {
             int mid = l + (r - l) / 2;
             if (nums[mid] < target) {
