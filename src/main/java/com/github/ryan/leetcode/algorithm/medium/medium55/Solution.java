@@ -8,7 +8,7 @@ package com.github.ryan.leetcode.algorithm.medium.medium55;
  */
 public class Solution {
 
-    // use dp: time complecity -> O(n^2), space complecity -> O(n)
+    // use dp: time complexity -> O(n^2), space complexity -> O(n)
     public boolean canJump(int[] nums) {
         int len = nums.length;
         // dp[i]: can jump to index i
