@@ -24,11 +24,11 @@ public class Solution {
         List<String> res = new ArrayList<>();
         if (s == null) return res;
 
-        Queue<String> q = new ArrayDeque<String>();
+        Queue<String> q = new ArrayDeque<>();
         q.offer(s);
         // when found is true, stop searching and find all result at this length
         boolean found = false;
-        Set<String> visited = new HashSet<>(); // avoid unnecesssary isValid call
+        Set<String> visited = new HashSet<>(); // avoid unnecessary isValid call
         Set<String> set = new HashSet<>(); // process duplicate result
         while (!q.isEmpty() && !found) {
             // process one level
