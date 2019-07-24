@@ -18,6 +18,7 @@ public class Solution {
         boolean[][] dp = new boolean[len1 + 1][len2 + 1];
         for (int i = 0; i <= len1; i++) {
             for (int j = 0; j <= len2; j++) {
+                // 可以把各种if简化为只剩最后一个else里的语句，但是这样更清晰，可读性更好
                 if (i == 0 && j == 0) {
                     dp[i][j] = true;
                 } else if (i == 0) {
