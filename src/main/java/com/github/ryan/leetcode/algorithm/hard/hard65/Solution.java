@@ -21,7 +21,7 @@ public class Solution {
         HasSign,
         HasE,
         IsNumber,
-        IsFloat;
+        IsFloat
     }
 
     public boolean isNumber2(String s) {
