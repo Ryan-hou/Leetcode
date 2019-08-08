@@ -13,6 +13,7 @@ import java.util.Map;
  */
 public class Solution {
 
+    // use slide window and two map
     public List<Integer> findSubstring(String s, String[] words) {
         List<Integer> res = new ArrayList<>();
         if (words == null || words.length == 0
