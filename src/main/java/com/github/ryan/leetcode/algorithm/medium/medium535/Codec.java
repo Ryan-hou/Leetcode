@@ -15,7 +15,7 @@ public class Codec {
             return l2s.get(longUrl);
         } else {
             while (true) {
-                String shortUrl = generateShortUrl(longUrl);
+                String shortUrl = generateShortUrl();
                 if (!s2l.containsKey(shortUrl)) {
                     l2s.put(longUrl, shortUrl);
                     s2l.put(shortUrl, longUrl);
@@ -25,7 +25,7 @@ public class Codec {
         } // end else
     }
 
-    private String generateShortUrl(String longUrl) {
+    private String generateShortUrl() {
         String str = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         Random r = new Random();
         StringBuilder b = new StringBuilder();
