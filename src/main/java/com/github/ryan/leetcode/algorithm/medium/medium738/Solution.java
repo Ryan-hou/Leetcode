@@ -9,7 +9,7 @@ public class Solution {
         while (i < ches.length && ches[i - 1] <= ches[i]) {
             i++;
         }
-        // move backward for ensusing that ches[i - 1] <= ches[i]
+        // move backward for ensuring that ches[i - 1] <= ches[i]
         while (i > 0 && i < ches.length
                 && ches[i - 1] > ches[i]) {
             ches[--i]--;
