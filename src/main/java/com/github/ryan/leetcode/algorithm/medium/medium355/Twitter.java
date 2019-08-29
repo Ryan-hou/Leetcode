@@ -23,7 +23,10 @@ public class Twitter {
         dict.get(userId).getTweets().add(new Tweet(tweetId, timestamp++));
     }
 
-    /** Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent. */
+    /** Retrieve the 10 most recent tweet ids in the user's news feed.
+     * Each item in the news feed must be posted by users who the user followed or by the user herself.
+     * Tweets must be ordered from most recent to least recent.
+     */
     public List<Integer> getNewsFeed(int userId) {
         List<Integer> res = new ArrayList<>();
         // minHeap
