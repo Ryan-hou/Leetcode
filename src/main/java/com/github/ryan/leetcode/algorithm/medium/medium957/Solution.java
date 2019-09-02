@@ -8,7 +8,7 @@ public class Solution {
 
         Set<String> dupSet = new HashSet<>();
         List<int[]> tmpList = new ArrayList<>();
-        tmpList.add(cells);
+        tmpList.add(cells); // cells will be updated by System.arraycopy, very smart!
         boolean cycled = false;
         int count = 0;
         for (int i = 1; i <= N; i++) {
@@ -25,12 +25,7 @@ public class Solution {
             System.arraycopy(next, 0, cells, 0, cells.length);
         }
 
-        if (cycled) {
-            N = N % count;
-            return tmpList.get(N);
-        } else {
-            return cells;
-        }
+        return cycled ? tmpList.get(N % count) : cells;
     }
 
     private int[] getNextCells(int[] cells) {
