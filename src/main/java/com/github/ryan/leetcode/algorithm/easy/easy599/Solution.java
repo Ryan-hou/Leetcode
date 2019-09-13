@@ -46,6 +46,6 @@ public class Solution {
     public static void main(String[] args) {
         String[] list1 = {"Shogun", "Tapioca Express", "Burger King", "KFC"};
         String[] list2 = {"KFC", "Shogun", "Burger King"};
-        log.info("Result = {}", findRestaurant(list1, list2));
+        log.info("Result = {}", (Object) findRestaurant(list1, list2));
     }
 }
