@@ -2,9 +2,8 @@ package com.github.ryan.leetcode.algorithm.medium.medium1004;
 
 public class Solution {
 
+    // use sliding window
     public int longestOnes(int[] A, int K) {
-        if (A == null || A.length < 1) return 0;
-
         int i = 0, j = 0;
         int res = 0;
         while (i < A.length) {
