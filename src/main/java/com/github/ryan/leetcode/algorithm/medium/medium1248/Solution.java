@@ -23,7 +23,7 @@ public class Solution {
                     res++;
                 }
             }
-        }
+        } // end for
         return res;
     }
 
