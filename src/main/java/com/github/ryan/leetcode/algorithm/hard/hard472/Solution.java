@@ -27,7 +27,7 @@ public class Solution {
     private boolean isContain(String word, Set<String> dict) {
         for (int i = 1; i < word.length(); i++) {
             String prefix = word.substring(0, i);
-            String suffix = word.substring(i, word.length());
+            String suffix = word.substring(i);
             if (dict.contains(prefix)
                     && (dict.contains(suffix) || isContain(suffix, dict))) {
                 return true;
