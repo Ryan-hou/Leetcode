@@ -1,4 +1,4 @@
-package com.github.ryan.leetcode.algorithm.medium.meidum863;
+package com.github.ryan.leetcode.algorithm.medium.medium863;
 
 import com.github.ryan.personal.algorithm.component.TreeNode;
 
