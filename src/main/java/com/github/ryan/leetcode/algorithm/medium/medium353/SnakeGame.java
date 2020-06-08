@@ -20,7 +20,8 @@ public class SnakeGame {
      @param width - screen width
      @param height - screen height
      @param food - A list of food positions
-     E.g food = [[1,1], [1,0]] means the first food is positioned at [1,1], the second is at [1,0]. */
+     E.g food = [[1,1], [1,0]] means the first food is positioned at [1,1], the second is at [1,0].
+     */
     public SnakeGame(int width, int height, int[][] food) {
         this.width = width;
         this.height = height;
@@ -33,7 +34,8 @@ public class SnakeGame {
     /** Moves the snake.
      @param direction - 'U' = Up, 'L' = Left, 'R' = Right, 'D' = Down
      @return The game's score after the move. Return -1 if game over.
-     Game over when snake crosses the screen boundary or bites its body. */
+     Game over when snake crosses the screen boundary or bites its body.
+     */
     public int move(String direction) {
         Point head = snake.getFirst();
         Point newHead = new Point(head.x, head.y);
