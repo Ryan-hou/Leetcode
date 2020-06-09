@@ -38,7 +38,7 @@ public class Solution {
     private int nextVal(int[][] board, int num) {
         int size = board.length;
         // be careful! num start from 1
-        int row = (num - 1)/ size;
+        int row = (num - 1) / size;
         int col = (num - 1) % size;
         if (row % 2 == 0) {
             return board[size - 1 - row][col];
