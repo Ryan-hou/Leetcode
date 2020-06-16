@@ -1,4 +1,4 @@
-package com.github.ryan.jianzhi.algorithm;
+package com.github.ryan.jzoffer.algorithm;
 
 import java.util.ArrayList;
 import java.util.Arrays;
