@@ -4,6 +4,7 @@ import java.util.*;
 
 public class Solution {
 
+    // hard358 is the same template, just replace 2 to K
     public String reorganizeString(String S) {
         StringBuilder b = new StringBuilder();
         Map<Character, Integer> freq = new HashMap<>();
