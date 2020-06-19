@@ -24,7 +24,7 @@ public class Solution {
         freq.clear();
 
         // cooling queue
-        // coolingQueue wait for 2 ( or K) charcaters to come in between the same charcater
+        // coolingQueue wait for 2 ( or K) characters to come in between the same characters
         Queue<Map.Entry<Character, Integer>> coolingq = new ArrayDeque<>();
 
         while (!pq.isEmpty()) {
