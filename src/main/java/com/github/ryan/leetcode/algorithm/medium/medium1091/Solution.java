@@ -6,7 +6,7 @@ import java.util.Queue;
 public class Solution {
 
     private int[][] dirs = { {-1, 0}, {-1, 1}, {0, 1}, {1, 1},
-            {1, 0}, {1, -1}, {0, -1}, {-1, -1}};
+                            {1, 0}, {1, -1}, {0, -1}, {-1, -1}};
     private boolean[][] visited;
     private int[][] dis;
     private int N;

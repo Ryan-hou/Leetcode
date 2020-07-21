@@ -17,22 +17,23 @@ public class Solution {
         // 待删除的节点在链首
         while (head != null && head.val == val) {
             ListNode delNode = head;
-            head = delNode.next;
-            delNode.next = null;
+            head = head.next;
+            delNode.next = null; // help gc
         }
 
         if (head == null) {
-            return head;
+            return null;
         }
 
-        ListNode cur = head;
-        while (cur.next != null) {
-            if (cur.next.val == val) {
-                ListNode delNode = cur.next;
-                cur.next = delNode.next;
-                delNode.next = null;
+        // head != null && head.val != val
+        ListNode prev = head;
+        while (prev.next != null) {
+            if (prev.next.val == val) {
+                ListNode delNode = prev.next;
+                prev.next = prev.next.next;
+                delNode.next = null; // help gc
             } else {
-                cur = cur.next;
+                prev = prev.next;
             }
         }
         return head;
@@ -43,27 +44,41 @@ public class Solution {
         ListNode dummy = new ListNode(0);
         dummy.next = head;
 
-        ListNode cur = dummy;
-        while (cur.next != null) {
-            if (cur.next.val == val) {
-                ListNode delNode = cur.next;
-                cur.next = delNode.next;
-                delNode.next = null;
+        ListNode prev = dummy;
+        while (prev.next != null) {
+            if (prev.next.val == val) {
+                ListNode delNode = prev.next;
+                prev.next = prev.next.next;
+                delNode.next = null; // help gc
             } else {
-                cur = cur.next;
+                prev = prev.next;
             }
         }
         return dummy.next;
     }
 
+    // 使用递归 -》链表本身也是一个递归结构
+    public static ListNode removeElementsRecursive(ListNode head, int val) {
+        if (head == null) return null;
+
+        ListNode newHead = removeElementsRecursive(head.next, val);
+        if (head.val == val) {
+            head.next = null; // help gc
+            return newHead;
+        } else {
+            head.next = newHead;
+            return head;
+        }
+    }
+
     public static void main(String[] args) {
         // 1 --> 2 --> 6 --> 3 --> 4 --> 5 --> 6
-        int[] nodes = {1, 1, 1, 2, 6, 3, 4, 5, 6};
+        int[] nodes = {1, 2, 6, 3, 4, 5, 6};
         ListNode head = LinkedListUtil.createLinkedList(nodes, nodes.length);
         LinkedListUtil.printLinkedList(head);
 
-        int val = 1;
-        head = removeElementsWithDummy(head, val);
+        int val = 6;
+        head = removeElementsRecursive(head, val);
         LinkedListUtil.printLinkedList(head);
     }
 
