@@ -15,6 +15,8 @@ public class SegmentTree<E> {
         if (isNull(arr) || isNull(merger)) {
             throw new IllegalArgumentException("arr or merger is null!");
         }
+        if (arr.length < 1) return;
+
         this.merger = merger;
         data = (E[]) new Object[arr.length];
         for (int i = 0; i < arr.length; i++) {
