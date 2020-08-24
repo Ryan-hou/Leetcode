@@ -1,6 +1,10 @@
 package com.github.ryan.leetcode.algorithm.easy.easy101;
 
+import com.github.ryan.personal.algorithm.component.TreeNode;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -10,47 +14,31 @@ import java.util.Queue;
  * @date February 28,2017
  */
 public class Solution {
-    private static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        public TreeNode(int val) {
-            this.val = val;
-        }
-    }
 
     /**
      * 法一:
-     * 根据对称二叉树的性质,使用二叉树的遍历来解决
-     * 1) 中序遍历的结果为回文序列
-     * 2) 先序遍历和后续遍历的结果互为逆序列
-     * 代码略
+     * 使用递归来描述对称树的性质
      */
-
-
-    /**
-     * 法二:
-     * 使用递归来描述对称树的性质(声明式语言的特征,代码简洁)
-     */
-    public static boolean isSymmetricTwo(TreeNode root) {
+    public static boolean isSymmetric(TreeNode root) {
         if (root == null) return true;
         return isMirror(root.left, root.right);
     }
     private static boolean isMirror(TreeNode p, TreeNode q) {
         if (p == null && q == null) return true;
         if (p == null || q == null) return false;
-        return (p.val == q.val) && isMirror(p.left, q.right) && isMirror(p.right, q.left);
+        return (p.val == q.val)
+                && isMirror(p.left, q.right)
+                && isMirror(p.right, q.left);
     }
 
-
     /**
-     * 法三:
-     * 使用队列和迭代,类似 BFS 的思路
+     * 法二:
+     * 使用队列模拟对称节点入队
      */
-    public static boolean isSymmetricThree(TreeNode root) {
-        Queue<TreeNode> q = new LinkedList<>();
+    public static boolean isSymmetric2(TreeNode root) {
         if (root == null) return true;
+
+        Queue<TreeNode> q = new LinkedList<>();
         q.add(root.left);
         q.add(root.right);
         while(q.size() > 1) {
@@ -67,6 +55,48 @@ public class Solution {
         return true;
     }
 
+    /**
+     * 法三:
+     * 层序遍历，每一层都是回文序列
+     * 注意：层序遍历时，左右孩子为空的情况，也需要入队进行回文判断
+     */
+    public boolean isSymmetric3(TreeNode root) {
+        if (root == null) return true;
+
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        while (!q.isEmpty()) {
+            int sz = q.size();
+            List<TreeNode> levelRes = new ArrayList<>(sz);
+            for (int i = 0; i < sz; i++) {
+                TreeNode cur = q.poll();
+                levelRes.add(cur);
+                if (cur != null) {
+                    q.offer(cur.left);
+                    q.offer(cur.right);
+                }
+            }
+            if (!isPalindrome(levelRes)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isPalindrome(List<TreeNode> list) {
+        int start = 0, end = list.size() - 1;
+        while (start < end) {
+            TreeNode pre = list.get(start);
+            TreeNode post = list.get(end);
+            start++;
+            end--;
+            if (pre == null && post == null) continue;
+            if (pre == null || post == null) return false;
+            if (pre.val != post.val) return false;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
         TreeNode oneLeft = new TreeNode(2);
@@ -79,6 +109,6 @@ public class Solution {
         oneLeft.left = twoLeft;
         oneRight.right = twoRight;
 
-        System.out.println("The genetree is symmetric? " + isSymmetricThree(root));
+        System.out.println("The tree is symmetric? " + isSymmetric2(root));
     }
 }
