@@ -1,5 +1,6 @@
 package com.github.ryan.leetcode.algorithm.medium.medium94;
 
+import com.github.ryan.personal.algorithm.component.TreeNode;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayDeque;
@@ -16,16 +17,6 @@ import java.util.List;
 @Slf4j
 public class Solution {
 
-    // Definition for a binary genetree node
-    private static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        public TreeNode(int val) {
-            this.val = val;
-        }
-    }
 
     private static void doInorderTraversal(TreeNode root, List<Integer> res) {
         if (root == null) return;
@@ -39,7 +30,7 @@ public class Solution {
      * @param root
      * @return
      */
-    private static List<Integer> inorderTraversalOne(TreeNode root) {
+    private static List<Integer> inorderTraversal1(TreeNode root) {
         List<Integer> result = new ArrayList<>();
         doInorderTraversal(root, result);
         return result;
@@ -50,18 +41,19 @@ public class Solution {
      * @param root
      * @return
      */
-    private static List<Integer> inorderTraversalTwo(TreeNode root) {
+    private static List<Integer> inorderTraversal2(TreeNode root) {
         List<Integer> result = new ArrayList<>();
-        Deque<TreeNode> traversalStack = new ArrayDeque<>();
-        while (root != null || !traversalStack.isEmpty()) {
-            if (root != null) {
-                traversalStack.push(root);
-                root = root.left;
-            } else {
-                root = traversalStack.pop();
-                result.add(root.val);
-                root = root.right;
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        TreeNode cur = root;
+        while (cur != null || !stack.isEmpty()) {
+            while (cur != null) {
+                stack.push(cur);
+                cur = cur.left;
             }
+
+            cur = stack.pop();
+            result.add(cur.val);
+            cur = cur.right;
         }
         return result;
     }
@@ -71,12 +63,12 @@ public class Solution {
         TreeNode left1 = new TreeNode(4);
         TreeNode left12 = new TreeNode(6);
         TreeNode right1 = new TreeNode(5);
-        TreeNode rigth12 = new TreeNode(7);
+        TreeNode right12 = new TreeNode(7);
         root.left = left1;
         left1.right = left12;
         root.right = right1;
-        right1.left = rigth12;
-        List<Integer> integers = inorderTraversalTwo(root);
+        right1.left = right12;
+        List<Integer> integers = inorderTraversal2(root);
         log.info("result = {}", integers);
     }
 }
