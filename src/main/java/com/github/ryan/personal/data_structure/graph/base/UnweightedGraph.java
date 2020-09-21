@@ -43,9 +43,9 @@ public class UnweightedGraph implements Graph {
 
             for (int i = 0; i < E; i++) {
                 int a = scanner.nextInt();
-                validateVertex(a);
+                GraphUtil.validateVertex(this, a);
                 int b = scanner.nextInt();
-                validateVertex(b);
+                GraphUtil.validateVertex(this, b);
 
                 if (a == b) {
                     throw new IllegalArgumentException("Self Loop is Detected!");
@@ -75,20 +75,20 @@ public class UnweightedGraph implements Graph {
 
     @Override
     public boolean hasEdge(int v, int w) {
-        validateVertex(v);
-        validateVertex(w);
+        GraphUtil.validateVertex(this, v);
+        GraphUtil.validateVertex(this, w);
         return adj[v].contains(w);
     }
 
     @Override
     public Iterable<Integer> adj(int v) {
-        validateVertex(v);
+        GraphUtil.validateVertex(this, v);
         return adj[v];
     }
 
     @Override
     public int degree(int v) {
-        validateVertex(v);
+        GraphUtil.validateVertex(this, v);
         return adj[v].size();
     }
 
@@ -104,11 +104,6 @@ public class UnweightedGraph implements Graph {
             sb.append("\n");
         }
         return sb.toString();
-    }
-    private void validateVertex(int v) {
-        if (v < 0 || v >= V) {
-            throw new IllegalArgumentException("vertex " + v + " is invalid");
-        }
     }
 
 
