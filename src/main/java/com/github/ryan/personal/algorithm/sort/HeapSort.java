@@ -1,6 +1,6 @@
 package com.github.ryan.personal.algorithm.sort;
 
-import com.github.ryan.personal.algorithm.learn.heap.MaxHeap;
+import com.github.ryan.personal.data_structure.heap.MaxHeap;
 import com.github.ryan.personal.algorithm.util.ArrayUtil;
 
 import java.util.stream.IntStream;

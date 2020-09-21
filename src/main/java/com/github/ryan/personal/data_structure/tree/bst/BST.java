@@ -207,7 +207,7 @@ public class BST<E extends Comparable<E>> {
                 return rightNode;
             }
 
-            // 待删除节点🈶️右子树为空
+            // 待删除节点右子树为空
             if (node.right == null) {
                 Node<E> leftNode = node.left;
                 node.left = null;
@@ -335,7 +335,7 @@ public class BST<E extends Comparable<E>> {
                 Node<E> cur = stack.pop();
                 // 根
                 System.out.print(cur.e + "  ");
-                // 🈶️右
+                // 右
                 root = cur.right;
             }
         }
