@@ -11,7 +11,7 @@ import java.util.TreeSet;
  * 简单图,不含自环边和平行边
  */
 @Slf4j
-public class UnweightedGraph implements Graph {
+public class UnweightedGraph implements Graph, Cloneable {
 
     private int V;
     private int E;
@@ -81,6 +81,17 @@ public class UnweightedGraph implements Graph {
     }
 
     @Override
+    public void removeEdge(int v, int w) {
+        GraphUtil.validateVertex(this, v);
+        GraphUtil.validateVertex(this, w);
+        if (adj[v].contains(w)) {
+            E--;
+        }
+        adj[v].remove(w);
+        adj[w].remove(v);
+    }
+
+    @Override
     public Iterable<Integer> adj(int v) {
         GraphUtil.validateVertex(this, v);
         return adj[v];
@@ -90,6 +101,26 @@ public class UnweightedGraph implements Graph {
     public int degree(int v) {
         GraphUtil.validateVertex(this, v);
         return adj[v].size();
+    }
+
+    @Override
+    public Object clone() {
+        UnweightedGraph cloned = null;
+        try {
+            cloned = (UnweightedGraph) super.clone();
+            // deep copy
+            cloned.adj = new TreeSet[V];
+            for (int v = 0; v < V; v++) {
+                cloned.adj[v] = new TreeSet<>();
+                for (int w : this.adj(v)) {
+                    cloned.adj[v].add(w);
+                }
+            }
+        } catch (CloneNotSupportedException e) {
+            log.error("UnweightedGraph clone exception!", e);
+        }
+
+        return cloned;
     }
 
     @Override

@@ -23,6 +23,13 @@ public interface Graph {
     boolean hasEdge(int v, int w);
 
     /**
+     * 删除顶点 v,w 的边
+     * @param v
+     * @param w
+     */
+    void removeEdge(int v, int w);
+
+    /**
      * 顶点 v 的相邻顶点
      * @param v
      * @return
