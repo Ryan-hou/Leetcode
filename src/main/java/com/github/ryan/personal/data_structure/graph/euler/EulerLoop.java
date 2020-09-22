@@ -56,6 +56,7 @@ public class EulerLoop {
                 g.removeEdge(curv, w);
                 curv = w;
             } else {
+                // 当前顶点 curv 再也到不了其他的顶点 -》找到了环
                 res.add(curv);
                 curv = stack.pop();
             }
@@ -65,7 +66,7 @@ public class EulerLoop {
     }
 
     public static void main(String[] args) {
-        UnweightedGraph g = new UnweightedGraph("euler.txt");
+        UnweightedGraph g = new UnweightedGraph("euler_loop.txt");
         EulerLoop el = new EulerLoop(g);
         System.out.println(el.hasEulerLoop());
         System.out.println("Euler loop: " + el.eulerLoop());
