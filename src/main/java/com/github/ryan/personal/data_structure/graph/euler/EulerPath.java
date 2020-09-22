@@ -46,6 +46,7 @@ public class EulerPath {
         return oddCount == 0 || oddCount == 2;
     }
 
+    // Hierhozer 算法
     public List<Integer> eulerPath() {
         List<Integer> res = new ArrayList<>();
         if (!hasEulerPath()) {
