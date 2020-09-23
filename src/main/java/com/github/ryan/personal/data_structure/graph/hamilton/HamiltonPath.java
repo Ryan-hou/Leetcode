@@ -51,7 +51,7 @@ public class HamiltonPath {
         }
 
         // visited 作为函数参数，在函数栈返回时会自动恢复调用前的值
-        // visited = (visited | (0 << v));
+        // visited = (visited & (~(1 << v)));
         // left++
         return false;
     }
