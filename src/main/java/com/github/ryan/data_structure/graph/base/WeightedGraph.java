@@ -105,6 +105,13 @@ public class WeightedGraph implements Graph {
         return adj[v].size();
     }
 
+    public int getWeight(int v, int w) {
+        if (hasEdge(v, w)) {
+            return adj[v].get(w);
+        }
+        throw new IllegalArgumentException(String.format("No edge %d-%d", v, w));
+    }
+
     @Override
     public Object clone() {
         WeightedGraph cloned = null;
