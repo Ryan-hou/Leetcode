@@ -12,6 +12,7 @@ import java.util.Queue;
 /**
  * 使用优先队列优化 Prim 算法
  * 时间复杂度 O(ElogE)
+ * todo: 借助索引堆进一步优化到 O(ElogV)
  */
 public class Prim2 {
 
