@@ -61,6 +61,7 @@ public class Dijkstra2 {
             for (int w : G.adj(cur.v)) {
                 if (!visited[w]) {
                     if (dis[cur.v] + G.getWeight(cur.v, w) < dis[w]) {
+                        // 本质是一次松弛操作
                         pre[w] = cur.v;
                         // 顶点存在重复添加
                         pq.offer(new Node(w, cur.dis + G.getWeight(cur.v, w)));
