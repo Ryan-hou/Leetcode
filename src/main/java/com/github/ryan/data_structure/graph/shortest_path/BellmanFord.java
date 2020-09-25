@@ -118,5 +118,12 @@ public class BellmanFord {
         } else {
             System.out.println("Exist negative cycle.");
         }
+
+        System.out.println("====== directed graph test case =======");
+        // 处理有向带权图(存在负权边，不一定存在负权环)
+        WeightedGraph wg1 = new WeightedGraph("directed_shortest_path.txt", true);
+        BellmanFord bf1 = new BellmanFord(wg1, 0);
+        System.out.println("0 -> 1: " + bf1.path(1));
+
     }
 }
