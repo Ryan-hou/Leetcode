@@ -8,20 +8,28 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 /**
- * 带权图
+ * 带权图(支持有向&无向)
  */
 @Slf4j
 public class WeightedGraph implements Graph {
 
     private int V;
     private int E;
+
+    /**
+     * 是否有向
+     */
+    private boolean directed;
+
     /**
      * 顶点对应的相邻顶点集合及相应的权值，这里的权值简化为整型
      * 也可以采用 HashMap, 这里使用红黑树的顺序性来方便测试
      */
     private TreeMap<Integer, Integer>[] adj;
 
-    public WeightedGraph(String filename) {
+    public WeightedGraph(String filename, boolean directed) {
+        this.directed = directed;
+
         String parentPath = UnweightedGraph.class.getResource("/").getPath();
         String subPath = "graph" + File.separator + filename;
         File file = new File(parentPath + subPath);
@@ -57,12 +65,18 @@ public class WeightedGraph implements Graph {
                 }
 
                 adj[a].put(b, weight);
-                adj[b].put(a, weight);
+                if (!directed) {
+                    adj[b].put(a, weight);
+                }
             }
 
         } catch (Exception e) {
             log.error("UnweightedGraph construct exception!", e);
         }
+    }
+
+    public WeightedGraph(String filename) {
+        this(filename, false);
     }
 
     @Override
@@ -73,6 +87,11 @@ public class WeightedGraph implements Graph {
     @Override
     public int E() {
         return E;
+    }
+
+    @Override
+    public boolean directed() {
+        return directed;
     }
 
     @Override
@@ -90,7 +109,9 @@ public class WeightedGraph implements Graph {
             E--;
         }
         adj[v].remove(w);
-        adj[w].remove(v);
+        if (!directed) {
+            adj[w].remove(v);
+        }
     }
 
     @Override
@@ -135,7 +156,7 @@ public class WeightedGraph implements Graph {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("V = %d, E = %d\n", V, E));
+        sb.append(String.format("V = %d, E = %d, directed = %b\n", V, E, directed));
         for (int v = 0; v < V; v++) {
             sb.append(String.format("%d : ", v));
             for (Map.Entry<Integer, Integer> entry : adj[v].entrySet()) {
@@ -150,6 +171,9 @@ public class WeightedGraph implements Graph {
     public static void main(String[] args) {
         Graph g = new WeightedGraph("mst.txt");
         System.out.println(g);
+
+        Graph g1 = new WeightedGraph("mst.txt", true);
+        System.out.println(g1);
     }
 
 }

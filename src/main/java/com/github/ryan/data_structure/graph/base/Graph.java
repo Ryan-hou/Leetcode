@@ -38,9 +38,16 @@ public interface Graph {
 
     /**
      * 顶点 v 的度
+     * todo: 有向图与无向图存在区别
      * @param v
      * @return
      */
     int degree(int v);
+
+    /**
+     * 是否有向
+     * @return
+     */
+    boolean directed();
 
 }

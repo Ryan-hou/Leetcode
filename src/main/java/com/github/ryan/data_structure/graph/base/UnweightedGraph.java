@@ -7,7 +7,7 @@ import java.util.Scanner;
 import java.util.TreeSet;
 
 /**
- * 无权图
+ * 无权图(支持有向&无向)
  * 简单图,不含自环边和平行边
  */
 @Slf4j
@@ -16,12 +16,18 @@ public class UnweightedGraph implements Graph, Cloneable {
     private int V;
     private int E;
     /**
+     * 是否有向
+     */
+    private boolean directed;
+    /**
      * 顶点对应的相邻顶点集合
      * 也可以采用 HashSet, 这里使用红黑树的顺序性来方便测试
      */
     private TreeSet<Integer>[] adj;
 
-    public UnweightedGraph(String filename) {
+    public UnweightedGraph(String filename, boolean directed) {
+        this.directed = directed;
+
         String parentPath = UnweightedGraph.class.getResource("/").getPath();
         String subPath = "graph" + File.separator + filename;
         File file = new File(parentPath + subPath);
@@ -55,12 +61,18 @@ public class UnweightedGraph implements Graph, Cloneable {
                 }
 
                 adj[a].add(b);
-                adj[b].add(a);
+                if (!directed) {
+                    adj[b].add(a);
+                }
             }
 
         } catch (Exception e) {
             log.error("UnweightedGraph construct exception!", e);
         }
+    }
+
+    public UnweightedGraph(String filename) {
+        this(filename, false);
     }
 
     @Override
@@ -71,6 +83,11 @@ public class UnweightedGraph implements Graph, Cloneable {
     @Override
     public int E() {
         return E;
+    }
+
+    @Override
+    public boolean directed() {
+        return directed;
     }
 
     @Override
@@ -88,7 +105,9 @@ public class UnweightedGraph implements Graph, Cloneable {
             E--;
         }
         adj[v].remove(w);
-        adj[w].remove(v);
+        if (!directed) {
+            adj[w].remove(v);
+        }
     }
 
     @Override
@@ -126,7 +145,7 @@ public class UnweightedGraph implements Graph, Cloneable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("V = %d, E = %d\n", V, E));
+        sb.append(String.format("V = %d, E = %d, directed = %b\n", V, E, directed));
         for (int v = 0; v < V; v++) {
             sb.append(String.format("%d : ", v));
             for (int w : adj[v]) {
@@ -141,5 +160,8 @@ public class UnweightedGraph implements Graph, Cloneable {
     public static void main(String[] args) {
         Graph g = new UnweightedGraph("g.txt");
         System.out.println(g);
+
+        Graph g1 = new UnweightedGraph("g.txt", true);
+        System.out.println(g1);
     }
 }
