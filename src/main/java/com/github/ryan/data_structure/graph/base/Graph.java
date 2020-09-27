@@ -48,6 +48,6 @@ public interface Graph {
      * 是否有向
      * @return
      */
-    boolean directed();
+    boolean isDirected();
 
 }

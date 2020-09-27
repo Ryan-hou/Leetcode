@@ -86,7 +86,7 @@ public class UnweightedGraph implements Graph, Cloneable {
     }
 
     @Override
-    public boolean directed() {
+    public boolean isDirected() {
         return directed;
     }
 

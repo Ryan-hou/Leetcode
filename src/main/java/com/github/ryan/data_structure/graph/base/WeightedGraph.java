@@ -90,7 +90,7 @@ public class WeightedGraph implements Graph {
     }
 
     @Override
-    public boolean directed() {
+    public boolean isDirected() {
         return directed;
     }
 
