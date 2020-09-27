@@ -3,6 +3,7 @@ package com.github.ryan.data_structure.graph.base;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.TreeSet;
 
@@ -16,14 +17,20 @@ public class UnweightedGraph implements Graph, Cloneable {
     private int V;
     private int E;
     /**
-     * 是否有向
-     */
-    private boolean directed;
-    /**
      * 顶点对应的相邻顶点集合
      * 也可以采用 HashSet, 这里使用红黑树的顺序性来方便测试
      */
     private TreeSet<Integer>[] adj;
+
+    /**
+     * 是否有向
+     */
+    private boolean directed;
+
+    /**
+     * 顶点的入度和出度
+     */
+    private int[] indegree, outdegree;
 
     public UnweightedGraph(String filename, boolean directed) {
         this.directed = directed;
@@ -47,6 +54,11 @@ public class UnweightedGraph implements Graph, Cloneable {
                 adj[i] = new TreeSet<>();
             }
 
+            if (directed) {
+                indegree = new int[V];
+                outdegree = new int[V];
+            }
+
             for (int i = 0; i < E; i++) {
                 int a = scanner.nextInt();
                 GraphUtil.validateVertex(this, a);
@@ -61,6 +73,11 @@ public class UnweightedGraph implements Graph, Cloneable {
                 }
 
                 adj[a].add(b);
+                if (directed) {
+                    outdegree[a]++;
+                    indegree[b]++;
+                }
+
                 if (!directed) {
                     adj[b].add(a);
                 }
@@ -103,6 +120,10 @@ public class UnweightedGraph implements Graph, Cloneable {
         GraphUtil.validateVertex(this, w);
         if (adj[v].contains(w)) {
             E--;
+            if (directed) {
+                outdegree[v]--;
+                indegree[w]--;
+            }
         }
         adj[v].remove(w);
         if (!directed) {
@@ -118,8 +139,27 @@ public class UnweightedGraph implements Graph, Cloneable {
 
     @Override
     public int degree(int v) {
+        if(directed) {
+            throw new RuntimeException("degree only works in undirected graph.");
+        }
         GraphUtil.validateVertex(this, v);
         return adj[v].size();
+    }
+
+    @Override
+    public int indegree(int v) {
+        if (!directed) {
+            throw new RuntimeException("indegree only works in directed graph.");
+        }
+        return indegree[v];
+    }
+
+    @Override
+    public int outdegree(int v) {
+        if (!directed) {
+            throw new RuntimeException("outdegree only works in directed graph.");
+        }
+        return outdegree[v];
     }
 
     @Override
@@ -134,6 +174,11 @@ public class UnweightedGraph implements Graph, Cloneable {
                 for (int w : this.adj(v)) {
                     cloned.adj[v].add(w);
                 }
+            }
+
+            if (directed) {
+                cloned.indegree = Arrays.copyOf(this.indegree, V);
+                cloned.outdegree = Arrays.copyOf(this.outdegree, V);
             }
         } catch (CloneNotSupportedException e) {
             log.error("UnweightedGraph clone exception!", e);

@@ -13,6 +13,9 @@ public class EulerLoop {
     private UnweightedGraph G;
 
     public EulerLoop(UnweightedGraph g) {
+        if (g.isDirected()) {
+            throw new RuntimeException("EulerLoop only works in undirected graph.");
+        }
         this.G = g;
     }
 

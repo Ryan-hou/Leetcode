@@ -3,6 +3,7 @@ package com.github.ryan.data_structure.graph.base;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -17,15 +18,20 @@ public class WeightedGraph implements Graph {
     private int E;
 
     /**
+     * 顶点对应的相邻顶点集合及相应的权值，这里的权值简化为整型
+     * 也可以采用 HashMap, 这里使用红黑树的顺序性来方便测试
+     */
+    private TreeMap<Integer, Integer>[] adj;
+
+    /**
      * 是否有向
      */
     private boolean directed;
 
     /**
-     * 顶点对应的相邻顶点集合及相应的权值，这里的权值简化为整型
-     * 也可以采用 HashMap, 这里使用红黑树的顺序性来方便测试
+     * 顶点的入度&出度
      */
-    private TreeMap<Integer, Integer>[] adj;
+    private int[] indegree, outdegree;
 
     public WeightedGraph(String filename, boolean directed) {
         this.directed = directed;
@@ -49,6 +55,11 @@ public class WeightedGraph implements Graph {
                 adj[i] = new TreeMap<>();
             }
 
+            if (directed) {
+                indegree = new int[V];
+                outdegree = new int[V];
+            }
+
             for (int i = 0; i < E; i++) {
                 int a = scanner.nextInt();
                 GraphUtil.validateVertex(this, a);
@@ -65,6 +76,11 @@ public class WeightedGraph implements Graph {
                 }
 
                 adj[a].put(b, weight);
+                if (directed) {
+                    outdegree[a]++;
+                    indegree[b]++;
+                }
+
                 if (!directed) {
                     adj[b].put(a, weight);
                 }
@@ -107,6 +123,10 @@ public class WeightedGraph implements Graph {
         GraphUtil.validateVertex(this, w);
         if (adj[v].containsKey(w)) {
             E--;
+            if (directed) {
+                outdegree[v]--;
+                indegree[w]--;
+            }
         }
         adj[v].remove(w);
         if (!directed) {
@@ -122,8 +142,27 @@ public class WeightedGraph implements Graph {
 
     @Override
     public int degree(int v) {
+        if(directed) {
+            throw new RuntimeException("degree only works in undirected graph.");
+        }
         GraphUtil.validateVertex(this, v);
         return adj[v].size();
+    }
+
+    @Override
+    public int indegree(int v) {
+        if (!directed) {
+            throw new RuntimeException("indegree only works in directed graph.");
+        }
+        return indegree[v];
+    }
+
+    @Override
+    public int outdegree(int v) {
+        if (!directed) {
+            throw new RuntimeException("outdegree only works in directed graph.");
+        }
+        return outdegree[v];
     }
 
     public int getWeight(int v, int w) {
@@ -145,6 +184,11 @@ public class WeightedGraph implements Graph {
                 for (Map.Entry<Integer, Integer> entry : this.adj[v].entrySet()) {
                     cloned.adj[v].put(entry.getKey(), entry.getValue());
                 }
+            }
+
+            if (directed) {
+                cloned.indegree = Arrays.copyOf(this.indegree, V);
+                cloned.outdegree = Arrays.copyOf(this.outdegree, V);
             }
         } catch (CloneNotSupportedException e) {
             log.error("WeightedGraph clone exception!", e);
