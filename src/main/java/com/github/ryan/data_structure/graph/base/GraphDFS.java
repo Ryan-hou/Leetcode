@@ -31,13 +31,14 @@ public class GraphDFS {
     // 从顶点v开始深度优先遍历
     private void dfs(int v) {
         visited[v] = true;
+        // dfs 先序遍历结果
         pre.add(v);
         for (int w : ug.adj(v)) {
             if (!visited[w]) {
                 dfs(w);
             }
         }
-
+        // dfs 后序遍历结果
         post.add(v);
     }
 
