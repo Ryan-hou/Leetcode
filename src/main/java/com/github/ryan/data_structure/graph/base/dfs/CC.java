@@ -1,4 +1,8 @@
-package com.github.ryan.data_structure.graph.base;
+package com.github.ryan.data_structure.graph.base.dfs;
+
+import com.github.ryan.data_structure.graph.base.Graph;
+import com.github.ryan.data_structure.graph.base.GraphUtil;
+import com.github.ryan.data_structure.graph.base.UnweightedGraph;
 
 import java.util.ArrayList;
 import java.util.Arrays;

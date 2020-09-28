@@ -1,6 +1,6 @@
 package com.github.ryan.data_structure.graph.euler;
 
-import com.github.ryan.data_structure.graph.base.CC;
+import com.github.ryan.data_structure.graph.base.dfs.CC;
 import com.github.ryan.data_structure.graph.base.UnweightedGraph;
 
 import java.util.ArrayDeque;
