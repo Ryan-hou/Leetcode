@@ -1,4 +1,6 @@
-package com.github.ryan.data_structure.graph.base;
+package com.github.ryan.data_structure.graph.base.dfs;
+
+import com.github.ryan.data_structure.graph.base.UnweightedGraph;
 
 /**
  * 无向图环检测
