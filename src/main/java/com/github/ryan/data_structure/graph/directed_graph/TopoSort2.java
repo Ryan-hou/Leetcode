@@ -1,6 +1,6 @@
 package com.github.ryan.data_structure.graph.directed_graph;
 
-import com.github.ryan.data_structure.graph.base.GraphDFS;
+import com.github.ryan.data_structure.graph.base.dfs.GraphDFS;
 import com.github.ryan.data_structure.graph.base.UnweightedGraph;
 
 import java.util.ArrayList;
