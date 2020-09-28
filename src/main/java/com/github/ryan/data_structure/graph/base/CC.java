@@ -18,6 +18,10 @@ public class CC {
     private int cccount = 0;
 
     public CC(Graph g) {
+        if (g.isDirected()) {
+            throw new IllegalArgumentException("CC only works for undirected graph.");
+        }
+
         this.G = g;
         visited = new int[G.V()];
         Arrays.fill(visited, -1);

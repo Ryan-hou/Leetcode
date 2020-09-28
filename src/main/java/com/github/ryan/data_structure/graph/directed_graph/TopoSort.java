@@ -12,6 +12,7 @@ import java.util.Queue;
  * DAG(Directed Acyclic Graph) 才存在拓扑排序
  * 每次更新入度值，把⼊度为 0 的顶点放⼊⼀个队列，每次从队列中取出下⼀个点
  * 拓扑排序结果不唯一
+ * 时间复杂度: O(V+E)
  */
 public class TopoSort {
 

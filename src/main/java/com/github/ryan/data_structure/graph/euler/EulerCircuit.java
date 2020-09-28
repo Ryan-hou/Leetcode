@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-public class EulerLoop {
+public class EulerCircuit {
 
     private UnweightedGraph G;
 
-    public EulerLoop(UnweightedGraph g) {
+    public EulerCircuit(UnweightedGraph g) {
         if (g.isDirected()) {
             throw new RuntimeException("EulerLoop only works in undirected graph.");
         }
@@ -70,7 +70,7 @@ public class EulerLoop {
 
     public static void main(String[] args) {
         UnweightedGraph g = new UnweightedGraph("euler_loop.txt");
-        EulerLoop el = new EulerLoop(g);
+        EulerCircuit el = new EulerCircuit(g);
         System.out.println(el.hasEulerLoop());
         System.out.println("Euler loop: " + el.eulerLoop());
     }

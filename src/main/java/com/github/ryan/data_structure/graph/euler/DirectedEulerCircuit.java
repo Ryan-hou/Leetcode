@@ -1,14 +1,18 @@
 package com.github.ryan.data_structure.graph.euler;
 
 import com.github.ryan.data_structure.graph.base.UnweightedGraph;
+import com.github.ryan.data_structure.graph.directed_graph.SCC;
 
 import java.util.*;
 
-public class DirectedEulerLoop {
+/**
+ * 使用 Hierhozer 算法，时间复杂度 O(2E) -》O(E), 复杂度只和图的边有关
+ */
+public class DirectedEulerCircuit {
 
     private UnweightedGraph g;
 
-    public DirectedEulerLoop(UnweightedGraph g) {
+    public DirectedEulerCircuit(UnweightedGraph g) {
         if (!g.isDirected()) {
             throw new RuntimeException("DirectedEulerLoop only works in directed graph.");
         }
@@ -16,7 +20,10 @@ public class DirectedEulerLoop {
     }
 
     public boolean hasEulerLoop() {
-        // todo: 有向图连通性判断
+        SCC scc = new SCC(g);
+        if (scc.count() > 1) {
+            return false;
+        }
 
         for (int v = 0; v < g.V(); v++) {
             if (g.indegree(v) != g.outdegree(v)) {
@@ -55,7 +62,7 @@ public class DirectedEulerLoop {
 
     public static void main(String[] args) {
         UnweightedGraph ug = new UnweightedGraph("directed_euler_loop.txt", true);
-        DirectedEulerLoop del = new DirectedEulerLoop(ug);
+        DirectedEulerCircuit del = new DirectedEulerCircuit(ug);
         System.out.println("Directed euler loop: " + del.eulerLoop());
     }
 }

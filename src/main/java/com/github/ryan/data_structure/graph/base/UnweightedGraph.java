@@ -92,6 +92,26 @@ public class UnweightedGraph implements Graph, Cloneable {
         this(filename, false);
     }
 
+    public UnweightedGraph(TreeSet<Integer>[] adj, boolean directed) {
+        this.adj = adj;
+        this.directed = directed;
+        this.V = adj.length;
+        this.E = 0;
+
+        indegree = new int[V];
+        outdegree = new int[V];
+        for (int v = 0; v < V; v++) {
+            for (int w : adj(v)) {
+                outdegree[v]++;
+                indegree[w]++;
+                this.E++;
+            }
+        }
+        if (!directed) {
+            this.E /= 2;
+        }
+    }
+
     @Override
     public int V() {
         return V;
@@ -160,6 +180,20 @@ public class UnweightedGraph implements Graph, Cloneable {
             throw new RuntimeException("outdegree only works in directed graph.");
         }
         return outdegree[v];
+    }
+
+    public UnweightedGraph reverse() {
+        TreeSet<Integer>[] rAdj = new TreeSet[V];
+        for (int v = 0; v < V; v++) {
+            rAdj[v] = new TreeSet<>();
+        }
+
+        for (int v = 0; v < V; v++) {
+            for (int w : this.adj(v)) {
+                rAdj[w].add(v);
+            }
+        }
+        return new UnweightedGraph(rAdj, directed);
     }
 
     @Override
