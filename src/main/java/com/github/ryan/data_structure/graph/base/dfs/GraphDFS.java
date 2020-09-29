@@ -2,7 +2,9 @@ package com.github.ryan.data_structure.graph.base.dfs;
 
 import com.github.ryan.data_structure.graph.base.UnweightedGraph;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 public class GraphDFS {
@@ -42,6 +44,27 @@ public class GraphDFS {
         }
         // dfs 后序遍历结果
         post.add(v);
+    }
+
+    /**
+     * 使用栈通过迭代的方式实现dfs
+     * @param v
+     */
+    private void dfs1(int v) {
+        visited[v] = true;
+        Deque<Integer> stack = new ArrayDeque<>();
+        stack.push(v);
+        pre.add(v);
+        while (!stack.isEmpty()) {
+            int cur = stack.pop();
+            for (int w : ug.adj(cur)) {
+                if (!visited[w]) {
+                    visited[w] = true;
+                    pre.add(w);
+                    stack.push(w);
+                }
+            }
+        }
     }
 
     public List<Integer> post() {
