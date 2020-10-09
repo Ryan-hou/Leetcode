@@ -45,8 +45,10 @@ public class WeightedGraph implements Graph {
             if (V < 0) {
                 throw new IllegalArgumentException("V must be non-negative");
             }
-            E = scanner.nextInt();
-            if (E < 0) {
+
+            this.E = 0;
+            int e = scanner.nextInt();
+            if (e < 0) {
                 throw new IllegalArgumentException("E must be non-negative");
             }
 
@@ -60,30 +62,11 @@ public class WeightedGraph implements Graph {
                 outdegree = new int[V];
             }
 
-            for (int i = 0; i < E; i++) {
+            for (int i = 0; i < e; i++) {
                 int a = scanner.nextInt();
-                GraphUtil.validateVertex(this, a);
                 int b = scanner.nextInt();
-                GraphUtil.validateVertex(this, b);
                 int weight = scanner.nextInt();
-
-                if (a == b) {
-                    throw new IllegalArgumentException("Self Loop is Detected!");
-                }
-                if (adj[a].containsKey(b)) {
-                    // 带权图的平行边需根据具体情况进行处理，比如取值最小的边
-                    throw new IllegalArgumentException("Parallel Edges are Detected!");
-                }
-
-                adj[a].put(b, weight);
-                if (directed) {
-                    outdegree[a]++;
-                    indegree[b]++;
-                }
-
-                if (!directed) {
-                    adj[b].put(a, weight);
-                }
+                addEdge(a, b, weight);
             }
 
         } catch (Exception e) {
@@ -93,6 +76,47 @@ public class WeightedGraph implements Graph {
 
     public WeightedGraph(String filename) {
         this(filename, false);
+    }
+
+    public WeightedGraph(int V, boolean directed) {
+        this.V = V;
+        this.directed = directed;
+        this.E = 0;
+
+        adj = new TreeMap[V];
+        for (int i = 0; i < V; i++) {
+            adj[i] = new TreeMap<>();
+        }
+
+        if (directed) {
+            indegree = new int[V];
+            outdegree = new int[V];
+        }
+    }
+
+    public void addEdge(int v, int w, int weight) {
+        GraphUtil.validateVertex(this, v);
+        GraphUtil.validateVertex(this, w);
+
+        if (v == w) {
+            throw new IllegalArgumentException("Self Loop is Detected!");
+        }
+        if (adj[v].containsKey(w)) {
+            // 带权图的平行边需根据具体情况进行处理，比如取权值最小的边
+            throw new IllegalArgumentException("Parallel Edges are Detected!");
+        }
+
+        adj[v].put(w, weight);
+
+        if (directed) {
+            outdegree[v]++;
+            indegree[w]++;
+        }
+
+        if (!directed) {
+            adj[w].put(v, weight);
+        }
+        this.E++;
     }
 
     @Override
@@ -170,6 +194,17 @@ public class WeightedGraph implements Graph {
             return adj[v].get(w);
         }
         throw new IllegalArgumentException(String.format("No edge %d-%d", v, w));
+    }
+
+    public void setWeight(int v, int w, int newWeight) {
+        if (!hasEdge(v, w)) {
+            throw new IllegalArgumentException(String.format("No edge %d-%d", v, w));
+        }
+
+        adj[v].put(w, newWeight);
+        if (!directed) {
+            adj[w].put(v, newWeight);
+        }
     }
 
     @Override
