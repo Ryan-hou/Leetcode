@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * 寻找无向图中的桥
- * 基于 DFS 遍历图，同时记录
+ * 基于 DFS 遍历图，同时记录并维护相关状态变量
  */
 public class FindBridges {
 
