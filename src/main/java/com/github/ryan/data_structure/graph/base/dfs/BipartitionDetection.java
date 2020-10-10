@@ -65,6 +65,10 @@ public class BipartitionDetection {
         return isBipartite;
     }
 
+    public int[] colors() {
+        return colors;
+    }
+
     public static void main(String[] args) {
         UnweightedGraph g = new UnweightedGraph("bipartition_detection.txt");
         BipartitionDetection bd = new BipartitionDetection(g);
