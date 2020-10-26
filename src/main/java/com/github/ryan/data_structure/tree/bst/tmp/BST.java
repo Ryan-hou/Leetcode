@@ -13,12 +13,12 @@ import java.util.Random;
  * @className: BST
  *
  * BST在数据近乎有序时，存在退化为链表的可能性，需要通过平衡二叉树（比如红黑树，AVL树）改进（保持树高）
- * todo：作为字典查询，设计实现一下trie
+ * TODO：作为字典查询，设计实现一下trie
  * @date February 09,2018
  */
 public class BST<K, V> {
 
-    // todo: 根据BST的顺序性，设计实现 successor/predecessor,floor/ceil算法
+    // TODO: 根据BST的顺序性，设计实现 successor/predecessor,floor/ceil算法
 
     private Node root;
     private int count;

@@ -7,7 +7,7 @@ import java.util.*;
 
 /**
  * 使用优先队列优化 Dijkstra 算法, 时间复杂度 O(ElogE)
- * todo: 使用索引堆优化，时间复杂度 O(ElogV)
+ * TODO: 使用索引堆优化，时间复杂度 O(ElogV)
  */
 public class Dijkstra2 {
 

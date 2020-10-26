@@ -49,7 +49,7 @@ public class Solution {
 
 
     // ======== 回溯算法优化 -> 记忆化搜索 =========
-    // todo: 时间复杂度？ O(n^2)
+    // TODO: 时间复杂度？ O(n^2)
     public boolean canWin2(String s) {
         if (s == null || s.length() < 2) {
             return false;
