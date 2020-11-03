@@ -90,7 +90,7 @@ public class Solution {
      * Since only strings with the same length as target would possible have the
      * same abbreviation, we crate a diff-number for those strings in the dictionary,
      * with 0 represents same character, 1 represents different character.
-     * For example: abc and bbc's diff-numer is 100
+     * For example: abc and bbc's diff-number is 100
      */
     private int getBitMask(String s, String t) {
         int mask = 0;
